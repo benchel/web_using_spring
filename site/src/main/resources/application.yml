@@ -1,0 +1,8 @@
+spring:
+   application:
+      name: site
+   config:
+      use-legacy-processing: true
+   profiles:
+      active: 
+      - localhost
