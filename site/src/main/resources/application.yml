@@ -25,4 +25,8 @@ spring:
          auto-commit: false
          connection-test-query: SELECT 1
          maximum-pool-size: 10
-         transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정         
+         transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정 
+#spring.thymeleaf.        
+#   thymeleaf:
+#      prefix: classpath:/templates/ 
+#      suffix: .html

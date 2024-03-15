@@ -29,6 +29,10 @@ dependencies {
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.11'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	
+	// templates
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+	
 	// Auto restart
 	implementation 'org.springframework.boot:spring-boot-devtools'
 		
