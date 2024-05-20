@@ -5,7 +5,6 @@
 - DBMS : DBeaver
 - Build Tool : Gradle
 - DB : MariaDB
-- 웹 서버 : Nginx
 
 #서버
 - DB 서버 : 오라클 클라우드(VM)
