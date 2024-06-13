@@ -16,5 +16,6 @@
   
 # 프로젝트 문서
 스토리보드
+[게시판_스토리보드(작업중).pdf](https://github.com/user-attachments/files/15816129/_.pdf)
 
 ERD
