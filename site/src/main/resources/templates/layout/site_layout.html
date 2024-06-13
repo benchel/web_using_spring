@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<!-- meta -->
+<meta charset="UTF-8">
+
+<!-- title -->
+<title>게시판</title>
+
+<!-- css -->
+<link href="/css/site/common.css" rel="stylesheet" type="text/css">
+<link href="/css/site/site.css" rel="stylesheet" type="text/css">
+
+<!-- script -->
+
+</head>
+<body>
+	<div id="wrap">
+		<th:block th:replace="fragment/site_header :: header"></th:block>
+		<th:block layout:fragment="contents"></th:block>
+		<th:block th:replace="fragment/site_footer :: footer"></th:block>		
+	</div>
+</body>
+</html>
