@@ -15,3 +15,26 @@ border: none;}
 
 /* 페이지네이션 */
 .pagination{text-align: center; margin: 0.8em;}
+
+/* 로그인 */
+
+.login-sect1{float: left; margin-left: 10%; width: 30%; height: 68%;}
+.login-sect1 img{margin-left: 35%; margin-top: 40%; width: 120px;}
+.login-sect2{float: left; width: 40%; height: 68%;}
+
+.login-inform{float: left; width: 100%; padding: 7em 3em 1em 3em;}
+.login-inform p{margin-bottom: 0;}
+.login-inform span{font-size: 1.1em;}
+
+.dividing-line{width: 95%; color: #07013f; }
+
+.login-input-box{float: left; width: 100%; padding: 0.5em 3em 0.5em 3em;}
+.login-input-box .left{float:left; width: 60%;}
+.login-input-box .left input{display: inline-block; width: 100%; height: 3.6em;}
+.login-input-box .left input:nth-child(1){margin-bottom: 1.5em;}
+.login-input-box .right{float:left; width: 40%;}
+.login-input-box .right button{margin-left: 1em; width: 120px; height: 120px; background-color: #07013f; color: white;}
+
+.login-link-box{float: left; width: 100%; padding: 0.1em 3em 0.5em 3em;}
+.login-link-box p{margin-top: 0.1em;}
+.login-link-box span{margin-top: 0.1em;}
