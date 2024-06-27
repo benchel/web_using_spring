@@ -38,3 +38,16 @@ border: none;}
 .login-link-box{float: left; width: 100%; padding: 0.1em 3em 0.5em 3em;}
 .login-link-box p{margin-top: 0.1em;}
 .login-link-box span{margin-top: 0.1em;}
+
+
+/* 조회 댓글x */
+
+.preface{width: 100%; border-top: solid 1px black; border-bottom: solid 1px black;}
+.label-b{display: inline-block; padding: 0.1em 0.3em; font-weight: bold; color: white; margin-right: 0.3em; border-radius: 0.3em; background-color: rgb(75, 11, 134);}
+.letterpress{width: 100%; min-height: 200px;}
+.reference{width: 100%; border-top: solid 1px black; border-bottom: solid 1px black;}
+.reference table {width: 100%; border-spacing: 0px;}
+.reference table tr th{width: 120px; background-color: #ccc;}
+.reference table tr td{padding-left: 0.3em; text-overflow: ellipsis;}
+
+.btn-list{float: right; margin: 1em 1em; padding: 0.4em 0.95em; background-color: #07013f; color: white; border: none; border-radius: 3px;}
