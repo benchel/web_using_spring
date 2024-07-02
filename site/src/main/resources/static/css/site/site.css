@@ -51,3 +51,13 @@ border: none;}
 .reference table tr td{padding-left: 0.3em; text-overflow: ellipsis;}
 
 .btn-list{float: right; margin: 1em 1em; padding: 0.4em 0.95em; background-color: #07013f; color: white; border: none; border-radius: 3px;}
+
+/* 조회 댓글o */
+.comment-section{width: 100%; margin-top: 0.3em;}
+.comment-section > p:nth-child(1){font-weight: bold;}
+.wr_cmmnt{width: 90%; height: 5em; resize: none;}
+.btn_wr_cmmnt{width: 9%; height: 5em; float: right; background-color: rgb(85, 175, 25); color: white; border: none; border-radius: 3px;}
+
+.comments{}
+.comments .comment{}
+.comments .comment>textarea{width: 100%; min-height: 80px; resize: none;}

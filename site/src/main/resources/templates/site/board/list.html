@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/site_layout}">
+<head></head>
+<script type="text/javascript">
+
+</script>
+<th:block layout:fragment="contents">
+	<div id="contents">
+		<div class="guideline">
+			<span>HOME</span>
+			<span>&gt;</span>
+			<span>공지사항</span>
+		</div>
+	
+		<div class="search-sect">
+			<div class="box">
+				<span>검색조건</span>
+				<select>
+					<option value="title">제목</option>
+					<option value="content">내용</option>
+				</select>
+				<input>
+				<button>검색</button>
+			</div>
+		</div>
+	
+		<table id="tbl">
+			<colgroup>
+				<col></col>
+				<col width="60%"></col>
+				<col></col>
+				<col></col>
+				<col></col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>등록일</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td><a href="/board/view">게시글1</a></td>
+					<td>김모씨</td>
+					<td>2024.06.03</td>
+					<td>12</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td><a href="/board/view">게시글2</a></td>
+					<td>이모씨</td>
+					<td>2024.06.13</td>
+					<td>22</td>
+				</tr>
+			</tbody>			
+		</table>
+	
+		<div class="pagination">
+			<div class="pages">
+				<span class="page">&lt;</span>
+				<span class="page">1</span>
+				<span class="page">2</span>
+				<span class="page">3</span>
+				<span class="page">4</span>
+				<span class="page">5</span>
+				<span class="page">6</span>
+				<span class="page">7</span>
+				<span class="page">8</span>
+				<span class="page">9</span>
+				<span class="page">10</span>			
+				<span class="page">&gt;</span>
+			</div>
+		</div>
+	</div>
+</th:block>
+</html>
