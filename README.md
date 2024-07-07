@@ -29,3 +29,8 @@
 ERD
 
 주소 : http://benchel.duckdns.org/
+
+# 남아있는 작업
+- 미구현된 기능들
+- SSL 인증
+- 자동 빌드 배포 환경 구축
