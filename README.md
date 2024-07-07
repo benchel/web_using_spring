@@ -29,4 +29,3 @@
 ERD
 
 주소 : http://benchel.duckdns.org/
-SSL 인증서를 발급 예정 
