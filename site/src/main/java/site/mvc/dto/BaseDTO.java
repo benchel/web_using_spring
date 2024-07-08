@@ -5,7 +5,7 @@ public class BaseDTO {
 	private int pageNo = 1;//페이지 번호
 	private int pageSize = 10;//페이지 사이즈
 	private int pageBlock = 10;//페이지 블록
-	private int pageOffset;//페이징 범위
+	private int pageOffset; // 페이지 시작 번호
 	
 	public int getPageNo() {
 		return pageNo;
@@ -30,11 +30,11 @@ public class BaseDTO {
 	public void setPageBlock(int pageBlock) {
 		this.pageBlock = pageBlock;
 	}
-	
+
 	public int getPageOffset() {
 		return pageOffset;
 	}
-	
+
 	public void setPageOffset(int pageOffset) {
 		this.pageOffset = pageOffset;
 	}

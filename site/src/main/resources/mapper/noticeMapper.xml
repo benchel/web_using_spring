@@ -4,6 +4,10 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.mvc.mapper.NoticeMapper">
 
+  <select id="count" parameterType="site.mvc.dto.NoticeDTO" resultType="int">
+	SELECT count(*) FROM notice
+  </select>
+  
   <select id="list" parameterType="site.mvc.dto.NoticeDTO" resultType="site.mvc.vo.NoticeVO">
 	SELECT idx
 		, ROW_NUMBER() OVER (ORDER BY idx ) as seq
@@ -13,6 +17,7 @@
 		, DATE_FORMAT(reg_date, '%Y-%m-%d') as reg_date
 		, view
 	FROM notice
+	LIMIT #{pageBlock} OFFSET #{pageOffset}
   </select>
  
 </mapper>

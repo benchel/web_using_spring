@@ -22,7 +22,7 @@ public class Paging {
 	 * @param pageSize 총 게시글을 몇 개의 페이지로 나누어 보여줄 것인지 지정한 값
 	 * @return
 	 */
-	public static int getOutsetNo(int pageNo, int pageSize) {
+	public static int getPageOffset(int pageNo, int pageSize) {
 		return pageSize * (pageNo - 1);
 	}
 	
@@ -32,8 +32,8 @@ public class Paging {
 	 * @param pageSize 총 게시글을 몇 개의 페이지로 나누어 보여줄 것인지 지정한 값
 	 * @return
 	 */
-	public static int getEndNo(int pageNo, int pageSize) {
-		return getOutsetNo(pageNo, pageSize) + pageSize;
+	public static int getPageEnd(int pageNo, int pageSize) {
+		return getPageOffset(pageNo, pageSize) + pageSize;
 	}
 	
 	/**
@@ -87,22 +87,22 @@ public class Paging {
 			rs.setLength(0);
 			rs.append("<div class=\"pages\">");
 			// 맨처음 페이지로
-			rs.append("<span class=\"page\">&lt;&lt;</span>");
+			rs.append("<span class=\"page\" page="+ outsetPage +">&lt;&lt;</span>");
 			// 이전 페이지로
-			rs.append("<span class=\"page\">&lt;</span>");
+			rs.append("<span class=\"page\" page="+ prevPage +">&lt;</span>");
 			
 			for(int i = outsetPage; i <= endPage; i++) {
 				if(pageNo == i) {
-					rs.append("<span class=\"page pick\">"+ 1 +"</span>");
+					rs.append("<span class=\"page pick\" page="+ i +">"+ i +"</span>");
 				} else {
-					rs.append("<span class=\"page\">"+ 1 +"</span>");
+					rs.append("<span class=\"page\" page="+ i +">"+ i +"</span>");
 				}
 			}
 			
 			// 다음 페이지로
-			rs.append("<span class=\"page\">&gt;</span>");
+			rs.append("<span class=\"page\" page="+ nextPage +">&gt;</span>");
 			// 맨마지막 페이지로
-			rs.append("<span class=\"page\">&gt;&gt;</span>");
+			rs.append("<span class=\"page\" page="+ endPage +">&gt;&gt;</span>");
 			rs.append("</div>");
 		}
 		

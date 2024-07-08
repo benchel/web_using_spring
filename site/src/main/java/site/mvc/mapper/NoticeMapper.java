@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import site.common.config.DBMapper;
+import site.mvc.dto.NoticeDTO;
 import site.mvc.vo.NoticeVO;
 
 @DBMapper
 @Repository
 public interface NoticeMapper {
-	public List<NoticeVO> list() throws Exception;
+	public int count(NoticeDTO noticeDTO) throws Exception;
+	public List<NoticeVO> list(NoticeDTO noticeDTO) throws Exception;
 }

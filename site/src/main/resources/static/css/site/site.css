@@ -15,7 +15,8 @@ border: none;}
 
 /* 페이지네이션 */
 .pagination{text-align: center; margin: 0.8em;}
-
+.pagination .pick{font-weight: bold;}
+.pagination .page{cursor: pointer; margin: 0.2em;}
 /* 로그인 */
 
 .login-sect1{float: left; margin-left: 10%; width: 30%; height: 68%;}
