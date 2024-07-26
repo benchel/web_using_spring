@@ -5,11 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/site/*")
-public class LoginController {
+@RequestMapping("/site/sign/*")
+public class SignController {
 
-	@GetMapping("/login")
-	public String login() throws Exception {
+	@GetMapping("/in")
+	public String sign_in() throws Exception {
 		return "site/sign/in";
 	}
+	
+	@GetMapping("/up")
+	public String sign_up() throws Exception {
+		return "site/sign/in";
+	}	
 }
