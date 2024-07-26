@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mngr_layout}">
+<head></head>
+<script type="text/javascript">
+
+</script>
+<th:block layout:fragment="letterpress">
+<div class="letterpress">
+	<div class="guideline">
+		<span>관리자</span>
+		<span>&gt;</span>
+		<span>공지사항</span>
+		<span>&gt;</span>
+		<span>목록</span>
+	</div>
+
+	<table id="tbl">
+		<thead>
+			<tr>
+				<td>번호</td>
+				<td>제목</td>
+				<td>등록일</td>
+				<td>수정일</td>
+				<td>조회수</td>
+				<td>수정 | 삭제</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>공지사항1</td>
+				<td>2024.07.26</td>
+				<td>2024.07.26</td>
+				<td>11</td>
+				<td>
+					<span class="btn-modif">수정</span> <span class="btn-del">삭제</span>
+				</td>
+			</tr>							
+		</tbody>
+	</table>
+
+	<div class="button-group">
+		<button class="fl-r btn-reg">등록</button>
+	</div>
+
+	<div class="pagination">
+		<div class="pages">
+			<span class="page">&lt;&lt;</span>
+			<span class="page">&lt;</span>
+			<span class="page">1</span>
+			<span class="page">&gt;</span>
+			<span class="page">&gt;&gt;</span>
+		</div>
+	</div>
+</div>
+</th:block>
+</html>

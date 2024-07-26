@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<!-- meta -->
+<meta charset="UTF-8">
+
+<!-- title -->
+<title>게시판-관리자</title>
+
+<!-- css -->
+<link href="/css/mngr/common.css" rel="stylesheet" type="text/css">
+
+<!-- script -->
+
+</head>
+<th:block layout:fragment="script"></th:block>
+<body>
+	<div id="wrap">
+		<header id="head">
+			<div class="grid">
+				<span class="logo"><a href="/mngr/notice/list">logo</a></span>
+			</div>
+			<div class="grid">
+				<span>관리자</span>
+				<span>|</span>
+				<span>로그아웃</span>
+			</div>
+		</header>
+		<div id="contents">
+			<div id="side-l">
+				<ul>
+					<li>회원정보</li>
+					<li>관리자정보</li>
+				</ul>
+				<ul>
+					<li><a href="/mngr/notice/list">공지사항</a></li>
+					<li>게시판</li>
+				</ul>
+			</div>
+			<div id="side-r">
+				<th:block layout:fragment="letterpress"></th:block>
+				<footer id="footer">
+					<span>사이트 버그 또는 에러 문의 : abc@ex.mail / 010-0000-0000 </span>
+				</footer>				
+			</div>
+		</div>
+	</div>
+</body>
+</html>
