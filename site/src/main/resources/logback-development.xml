@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+
+	<property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n"/>
+	
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="site" level="OFF"/>
+	<logger name="jdbc" level="OFF"/>
+	<logger name="jdbc.connection" level="OFF"/>
+	<logger name="jdbc.sqlonly" level="INFO"/>
+	<logger name="jdbc.sqltiming" level="DEBUG"/>
+	<logger name="jdbc.audit" level="OFF"/>
+	<logger name="jdbc.resultset" level="OFF"/>
+	<logger name="jdbc.resultsettable" level="DEBUG"/>
+	
+	<root level="INFO">
+		<appender-ref ref="CONSOLE"/>
+	</root>
+
+</configuration>
+<!-- https://mybatis.org/mybatis-3/ko/logging.html -->
