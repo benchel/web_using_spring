@@ -22,3 +22,10 @@ body{margin: 0;}
 #footer span{display: inline-flex; margin: 0;}
 
 a{text-decoration-line: none;}
+
+.flt-rt{float: right;}
+.flt-lf{float: left;}
+
+.mg-top10px{margin-top: 10px;}
+.mg-top30px{margin-top: 30px;}
+.mg-rt10px{margin-right: 10px;}

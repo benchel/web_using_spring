@@ -62,3 +62,19 @@ border: none;}
 .comments{}
 .comments .comment{}
 .comments .comment>textarea{width: 100%; min-height: 80px; resize: none;}
+
+/* 회원가입 */
+.sing-up-tbl{width: 100%;}
+.sing-up-tbl tr{width: 100%; padding: 3px 3px; margin: 2px 2px;}
+.sing-up-tbl tr td input{height: 28px;}
+.sing-up-tbl tr td select{height: 28px;}
+.sing-up-tbl tr td button{height: 28px;}
+
+.btn-sz-m{width: 10vh; height: 28px;}
+.btn-sz-s{width: 5vh; height: 28px;}
+
+.btn_positive{background-color: #005ac0; color: white; border: none; border-radius: 3px;} 
+.btn_cancel{background-color: #c02323; color: white; border: none; border-radius: 3px;}
+
+.pwd_instr{color:#555;}
+

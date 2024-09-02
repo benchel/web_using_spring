@@ -15,6 +15,6 @@ public class SignController {
 	
 	@GetMapping("/up")
 	public String sign_up() throws Exception {
-		return "site/sign/in";
+		return "site/sign/up";
 	}	
 }
