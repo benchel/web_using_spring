@@ -15,19 +15,31 @@ const setDefault = function() {
 };
 
 const registEvent = function() {
+	// 제출 버튼에 이벤트 등록
 	let btn_positive = document.querySelector('.btn_positive');
 	btn_positive.addEventListener('click', validate);
 	
+	// 이메일 주소 목록에 이벤트 등록
 	let em_list = document.querySelector('.em_list');
 	em_list.addEventListener('change', select_mirror);
 	
+	// 취소 버튼에 이벤트 등록
 	let btn_cancel = document.querySelector('.btn_cancel');
 	btn_cancel.addEventListener('click', () => {
 		location.href = '/';
 	});
 	
+	// 비밀번호 입력란에 이벤트 등록
 	let inp_pwd = document.querySelector('input[id="pwd"]');
 	inp_pwd.addEventListener('keyup', check_pwd);
+	
+	// 아이디 입력란에 이벤트 등록
+	let inp_id = document.querySelector('input[id="id"]');
+	inp_id.addEventListener('keyup', chg_overlap_yes_no);
+	
+	// 아이디 중복 확인 버튼에 이벤트 등록
+	let ch_overlap = document.querySelector('.checking-overlap');
+	ch_overlap.addEventListener('click', check_overlap);
 };
 
 function validate() {
@@ -37,6 +49,13 @@ function validate() {
 		alert("사용하실 아이디를 입력해주세요."); id.focus();
 		return;
 	}
+	// 아이디 중복 확인을 마쳤는지 판별
+	let ch_overlap = document.querySelector('.checking-overlap');
+	if(!ch_overlap.res) {
+		alert("아이디 중복 확인을 해주세요.");
+		return;
+	}
+	
 	// 이름 확인
 	let name = document.querySelector('input[id="name"]');
 	if(!name.value) {
@@ -66,20 +85,7 @@ function validate() {
 	
 };
 
-function check_pwd(e) {
-	const regs = /[A-Za-z]{1,}?[0-9]{1,}?|[A-Za-z]{1,}?[!@#$%^&*()-_=+]{1,}?|[0-9]{1,}?[!@#$%^&*()-_=+]{1,}?/;
-	let result = regs.exec(e.target.value);
-	console.log(result);
-	
-	let pwd_instr = document.querySelector('.pwd_instr');
-	
-	if(result == null) {
-		pwd_instr.style.color = 'red';
-	} else {
-		pwd_instr.style.color = 'black';
-	}
-};
-
+// select 태그에서 선택한 값을 input의 value에 반영
 function select_mirror(e) {
 	let val = e.target.value;
 	let email_addr = document.querySelector('input[id="email_addr"]');
@@ -93,6 +99,68 @@ function select_mirror(e) {
 	}
 };
 
+function check_pwd(e) {
+	const regs = /[A-Za-z]{1,}?[0-9]{1,}?|[A-Za-z]{1,}?[!@#$%^&*()-_=+]{1,}?|[0-9]{1,}?[!@#$%^&*()-_=+]{1,}?/;
+	let result = regs.exec(e.target.value);
+	
+	let pwd_instr = document.querySelector('.pwd_instr');
+	
+	if(result == null) {
+		pwd_instr.style.color = 'red';
+	} else {
+		pwd_instr.style.color = 'black';
+	}
+};
+
+function chg_overlap_yes_no(e) {
+	let btn_ch_overlap = document.querySelector('.checking-overlap');
+	
+	if(btn_ch_overlap.res) {
+		btn_ch_overlap.style.color = 'black';
+		btn_ch_overlap.res = false;
+	}
+};
+
+function check_overlap(e) {
+	let user_id = document.querySelector('input[id="id"]');
+	let user_id_val = user_id.value;
+	
+	if(user_id_val == '' || user_id_val == null) {
+		alert("아이디를 입력하여 주십시오.");
+		user_id.focus();
+		return;
+	}
+	
+	let formData = {
+		'id' : user_id_val
+	};
+
+	fetch('/site/sign/up/check/overlap', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		let result = data.result;
+		let msg = data.msg;
+		
+		if(result == true) {
+			alert(msg);
+			e.target.res = true;
+			e.target.style.color = 'green';
+		} else {
+			alert(msg);
+			user_id.value = '';
+			user_id.focus();
+		}
+	})
+	.catch((error) => {
+		alert("데이터를 가지고 오는데 실패하였습니다.");
+		console.log(error);
+	});
+	
+};
 </script>
 </th:block>
 <th:block layout:fragment="contents">
@@ -106,7 +174,7 @@ function select_mirror(e) {
 					<td>아이디</td>
 					<td>
                         <input type="text" id="id" name="id" maxlength="12" value="">
-                        <button class="checking-overlap">중복확인</button>
+                        <button class="checking-overlap" res="false">중복확인</button>
                     </td>
 				</tr>
                 <tr>
