@@ -1,5 +1,7 @@
 기본적인 게시판
 
+주소 : http://benchel.duckdns.org/
+
 #개발 환경
 - IDE : Spring Tool Suite(STS)
 - DBMS : DBeaver
@@ -21,16 +23,15 @@
 
 - SSH 클라이언트 : 모바텀
   
-# 프로젝트 문서
+#빌드 및 배포 현황
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/682dc888-2c07-43f5-8223-1b7ade0f9fb6"/>
+</p>
 
-스토리보드
-- [게시판_스토리보드(작업중).pdf](https://github.com/user-attachments/files/15816129/_.pdf)
+http://benchel.duckdns.org:8031/
 
-ERD
-
-주소 : http://benchel.duckdns.org/
+guest01/guest01
 
 # 남아있는 작업
 - 미구현된 기능들
 - SSL 인증
-- 자동 빌드 배포 환경 구축
