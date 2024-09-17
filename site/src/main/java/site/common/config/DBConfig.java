@@ -19,14 +19,14 @@ import com.zaxxer.hikari.HikariDataSource;
 
 /**
  * Configure Database Connection
- * @MapperScan(½ºÄµ À§Ä¡, SqlSessionFactory ¼³Á¤, ½ºÄ³³Ê°¡ °Ë»öÇÒ ÁÖ¼®À» ÁöÁ¤)
+ * @MapperScan(ìŠ¤ìº” ìœ„ì¹˜, SqlSessionFactory ì„¤ì •, ìŠ¤ìºë„ˆê°€ ê²€ìƒ‰í•  ì£¼ì„ì„ ì§€ì •)
  */
 @Configuration
 @MapperScan(value = "site.mvc.mapper", sqlSessionFactoryRef= "", annotationClass = DBMapper.class)
 public class DBConfig {
 	
 	@Bean(name = "dbDataSource")
-	@Primary // ºó ¿ì¼±¼øÀ§ ÁöÁ¤
+	@Primary // ë¹ˆ ìš°ì„ ìˆœìœ„ ì§€ì •
 	@ConfigurationProperties("spring.datasource.hikari")
 	public DataSource dbDataSource() {
 		return DataSourceBuilder

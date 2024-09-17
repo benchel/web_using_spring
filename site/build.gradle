@@ -45,17 +45,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-// src/main/java 아래의 모든 소스파일에 대한 컴파일 옵션 지정
-compileJava {
-	options.encoding = 'UTF-8'
-}
 
-tasks.withType(JavaCompile){
-	options.encoding = 'UTF-8'
-}
-
-/*
 tasks.named('test') {
 	useJUnitPlatform()
 }
-*/
