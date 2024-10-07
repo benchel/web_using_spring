@@ -26,7 +26,7 @@ public class SignController {
 	
 	@GetMapping("/up")
 	public String sign_up() throws Exception {
-		return "site/sign/up";
+		return "site.sign/up";
 	}
 	
 	/**
@@ -35,7 +35,7 @@ public class SignController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PostMapping("/up/check/overlap")
+	@PostMapping("/check/overlap")
 	public ResponseEntity<?> checkOverlap(@RequestBody UserDTO userDTO) throws Exception {
 		return new ResponseEntity<>(userService.checkOverlap(userDTO), HttpStatus.OK);
 	}
