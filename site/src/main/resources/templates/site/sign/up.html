@@ -71,35 +71,35 @@ function validate() {
 	let pwd_c = document.querySelector('input[id="pwd_c"]');
 	if(!pwd_c.value) {
 		alert("비밀번호 확인을 입력해주세요."); pwd_c.focus();
-		return false;
+		return;
 	}
 	
 	if(!(pwd_c.value === pwd.value)) {
 		alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-		return false;
+		return;
 	}
 	
 	let pwd_v = document.querySelector('input[id="pwd_v"]');
 	if(!pwd_v) {
 		alert("유효하지 않은 비밀번호입니다. 규칙에 따라 다시 입력하여 주십시오."); pwd_v.focus();
-		return false;
+		return;
 	}
 	
 	// 이름 확인
 	let name = document.querySelector('input[id="name"]');
 	if(!name.value) {
 		name.focus(); alert("이름을 입력해주세요.");
-		return false;
+		return;
 	}
 	// 연락처 확인
 	let contact = document.querySelector('input[id="contact"]');
 	if(!contact.value) {
 		contact.focus(); alert("연락처를 입력해주세요."); 
-		return false;
+		return;
 	} else {
 		if(contact.value.length > 11) {
 			alert("연락처가 허용된 길이(11)를 초과하였습니다."); contact.focus(); 
-			return false;
+			return;
 		}
 	}
 	// 이메일 확인
@@ -107,9 +107,9 @@ function validate() {
 	let email_addr = document.querySelector('input[id="email_addr"]');
 	
 	if(!email.value) {
-		email.focus(); alert("이메일을 입력해주세요."); return false;
+		email.focus(); alert("이메일을 입력해주세요."); return;
 	} else if(!email_addr.value) {
-		email_addr.focus(); alert("이메일을 입력해주세요."); return false;
+		email_addr.focus(); alert("이메일을 입력해주세요."); return;
 	}
 
 	let form_data = {
@@ -219,7 +219,7 @@ function submit() {
 	
 	let result = validate();
 	
-	if(!result) { return; };
+	if(!result) return;
 	
 	console.log(result);
 };
@@ -279,8 +279,8 @@ function submit() {
                             <option value="naver.com">naver.com</option>
                             <option value="nate.com">nate.com</option>
                             <option value="google.com">google.com</option>
-                        </selectlc>
-                        <input type="text" id="email_addr" name="email_addr" value="">
+                        </select>
+                        <input type="text" id="email_addr" name="email_addr">
                     </td>
                 </tr> 
                 <tr>
