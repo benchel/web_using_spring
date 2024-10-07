@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/mngr/sign")
+@RequestMapping("/mngr/sign/*")
 public class MngrSignController {
 
 	@GetMapping("/in")
