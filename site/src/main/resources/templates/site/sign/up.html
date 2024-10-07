@@ -188,7 +188,7 @@ function check_overlap(e) {
 		'id' : user_id_val
 	};
 
-	fetch('/site/sign/up/check/overlap', {
+	fetch('/site/sign/check/overlap', {
 		'method' : 'POST',
 		headers : {'Content-Type' : 'application/json'},
 		body : JSON.stringify(formData),
