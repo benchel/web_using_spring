@@ -17,7 +17,7 @@ const setDefault = function() {
 const registEvent = function() {
 	// 제출 버튼에 이벤트 등록
 	let btn_positive = document.querySelector('.btn_positive');
-	btn_positive.addEventListener('click', submit);
+	btn_positive.addEventListener('click', submit_data);
 	
 	// 이메일 주소 목록에 이벤트 등록
 	let em_list = document.querySelector('.em_list');
@@ -215,7 +215,7 @@ function check_overlap(e) {
 	
 };
 
-function submit() {
+function submit_data() {
 	
 	let result = validate();
 	
