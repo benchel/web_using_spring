@@ -32,7 +32,7 @@ dependencies {
 	
 	// templates
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.0.0'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	
 	// Auto restart
 	implementation 'org.springframework.boot:spring-boot-devtools'
