@@ -80,7 +80,7 @@ function validate() {
 	}
 	
 	let pwd_v = document.querySelector('input[id="pwd_v"]');
-	if(!pwd_v) {
+	if(pwd_v.value == 'false') {
 		alert("유효하지 않은 비밀번호입니다. 규칙에 따라 다시 입력하여 주십시오."); pwd_v.focus();
 		return;
 	}
@@ -147,13 +147,13 @@ function check_pwd(e) {
 	
 	if(result == null) {
 		pwd_instr.style.color = 'red';
-		pwd_validity = false;
+		pwd_validity.value = 'false';
 	} else if(pwd.length < 10) {
 		pwd_instr.style.color = 'red';
-		pwd_validity = false;
+		pwd_validity.value = 'false';
 	} else {
 		pwd_instr.style.color = 'green';
-		pwd_validity = true;
+		pwd_validity.value = 'true';
 	}
 };
 
