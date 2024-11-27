@@ -30,7 +30,8 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
       mode: HTML
-      
+log:
+  path: C:\dev\using_spring\log     
 ---
 
 spring:
@@ -56,9 +57,10 @@ spring:
       prefix: classpath:/templates/
       suffix: .html
       mode: HTML
-
 --- 
 server:
   port: 8088 
 logging:
-  config: classpath:logback-${spring.profiles.active}.xml
+  config: classpath:log4j2-config.xml
+log:
+  path: /server/using-spring/logs
