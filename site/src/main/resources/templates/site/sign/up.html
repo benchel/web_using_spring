@@ -165,6 +165,7 @@ function limit_leng(e) {
 	}
 };
 
+// 중복 여부 표기
 function chg_overlap_yes_no(e) {
 	let btn_ch_overlap = document.querySelector('.checking-overlap');
 	
@@ -174,6 +175,7 @@ function chg_overlap_yes_no(e) {
 	}
 };
 
+// 중복 확인
 function check_overlap(e) {
 	let user_id = document.querySelector('input[id="id"]');
 	let user_id_val = user_id.value;
@@ -221,7 +223,31 @@ function submit_data() {
 	
 	if(!result) return;
 	
-	console.log(result);
+	let formData = result;
+
+	console.log(formData);
+/*
+	fetch('/site/sign/create/user', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		let result = data.result;
+		let msg = data.msg;
+		
+		if(result == true) {
+			alert(msg);
+		} else {
+			alert(msg);
+		}
+	})
+	.catch((error) => {
+		alert("데이터를 가지고 오는데 실패하였습니다.");
+		console.log(error);
+	});
+*/
 };
 
 </script>

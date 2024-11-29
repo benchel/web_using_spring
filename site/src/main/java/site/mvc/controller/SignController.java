@@ -36,8 +36,19 @@ public class SignController {
 	 * @throws Exception
 	 */
 	@PostMapping("/check/overlap")
-	public ResponseEntity<?> checkOverlap(@RequestBody UserDTO userDTO) throws Exception {
+	public ResponseEntity<?> check_overlap(@RequestBody UserDTO userDTO) throws Exception {
 		return new ResponseEntity<>(userService.checkOverlap(userDTO), HttpStatus.OK);
+	}
+	
+	/**
+	 * 회원 생성
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/create/user")
+	public ResponseEntity<?> create_user(@RequestBody UserDTO userDTO) throws Exception {
+		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
 	
 }

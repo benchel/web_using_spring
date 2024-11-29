@@ -37,4 +37,22 @@ public class UserService {
 		
 		return rs;
 	}
+	
+	/**
+	 * 회원 생성
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public Map<String, Object> create_user(UserDTO userDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		int is_success = userMapper.insert(userDTO);
+		if(is_success == 0) rs.put("result", false);
+		else rs.put("result", true);
+		
+		return rs;
+	}
+	
 }

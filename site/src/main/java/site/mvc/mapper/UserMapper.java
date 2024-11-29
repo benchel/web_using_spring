@@ -9,4 +9,5 @@ import site.mvc.dto.UserDTO;
 @Repository
 public interface UserMapper {
 	public int checkOverlap(UserDTO dto) throws Exception;
+	public int insert(UserDTO dto) throws Exception;
 }
