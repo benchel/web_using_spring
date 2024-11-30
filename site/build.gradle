@@ -36,7 +36,13 @@ dependencies {
 	
 	// Auto restart
 	implementation 'org.springframework.boot:spring-boot-devtools'
-		
+	
+	// mail
+	implementation 'com.sun.mail:javax.mail:1.6.2'
+	
+	// encryption
+	implementation 'org.jasypt:jasypt:1.9.3'
+	
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	
