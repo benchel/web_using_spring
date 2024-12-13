@@ -18,6 +18,7 @@ public class JasyptConfig {
 		encryptor.setPassword(encrptKey);
 		encryptor.setAlgorithm("PBEWithHMACSHA512AndAES_256");
 		encryptor.setIvGenerator(new RandomIvGenerator());
+		System.out.println(encrptKey);
 		return encryptor;
 	}
 }
