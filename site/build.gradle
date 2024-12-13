@@ -41,7 +41,7 @@ dependencies {
 	implementation 'com.sun.mail:javax.mail:1.6.2'
 	
 	// encryption
-	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot:3.0.5'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
