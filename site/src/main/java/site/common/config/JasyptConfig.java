@@ -12,7 +12,7 @@ public class JasyptConfig {
 	@Value("${jasypt.encryptor.pswd}")
 	private String encrptKey;
 	
-	@Bean
+	@Bean("jasyptEncryptor")
 	public StandardPBEStringEncryptor standardPBEStringEncryptor() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword(encrptKey);

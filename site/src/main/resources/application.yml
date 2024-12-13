@@ -66,4 +66,4 @@ log:
   path: /server/using-spring/logs
 jasypt:
   encryptor: 
-    bean: standardPBEStringEncryptor
+    bean: jasyptEncryptor
