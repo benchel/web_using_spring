@@ -64,3 +64,6 @@ logging:
   config: classpath:log4j2-config.xml
 log:
   path: /server/using-spring/logs
+jasypt:
+  encryptor: 
+    bean: encryptor
