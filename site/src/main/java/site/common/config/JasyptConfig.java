@@ -13,7 +13,7 @@ public class JasyptConfig {
 	private String encrptKey;
 	
 	@Bean
-	public StandardPBEStringEncryptor encryptor() {
+	public StandardPBEStringEncryptor standardPBEStringEncryptor() {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 		encryptor.setPassword(encrptKey);
 		encryptor.setAlgorithm("PBEWithHMACSHA512AndAES_256");
