@@ -45,7 +45,7 @@ spring:
  datasource: # db 설정
   hikari:
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:mariadb://129.154.54.184:3306/site_db
+    jdbc-url: jdbc:log4jdbc:mariadb://ENC(Y76OfzHzggqbMTPPAyrWK+zSFmJhTg0CuNlODRlCOjy7xnZtGwwPRBO/VuCl5tbbS5GcvbgBMyYTuBi+Rt4HmA==)/site_db
     username: site_db_user
     password: site_db_user
     pool-name: pool-site_db
