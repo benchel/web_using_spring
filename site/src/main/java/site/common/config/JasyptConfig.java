@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JasyptConfig {
 
-	@Value("jasypt.encryptor.pswd")
+	@Value("${jasypt.encryptor.pswd}")
 	private String encrptKey;
 	
 	@Bean
