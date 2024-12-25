@@ -1,12 +1,15 @@
 spring:
+  profiles:
+    active: localhost
+---
+spring:
    application:
       name: site
 #spring.config.      
    config:
       use-legacy-processing: true
-#spring.profiles.
-   profiles:
-      active: localhost
+      activate:
+       on-profile: localhost
 #spring.devtools.      
    devtools:
       livereload:
@@ -16,20 +19,23 @@ spring:
 #spring.datasource.
    datasource:
       hikari:
-         driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-         jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/site_db
-         username: site_db_user
-         password: site_db_user
-         pool-name: pool-site_db
-         auto-commit: false
-         connection-test-query: SELECT 1
-         maximum-pool-size: 10
-         transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정 
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/site_db
+        username: ENC(fSS0e3iLnYMrMVZWiogsT9nPtrHc0rbArlO+WWnY+huYtKKuHjxhLUeq3CmeA+dG)
+        password: ENC(fSS0e3iLnYMrMVZWiogsT9nPtrHc0rbArlO+WWnY+huYtKKuHjxhLUeq3CmeA+dG)
+        pool-name: pool-site_db
+        auto-commit: false
+        connection-test-query: SELECT 1
+        maximum-pool-size: 10
+        transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정 
 #spring.thymeleaf.        
    thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
       mode: HTML
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
       
 server:
   port: 8088 
@@ -37,41 +43,43 @@ logging:
   config: classpath:log4j2-config.xml      
 log:
   path: C:\dev\using_spring\log
-jasypt:
-  encryptor: 
-    bean: jasyptEncryptor      
----
 
+---
 spring:
- profiles: 
-  - development
+ application:
+  name: site
+ config:
+  activate:
+   on-profile: development
  devtools:
   livereload:
    enabled: true
   restart:
    enabled: true
- datasource: # db 설정
+ datasource:
   hikari:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: ENC(6BU7pV0tGPQjlhzKJF6x/j99LVvCC5d6BogeRY5o8Rfjx0ni2W2c03d2tW+FsoOvYYtp8xt0HgGKTfltR+iUZA==)
-    username: site_db_user
-    password: site_db_user
-    pool-name: pool-site_db
-    connection-test-query: SELECT 1
-    maximum-pool-size: 10
-    transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정 
+   driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+   jdbc-url: ENC(hqSQkjdNOzsAR0I1ohAIQHudxfTIHvy0zji6q1kP+IHP72dt4VDha5Tcf5r56nL43nnPvIhpW1vky38YOoU6kudd1B16lCFfGP2m4JdpwzADrTBZLHvmY2nGqQel0urX)
+   username: ENC(fSS0e3iLnYMrMVZWiogsT9nPtrHc0rbArlO+WWnY+huYtKKuHjxhLUeq3CmeA+dG)
+   password: ENC(fSS0e3iLnYMrMVZWiogsT9nPtrHc0rbArlO+WWnY+huYtKKuHjxhLUeq3CmeA+dG)
+   pool-name: pool-site_db
+   auto-commit: false
+   connection-test-query: SELECT 1
+   maximum-pool-size: 10
+   transaction-isolation: TRANSACTION_READ_UNCOMMITTED #트랜잭션 격리수준 설정
 #spring.thymeleaf.
  thymeleaf:
       prefix: classpath:/templates/
       suffix: .html
       mode: HTML
-
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    
 server:
   port: 8088 
 logging:
   config: classpath:log4j2-config.xml
 log:
-  path: /server/using-spring/logs      
-jasypt:
-  encryptor: 
-    bean: jasyptEncryptor
+  path: /server/using-spring/logs
+...  
