@@ -46,8 +46,8 @@
 		</rollingPolicy>
 	</appender>
 
-	<springProfile name="localhost">
-		<logger name="gasipan" level="INFO"/>
+	<springProfile name="local">
+		<logger name="site" level="INFO"/>
 		<logger name="jdbc" level="OFF"/>
 		<logger name="jdbc.connection" level="OFF"/>
 		<logger name="jdbc.sqlonly" level="OFF"/>
@@ -61,8 +61,8 @@
 		</root>
 	</springProfile>
 
-	<springProfile name="development">
-		<logger name="gasipan" level="INFO"/>
+	<springProfile name="dev">
+		<logger name="site" level="INFO"/>
 		<root level="INFO">
 			<appender-ref ref="CONSOLE"/>
 			<appender-ref ref="FILE"/>
@@ -70,14 +70,6 @@
 		</root>
 	</springProfile>
 	
-	<springProfile name="production">
-		<logger name="gasipan" level="INFO"/>
-		<root level="INFO">
-			<appender-ref ref="CONSOLE"/>
-			<appender-ref ref="FILE"/>
-			<appender-ref ref="ERROR"/>
-		</root>
-	</springProfile>
 </configuration>
 <!-- https://mybatis.org/mybatis-3/ko/logging.html -->
 <!-- https://logging.apache.org/log4j/2.x/manual/getting-started.html -->
