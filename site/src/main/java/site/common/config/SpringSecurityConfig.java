@@ -17,8 +17,12 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SpringSecurityConfig {
 
 	// Spring Security에서 제외할 웹 리소스 패스
-	public static final String[] SECURITY_EXCLUDE_PATTERN_ARR = {
+	public static final String[] SECURITY_EXCLUDE_PATTERN = {
 		"/", "/css/**", "/js/**", "/img/**"
+	};
+	
+	public static final String[] SITE_AUTHENTICATED_PATTERN = {
+			"/site/mypage/**", "/board/reg"
 	};
 	
 	// 웹사이트 사용자의 접근과 권한 정의
@@ -32,14 +36,14 @@ public class SpringSecurityConfig {
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			
 			http.requestMatchers()
-					.antMatchers("/","/site/mypage", "/notice", "/board")
+					.antMatchers(SITE_AUTHENTICATED_PATTERN)
 					.and()
 				.authorizeRequests()
-					.antMatchers("/site/mypage").authenticated()
-					.antMatchers("/site/mypage").hasAnyAuthority("USER")
+					.antMatchers(SITE_AUTHENTICATED_PATTERN).authenticated()
+					.antMatchers(SITE_AUTHENTICATED_PATTERN).hasAnyAuthority("USER")
 					.and()
 				.authorizeRequests()
-					.antMatchers(SECURITY_EXCLUDE_PATTERN_ARR).permitAll()
+					.antMatchers(SECURITY_EXCLUDE_PATTERN).permitAll()
 					.and()
 				.formLogin()
 					.permitAll()
@@ -66,10 +70,10 @@ public class SpringSecurityConfig {
 	public static class MngrSecurityConfig {
 		
 		// 인증(authentication)이 필요한 접근과 인증이 불필요한 접근 설정
-		// 접근 허가에 필요한 권한 설정 
+		// 접근 허가에 필요한 권한 설정
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			return null;
-		}		
+		}
 	}
 	
 }
