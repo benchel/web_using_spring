@@ -6,13 +6,8 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	setDefault();
 	registEvent();
 });
-
-const setDefault = function() {
-	
-};
 
 const registEvent = function() {
 	// 제출 버튼에 이벤트 등록
@@ -44,6 +39,10 @@ const registEvent = function() {
 	// 아이디 중복 확인 버튼에 이벤트 등록
 	let ch_overlap = document.querySelector('.checking-overlap');
 	ch_overlap.addEventListener('click', check_overlap);
+	
+	// 인증번호 발송 버튼에 이벤트 등록
+	let cret_num_send = document.querySelector('.cret_num_send');
+	cret_num_send.addEventListener('click', sending_num);
 };
 
 function validate() {
@@ -53,6 +52,7 @@ function validate() {
 		alert("사용하실 아이디를 입력해주세요."); id.focus();
 		return false;
 	}
+	
 	// 아이디 중복 확인을 마쳤는지 판별
 	let ch_overlap = document.querySelector('.checking-overlap');
 	if(!ch_overlap.res) {
@@ -91,6 +91,7 @@ function validate() {
 		name.focus(); alert("이름을 입력해주세요.");
 		return;
 	}
+	
 	// 연락처 확인
 	let contact = document.querySelector('input[id="contact"]');
 	if(!contact.value) {
@@ -102,6 +103,7 @@ function validate() {
 			return;
 		}
 	}
+	
 	// 이메일 확인
 	let email = document.querySelector('input[id="email"]');
 	let email_addr = document.querySelector('input[id="email_addr"]');
@@ -111,6 +113,9 @@ function validate() {
 	} else if(!email_addr.value) {
 		email_addr.focus(); alert("이메일을 입력해주세요."); return;
 	}
+	
+	// 이메일 인증을 마쳤는지 판별
+	
 
 	let form_data = {
 		'id' : id.value
@@ -137,6 +142,7 @@ function select_mirror(e) {
 	}
 };
 
+// 비밀번호 유효성 검사
 function check_pwd(e) {
 	const regs = /[A-Za-z]{1,}?[0-9]{1,}?|[A-Za-z]{1,}?[!@#$%^&*()-_=+]{1,}?|[0-9]{1,}?[!@#$%^&*()-_=+]{1,}?/;
 	let pwd = e.target.value;
@@ -215,6 +221,22 @@ function check_overlap(e) {
 		console.log(error);
 	});
 	
+};
+
+// 이메일로 인증번호 발송
+function sending_num() {
+	
+	// 이메일 확인
+	let email = document.querySelector('input[id="email"]');
+	let email_addr = document.querySelector('input[id="email_addr"]');
+	
+	if(!email.value) {
+		email.focus(); alert("이메일을 입력해주세요."); return;
+	} else if(!email_addr.value) {
+		email_addr.focus(); alert("이메일을 입력해주세요."); return;
+	}
+	
+	alert(email.value + '@' + email_addr.value);
 };
 
 function submit_data() {
@@ -300,6 +322,7 @@ function submit_data() {
                     <td>이메일</td>
                     <td>
                         <input type="text" id="email" name="email">
+                        @
                         <select class="em_list">
                         	<option>직접입력</option>
                             <option value="naver.com">naver.com</option>
@@ -312,8 +335,8 @@ function submit_data() {
                 <tr>
                     <td>인증번호</td>
                     <td>
-                        <input type="text">
-                        <button>인증번호 발송</button>
+                        <input type="text" id="cert_num" name="cert_num">
+                        <button class="cret_num_send">인증번호 발송</button>
                         <button>확인</button>
                     </td>
                 </tr>                                    
