@@ -1,12 +1,23 @@
 package site.mvc.controller.service;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.common.utill.Mailer;
 import site.mvc.dto.UserDTO;
 import site.mvc.mapper.UserMapper;
 
@@ -15,6 +26,7 @@ import site.mvc.mapper.UserMapper;
 public class UserService {
 
 	private final UserMapper userMapper;
+	private final Environment env;
 	
 	/**
 	 * 아이디 중복 확인
@@ -52,6 +64,44 @@ public class UserService {
 		if(is_success == 0) rs.put("result", false);
 		else rs.put("result", true);
 		
+		return rs;
+	}
+	
+	/**
+	 * 인증번호 발송(with 이메일)
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> send_auth_num(UserDTO userDTO) {
+		Map<String, Object> rs = new HashMap<>();
+		
+		Mailer mailer = new Mailer();
+		mailer.setAppNum(env.getProperty("mail.pwd"));
+		mailer.setSender(env.getProperty("mail.addr"));
+		mailer.setReceiver(userDTO.getEmail());
+		
+		Session session = Session.getInstance(mailer.getProperties(), null);
+		MimeMessage msg = new MimeMessage(session);
+		
+		try {
+			msg.setFrom(new InternetAddress(mailer.getSender(), "관리자"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailer.getReceiver(), userDTO.getName()+"님"));
+			msg.setSubject("[게시판] 회원가입 인증 번호입니다.");
+			msg.setText("Hello, world\n");
+			msg.setSentDate(new Date());
+			Transport.send(msg, mailer.getSender(), mailer.getAppNum());
+			rs.put("result", true);
+			rs.put("msg", "이메일이 성공적으로 전송되었습니다. 메일을 확인하여 주십시오.");
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			rs.put("result", false);
+			rs.put("msg", "이메일 전송에 실패하였습니다.\r 다시 시도하여 주십시오.");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			rs.put("result", false);
+			rs.put("msg", "이메일 전송에 실패하였습니다.\r 다시 시도하여 주십시오.");
+		}
 		return rs;
 	}
 	

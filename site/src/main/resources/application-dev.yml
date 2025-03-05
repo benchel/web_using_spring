@@ -35,3 +35,6 @@ logging:
   config: classpath:log4j2-config.xml
 log:
   path: /server/using-spring/logs
+mail:
+  addr: ENC(JK6YzbX76xC+2taysLS4QTLCrrI45pbSEyvxqqMh+58LFM5a1Yhtd2tzEYsfIcbJ4nI64SwztLTs+4kKCwYEzQ==)
+  pwd: ENC(xfshyoX2mg1psKI9Q02gNGiDBDDg/h+/jDd9W5HYsB/qja99kIRIQ8yiU+WDkIepO6jxb/fiWvLeItOKBbeUzQ==)  

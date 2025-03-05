@@ -48,7 +48,18 @@ public class SignController {
 	 */
 	@PostMapping("/create/user")
 	public ResponseEntity<?> create_user(@RequestBody UserDTO userDTO) throws Exception {
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return new ResponseEntity<>(userService.create_user(userDTO), HttpStatus.OK);
+	}
+	
+	/**
+	 * 인증번호 발송(with 이메일)
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/send/mail")
+	public ResponseEntity<?> send_mail(@RequestBody UserDTO userDTO) throws Exception {
+		return new ResponseEntity<>(userService.send_auth_num(userDTO), HttpStatus.OK);
 	}
 	
 }

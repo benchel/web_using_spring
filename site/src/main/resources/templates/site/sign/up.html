@@ -229,6 +229,7 @@ function sending_num() {
 	// 이메일 확인
 	let email = document.querySelector('input[id="email"]');
 	let email_addr = document.querySelector('input[id="email_addr"]');
+	let name = document.querySelector('input[id="name"]').value;
 	
 	if(!email.value) {
 		email.focus(); alert("이메일을 입력해주세요."); return;
@@ -236,7 +237,35 @@ function sending_num() {
 		email_addr.focus(); alert("이메일을 입력해주세요."); return;
 	}
 	
-	alert(email.value + '@' + email_addr.value);
+	console.log(email.value + '@' + email_addr.value);
+	
+	let formData = {
+		'email' : email.value + '@' + email_addr.value
+		, 'name' : name
+	};
+	
+	fetch('/site/sign/send/mail', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		let result = data.result;
+		let msg = data.msg;
+		
+		if(result == true) {
+			alert(msg);
+		} else {
+			alert(msg);
+		}
+	})
+	.catch((error) => {
+		alert("데이터를 가지고 오는데 실패하였습니다.");
+		console.log(error);
+	});	
+	
+	
 };
 
 function submit_data() {
