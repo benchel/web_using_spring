@@ -1,12 +1,14 @@
 package site.common.utill;
 
 import java.util.Properties;
+import java.util.Random;
 
 public class Mailer {
 	
 	private String google_app_num;
 	private String sender;
 	private String receiver;
+	private String auth_num;
 	private Properties props;
 	
 	public Mailer() {
@@ -52,4 +54,18 @@ public class Mailer {
 		return this.receiver;
 	}
 	
+	public void generateAuthNum() {
+		this.auth_num = "";
+		Random random = new Random();
+		random.setSeed(0);
+		
+		for(int i = 0; i < 6; i++) {
+			int num = random.nextInt(100);
+			this.auth_num += Integer.toString(num);
+		}
+	}
+	
+	public String getAuthNum() {
+		return this.auth_num;
+	}
 }
