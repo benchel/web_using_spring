@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<style>
+body{margin: 0;}
+
+#wrap{margin: 0 13% 0 13%; min-height: 100%; border-left: solid 1px #eee; border-right: solid 1px #eee; }
+
+#head{width: 100%; height: 20%; margin: 0;}
+#head .sect-1{width: 100%; height: 80%;}
+#head .sect-1 .grid{width: 100%; height: 12%; text-align: center;}
+#head .sect-1 .grid:nth-child(2) .logo{display: inline-flex; margin: 2% 1% 0 0;}
+
+#head .sect-2{width: 100%; height: 20%;}
+#head .sect-2 .menu-bar{width: 100%; height: 100%; text-align: center; background-color: #eee;}
+
+.contents{width: 96%; padding: 0 2% 0 2%;}
+
+#footer{width: 100%; height: 12%; background-color: #eee; text-align: center;}
+#footer .logo{display: inline-flex; margin: 2% 1% 0 0;}
+#footer span{display: inline-flex; margin: 0;}
+
+/* 공통 */
+.flt-rt{float: right;}
+.flt-lf{float: left;}
+
+.mg-top10px{margin-top: 10px;}
+.mg-top30px{margin-top: 30px;}
+.mg-rt10px{margin-right: 10px;}
+</style>
+<body>
+	<div id="wrap">
+		<header id="head">
+			<div class="sect-1">
+				<div class="grid"></div>
+				<div class="grid">
+					<h1 class="logo">logo</h1>
+				</div>
+				<div class="grid">
+
+				</div>				
+			</div>
+			<div class="sect-2">
+				<div class="menu-bar"></div>
+			</div>
+		</header>
+		<div class="contents">
+			<p><span th:text="${name}"></span>님, 안녕하세요. 게시판입니다.</p>
+			본 이메일은 회원가입을 위한 것으로 아래의 인증번호를 입력하여 남은 회원가입 절차를 완료하여 주시기 바랍니다.
+		</div>
+		<div class="contents">
+			<p>인증번호 : <span th:text="${auth}"></span></p>
+		</div>
+		<footer id="footer">
+			<h1 class="logo">logo</h1>
+			<span>프로젝트에 사용한 컨텐츠 라이선스 표기</span>
+		</footer>
+	</div>
+</body>
+</html>

@@ -80,7 +80,9 @@ public class UserService {
 		mailer.setAppNum(env.getProperty("mail.pwd"));
 		mailer.setSender(env.getProperty("mail.addr"));
 		mailer.setReceiver(userDTO.getEmail());
+		mailer.setReceiver_name(userDTO.getName());
 		mailer.generateAuthNum();
+		mailer.generateMailContent();
 		
 		Session session = Session.getInstance(mailer.getProperties(), null);
 		MimeMessage msg = new MimeMessage(session);
@@ -89,7 +91,7 @@ public class UserService {
 			msg.setFrom(new InternetAddress(mailer.getSender(), "관리자"));
 			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailer.getReceiver(), userDTO.getName()+"님"));
 			msg.setSubject("[게시판] 회원가입 인증 번호입니다.");
-			msg.setText(mailer.getAuthNum());
+			msg.setText(mailer.getCont(), "utf-8", "html");
 			msg.setSentDate(new Date());
 			Transport.send(msg, mailer.getSender(), mailer.getAppNum());
 			rs.put("result", true);
