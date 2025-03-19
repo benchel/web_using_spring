@@ -251,6 +251,8 @@ function sending_num() {
 	
 	console.log(email.value + '@' + email_addr.value);
 	
+	show_loading_gif();
+	
 	let formData = {
 		'email' : email.value + '@' + email_addr.value
 		, 'name' : name.value
@@ -264,6 +266,8 @@ function sending_num() {
 	})
 	.then(response => response.json())
 	.then((data) => {
+		hide_loading_gif();
+		
 		let result = data.result;
 		let msg = data.msg;
 		
@@ -274,11 +278,11 @@ function sending_num() {
 		}
 	})
 	.catch((error) => {
+		hide_loading_gif();
+		
 		alert("데이터 전송에 실패하였습니다.");
 		console.log(error);
 	});	
-	
-	
 };
 
 function submit_data() {

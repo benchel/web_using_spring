@@ -13,10 +13,14 @@
 <link href="/css/site/site.css" rel="stylesheet" type="text/css">
 
 <!-- script -->
+<script type="text/javascript" src="/js/common.js"></script>
 
 </head>
 <th:block layout:fragment="script"></th:block>
 <body>
+	<div class="mask">
+		<img class="loading" src="/img/site/loading.gif">
+	</div>
 	<div id="wrap">
 		<th:block th:replace="fragment/site_header :: header"></th:block>
 		<th:block layout:fragment="contents"></th:block>

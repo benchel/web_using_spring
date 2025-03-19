@@ -1,6 +1,6 @@
 body{margin: 0;}
 
-#wrap{margin: 0 13% 0 13%; height: 100vh; border-left: solid 1px #eee; border-right: solid 1px #eee; }
+#wrap{margin: 0 13% 0 13%; height: 100vh; border-left: solid 1px #eee; border-right: solid 1px #eee; z-index: 1;}
 
 #head{width: 100%; height: 20%; margin: 0;}
 #head .sect-1{width: 100%; height: 80%;}
@@ -29,3 +29,6 @@ a{text-decoration-line: none;}
 .mg-top10px{margin-top: 10px;}
 .mg-top30px{margin-top: 30px;}
 .mg-rt10px{margin-right: 10px;}
+
+.mask{position:absolute; display:none; justify-content: center; background-color: #fff; opacity : 0.5; z-index: 100; width: 100%; min-height: 100vh;}
+.loading{object-fit: none;}
