@@ -7,8 +7,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.ITemplateResolver;
-
 
 public class Mailer {
 	
@@ -16,7 +14,7 @@ public class Mailer {
 	private String sender; // 보내는 이(주소)
 	private String receiver_name; // 받는 이(이름)
 	private String receiver; // 받는 이(주소)
-	private String auth_num;
+	private String auth_num; // 인증번호
 	
 	private String cont;
 	private Properties props;

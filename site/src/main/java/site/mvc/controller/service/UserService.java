@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.common.utill.Mailer;
+import site.mvc.dto.TempUserInfoDTO;
 import site.mvc.dto.UserDTO;
+import site.mvc.mapper.TempUserInfoMapper;
 import site.mvc.mapper.UserMapper;
 
 @Service
@@ -26,6 +28,7 @@ import site.mvc.mapper.UserMapper;
 public class UserService {
 
 	private final UserMapper userMapper;
+	private final TempUserInfoMapper tempUserInfoMapper;
 	private final Environment env;
 	
 	/**
@@ -73,7 +76,7 @@ public class UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> send_auth_num(UserDTO userDTO) {
+	public Map<String, Object> send_auth_num(UserDTO userDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
 		
 		Mailer mailer = new Mailer();
@@ -83,6 +86,10 @@ public class UserService {
 		mailer.setReceiver_name(userDTO.getName());
 		mailer.generateAuthNum();
 		mailer.generateMailContent();
+		
+		// 임시회원 정보 테이블에 저장(아이디, 이메일, 인증번호)
+		TempUserInfoDTO tempinfoDTO = new TempUserInfoDTO(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), mailer.getAuthNum(), null);
+		tempUserInfoMapper.insert(tempinfoDTO);
 		
 		Session session = Session.getInstance(mailer.getProperties(), null);
 		MimeMessage msg = new MimeMessage(session);

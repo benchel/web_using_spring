@@ -229,19 +229,32 @@ function sending_num() {
 	// 이메일 확인
 	let email = document.querySelector('input[id="email"]');
 	let email_addr = document.querySelector('input[id="email_addr"]');
-	let name = document.querySelector('input[id="name"]').value;
+	let name = document.querySelector('input[id="name"]');
+	let id = document.querySelector('input[id="id"]');
 	
 	if(!email.value) {
 		email.focus(); alert("이메일을 입력해주세요."); return;
 	} else if(!email_addr.value) {
 		email_addr.focus(); alert("이메일을 입력해주세요."); return;
+	} else if(!id.value) {
+		id.focus(); alert("아이디를 입력해주세요"); return;
+	} else if(!name.value) {
+		name.focus(); alert("이름을 입력해주세요"); return;
+	}
+	
+	// 아이디 중복 확인을 마쳤는지 판별
+	let ch_overlap = document.querySelector('.checking-overlap');
+	if(!ch_overlap.res) {
+		alert("아이디 중복 확인을 해주세요.");
+		return;
 	}
 	
 	console.log(email.value + '@' + email_addr.value);
 	
 	let formData = {
 		'email' : email.value + '@' + email_addr.value
-		, 'name' : name
+		, 'name' : name.value
+		, 'id' : id.value
 	};
 	
 	fetch('/site/sign/send/mail', {
@@ -261,7 +274,7 @@ function sending_num() {
 		}
 	})
 	.catch((error) => {
-		alert("데이터를 가지고 오는데 실패하였습니다.");
+		alert("데이터 전송에 실패하였습니다.");
 		console.log(error);
 	});	
 	
