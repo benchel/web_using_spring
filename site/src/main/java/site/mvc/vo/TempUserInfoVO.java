@@ -1,4 +1,4 @@
-package site.mvc.dto;
+package site.mvc.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,19 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class TempUserInfoDTO {
+public class TempUserInfoVO {
 	private String id;
 	private String name;
 	private String email;
 	private String certNum;
 	private String date;
-	private int isCert;
-	
-	public TempUserInfoDTO(String id, String name, String email, String certNum) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.certNum = certNum;
-	}
-	
+	private int isCert;	
 }

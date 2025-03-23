@@ -60,7 +60,7 @@ public class UserService {
 	 * @throws Exception
 	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
-	public Map<String, Object> create_user(UserDTO userDTO) throws Exception {
+	public Map<String, Object> createUser(UserDTO userDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
 		
 		int is_success = userMapper.insert(userDTO);
@@ -76,7 +76,7 @@ public class UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> send_auth_num(UserDTO userDTO) throws Exception {
+	public Map<String, Object> sendAuthNum(UserDTO userDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
 		
 		Mailer mailer = new Mailer();
@@ -84,11 +84,11 @@ public class UserService {
 		mailer.setSender(env.getProperty("mail.addr"));
 		mailer.setReceiver(userDTO.getEmail());
 		mailer.setReceiver_name(userDTO.getName());
-		mailer.generateAuthNum();
+		mailer.generateCertNum();
 		mailer.generateMailContent();
 		
 		// 임시회원 정보 테이블에 저장(아이디, 이메일, 인증번호)
-		TempUserInfoDTO tempinfoDTO = new TempUserInfoDTO(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), mailer.getAuthNum(), null);
+		TempUserInfoDTO tempinfoDTO = new TempUserInfoDTO(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), mailer.getCertNum());
 		tempUserInfoMapper.insert(tempinfoDTO);
 		
 		Session session = Session.getInstance(mailer.getProperties(), null);
@@ -115,4 +115,10 @@ public class UserService {
 		return rs;
 	}
 	
+	
+	public Map<String, Object> checkCertNum(UserDTO userDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		return rs;
+	}
 }

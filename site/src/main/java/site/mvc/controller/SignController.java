@@ -48,7 +48,7 @@ public class SignController {
 	 */
 	@PostMapping("/create/user")
 	public ResponseEntity<?> create_user(@RequestBody UserDTO userDTO) throws Exception {
-		return new ResponseEntity<>(userService.create_user(userDTO), HttpStatus.OK);
+		return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.OK);
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class SignController {
 	 */
 	@PostMapping("/send/mail")
 	public ResponseEntity<?> send_mail(@RequestBody UserDTO userDTO) throws Exception {
-		return new ResponseEntity<>(userService.send_auth_num(userDTO), HttpStatus.OK);
+		return new ResponseEntity<>(userService.sendAuthNum(userDTO), HttpStatus.OK);
 	}
 	
 }

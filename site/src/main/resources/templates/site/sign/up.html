@@ -41,8 +41,12 @@ const registEvent = function() {
 	ch_overlap.addEventListener('click', check_overlap);
 	
 	// 인증번호 발송 버튼에 이벤트 등록
-	let cret_num_send = document.querySelector('.cret_num_send');
-	cret_num_send.addEventListener('click', sending_num);
+	let cert_num_send = document.querySelector('.cert_num_send');
+	cert_num_send.addEventListener('click', sending_num);
+	
+	// 인증번호 확인 버튼에 이벤트 등록
+	let cert_num_check = document.querySelector('.cert_num_check');
+	cert_num_check.addEventListener('click', check_num);
 };
 
 function validate() {
@@ -192,14 +196,14 @@ function check_overlap(e) {
 		return;
 	}
 	
-	let formData = {
+	let form_data = {
 		'id' : user_id_val
 	};
 
 	fetch('/site/sign/check/overlap', {
 		'method' : 'POST',
 		headers : {'Content-Type' : 'application/json'},
-		body : JSON.stringify(formData),
+		body : JSON.stringify(form_data),
 	})
 	.then(response => response.json())
 	.then((data) => {
@@ -249,11 +253,9 @@ function sending_num() {
 		return;
 	}
 	
-	console.log(email.value + '@' + email_addr.value);
-	
 	show_loading_gif();
 	
-	let formData = {
+	let form_data = {
 		'email' : email.value + '@' + email_addr.value
 		, 'name' : name.value
 		, 'id' : id.value
@@ -262,7 +264,7 @@ function sending_num() {
 	fetch('/site/sign/send/mail', {
 		'method' : 'POST',
 		headers : {'Content-Type' : 'application/json'},
-		body : JSON.stringify(formData),
+		body : JSON.stringify(form_data),
 	})
 	.then(response => response.json())
 	.then((data) => {
@@ -283,6 +285,68 @@ function sending_num() {
 		alert("데이터 전송에 실패하였습니다.");
 		console.log(error);
 	});	
+};
+
+// 인증번호 확인
+function check_num() {
+	
+	// 이메일 확인
+	let email = document.querySelector('input[id="email"]');
+	let email_addr = document.querySelector('input[id="email_addr"]');
+	let name = document.querySelector('input[id="name"]');
+	let id = document.querySelector('input[id="id"]');
+	let cert_num = document.querySelector('input[id="cert_num"]');
+	
+	if(!email.value) {
+		email.focus(); alert("이메일을 입력해주세요."); return;
+	} else if(!email_addr.value) {
+		email_addr.focus(); alert("이메일을 입력해주세요."); return;
+	} else if(!id.value) {
+		id.focus(); alert("아이디를 입력해주세요"); return;
+	} else if(!name.value) {
+		name.focus(); alert("이름을 입력해주세요"); return;
+	}
+	
+	// 아이디 중복 확인을 마쳤는지 판별
+	let ch_overlap = document.querySelector('.checking-overlap');
+	if(!ch_overlap.res) {
+		alert("아이디 중복 확인을 해주세요.");
+		return;
+	}
+	
+	show_loading_gif();
+		
+	let form_data = {
+		'id' : id.value
+		, 'name' : name.value
+		, 'email' : email.value + '@' + email_addr.value
+		, 'certNum' : cert_num.value
+	};
+	
+	fetch('/site/sign/send/mail', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		hide_loading_gif();
+		
+		let result = data.result;
+		let msg = data.msg;
+		
+		if(result == true) {
+			alert(msg);
+		} else {
+			alert(msg);
+		}
+	})
+	.catch((error) => {
+		hide_loading_gif();
+		
+		alert("데이터 전송에 실패하였습니다.");
+		console.log(error);
+	});		
 };
 
 function submit_data() {
@@ -382,8 +446,8 @@ function submit_data() {
                     <td>인증번호</td>
                     <td>
                         <input type="text" id="cert_num" name="cert_num">
-                        <button class="cret_num_send">인증번호 발송</button>
-                        <button>확인</button>
+                        <button class="cert_num_send">인증번호 발송</button>
+                        <button class="cert_num_check">확인</button>
                     </td>
                 </tr>                                    
 			</tbody>			

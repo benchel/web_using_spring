@@ -14,7 +14,7 @@ public class Mailer {
 	private String sender; // 보내는 이(주소)
 	private String receiver_name; // 받는 이(이름)
 	private String receiver; // 받는 이(주소)
-	private String auth_num; // 인증번호
+	private String cert_num; // 인증번호(certification_number)
 	
 	private String cont;
 	private Properties props;
@@ -80,19 +80,19 @@ public class Mailer {
 	}
 
 	// 인증번호 생성
-	public void generateAuthNum() {
-		this.auth_num = "";
+	public void generateCertNum() {
+		this.cert_num = "";
 		Random random = new Random();
 		random.setSeed(0);
 		
 		for(int i = 0; i < 6; i++) {
 			int num = random.nextInt(100);
-			this.auth_num += Integer.toString(num);
+			this.cert_num += Integer.toString(num);
 		}
 	}
 	
-	public String getAuthNum() {
-		return this.auth_num;
+	public String getCertNum() {
+		return this.cert_num;
 	}
 	
 	// 주어진 정보를 토대로 발송할 메일의 컨텐츠를 생성한다.
@@ -104,7 +104,7 @@ public class Mailer {
 		
 		Context context = new Context();
 		context.setVariable("name", receiver_name);
-		context.setVariable("auth", auth_num);
+		context.setVariable("cert", cert_num);
 		
 		TemplateEngine tpeg = new TemplateEngine();
 		tpeg.setTemplateResolver(resolver);

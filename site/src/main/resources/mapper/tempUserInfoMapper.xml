@@ -5,8 +5,20 @@
 <mapper namespace="site.mvc.mapper.TempUserInfoMapper">
 	<insert id="insert" parameterType="site.mvc.dto.TempUserInfoDTO">
 		INSERT INTO site_db.temp_user_info
-		(id, email, auth_num, date)
-		VALUES(#{id}, #{email}, #{auth_num}, now())	
+		(id, email, cert_num, date)
+		VALUES(#{id}, #{email}, #{certNum}, now())	
 	</insert>
+	
+	<select id="select" parameterType="site.mvc.dto.TempUserInfoDTO">
+		select * from site_db.temp_user_info 
+		where id=#{id} and email=#{email}
+	</select>
+	
+	<update id="updateColThatIsCert" parameterType="site.mvc.dto.TempUserInfoDTO">
+		UPDATE site_db.temp_user_info
+		SET is_cert = 1
+		WHERE id=#{id} and email=#{email}
+	</update>
+	
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->
