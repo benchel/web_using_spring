@@ -22,6 +22,7 @@ import site.mvc.dto.TempUserInfoDTO;
 import site.mvc.dto.UserDTO;
 import site.mvc.mapper.TempUserInfoMapper;
 import site.mvc.mapper.UserMapper;
+import site.mvc.vo.TempUserInfoVO;
 
 @Service
 @RequiredArgsConstructor
@@ -106,19 +107,39 @@ public class UserService {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			rs.put("result", false);
-			rs.put("msg", "이메일 전송에 실패하였습니다.\r 다시 시도하여 주십시오.");
+			rs.put("msg", "이메일 전송에 실패하였습니다.\n다시 시도하여 주십시오.");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			rs.put("result", false);
-			rs.put("msg", "이메일 전송에 실패하였습니다.\r 다시 시도하여 주십시오.");
+			rs.put("msg", "이메일 전송에 실패하였습니다.\n다시 시도하여 주십시오.");
+		}
+		return rs;
+	}
+	
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public Map<String, Object> checkCertNum(TempUserInfoDTO tempUserDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		// 임시회원 정보를 불러온다.
+		TempUserInfoVO tempUserVO = tempUserInfoMapper.select(tempUserDTO);
+		
+		// 이용자가 입력한 인증번호와 불러온 정보의 인증번호를 비교한다.
+		String inputNum = tempUserDTO.getCertNum();
+		String loadedNum = tempUserVO.getCertNum();
+		
+		if(inputNum.equals(loadedNum)) {
+			// 동일한 경우 임시회원 정보 테이블의 인증여부를 업데이트한다. 결과값을 true로 설정
+			tempUserDTO.setIsCert(1);
+			tempUserInfoMapper.updateColThatIsCert(tempUserDTO);
+			rs.put("result", true);
+			rs.put("msg", "인증이 성공적으로 완료되었습니다.\n회원가입 절차를 완료하여 주십시오.");
+		} else {
+			// 동일하지 않은 경우 결과값을 false으로 설정
+			rs.put("result", false);
+			rs.put("msg", "인증에 실패하였습니다.\n인증번호를 확인하여 주십시오.");
 		}
 		return rs;
 	}
 	
 	
-	public Map<String, Object> checkCertNum(UserDTO userDTO) throws Exception {
-		Map<String, Object> rs = new HashMap<>();
-		
-		return rs;
-	}
 }

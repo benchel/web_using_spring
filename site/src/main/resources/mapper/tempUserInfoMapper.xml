@@ -9,7 +9,7 @@
 		VALUES(#{id}, #{email}, #{certNum}, now())	
 	</insert>
 	
-	<select id="select" parameterType="site.mvc.dto.TempUserInfoDTO">
+	<select id="select" parameterType="site.mvc.dto.TempUserInfoDTO" resultType="site.mvc.vo.TempUserInfoVO">
 		select * from site_db.temp_user_info 
 		where id=#{id} and email=#{email}
 	</select>

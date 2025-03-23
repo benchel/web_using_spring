@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
 import site.mvc.controller.service.UserService;
+import site.mvc.dto.TempUserInfoDTO;
 import site.mvc.dto.UserDTO;
 
 @Controller
@@ -62,4 +63,8 @@ public class SignController {
 		return new ResponseEntity<>(userService.sendAuthNum(userDTO), HttpStatus.OK);
 	}
 	
+	@PostMapping("/check-num")
+	public ResponseEntity<?> check_cert_num(@RequestBody TempUserInfoDTO tempUserInfoDTO) throws Exception {
+		return new ResponseEntity<>(userService.checkCertNum(tempUserInfoDTO), HttpStatus.OK);
+	}
 }
