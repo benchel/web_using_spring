@@ -83,10 +83,9 @@ public class Mailer {
 	public void generateCertNum() {
 		this.cert_num = "";
 		Random random = new Random();
-		random.setSeed(0);
 		
 		for(int i = 0; i < 6; i++) {
-			int num = random.nextInt(100);
+			int num = random.nextInt(10);
 			this.cert_num += Integer.toString(num);
 		}
 	}
