@@ -63,8 +63,26 @@ public class SignController {
 		return new ResponseEntity<>(userService.sendAuthNum(userDTO), HttpStatus.OK);
 	}
 	
+	/**
+	 * 인증번호 확인
+	 * @param tempUserInfoDTO
+	 * @return
+	 * @throws Exception
+	 */
 	@PostMapping("/check-num")
 	public ResponseEntity<?> check_cert_num(@RequestBody TempUserInfoDTO tempUserInfoDTO) throws Exception {
 		return new ResponseEntity<>(userService.checkCertNum(tempUserInfoDTO), HttpStatus.OK);
 	}
+	
+	/**
+	 * 인증여부 확인
+	 * @param tempUserInfoDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/whether/cert")
+	public ResponseEntity<?> checkThatWhetherCert(@RequestBody TempUserInfoDTO tempUserInfoDTO) throws Exception {
+		return new ResponseEntity<>(userService.checkThatWhetherCert(tempUserInfoDTO), HttpStatus.OK);
+	}
+	
 }

@@ -116,6 +116,12 @@ public class UserService {
 		return rs;
 	}
 	
+	/**
+	 * 인증번호 확인
+	 * @param tempUserDTO
+	 * @return
+	 * @throws Exception
+	 */
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public Map<String, Object> checkCertNum(TempUserInfoDTO tempUserDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
@@ -141,5 +147,47 @@ public class UserService {
 		return rs;
 	}
 	
+	/**
+	 * 인증여부 확인
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> checkThatWhetherCert(TempUserInfoDTO tempUserDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		// 임시회원 정보를 불러온다.
+		TempUserInfoVO tempUserVo = tempUserInfoMapper.select(tempUserDTO);		
+		
+		// 인증여부 확인 
+		// 1. 인증시도를 아예하지 않은 경우
+		if(tempUserVo == null) {
+			rs.put("result", false);
+			rs.put("msg", "회원가입을 위해서는 이메일을 통하여 본인 확인이 필요합니다.");
+		// 2. 인증번호를 발급만 받고 확인을 하지 않은 경우	
+		} else {
+			int isCert = tempUserVo.getIsCert();
+			// 인증 여부를 확인한다.
+			if(isCert == 1) {
+				// 그 값이 1(yes)이면 true를 반환
+				rs.put("result", true);
+				rs.put("msg", "");
+			} else {
+				// 그 값이 0(no)이면 false를 반환한다.
+				rs.put("result", false);
+				rs.put("msg", "본인 확인을 완료하여 주십시오.");
+			}
+		}
+		return rs;		
+	}
+	
+	
+	public Map<String, Object> join(UserDTO userDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		// 회원등록
+		// 임시회원 정보 삭제
+		
+		return rs;
+	}
 	
 }
