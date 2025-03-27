@@ -20,5 +20,9 @@
 		WHERE id=#{id} and email=#{email}
 	</update>
 	
+	<delete id="deleteByIdAndEmail" parameterType="site.mvc.dto.TempUserInfoDTO">
+		DELETE FROM site_db.temp_user_info WHERE id=#{id} AND email=#{email}
+	</delete>
+	
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

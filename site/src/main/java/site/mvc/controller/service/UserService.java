@@ -87,10 +87,14 @@ public class UserService {
 		mailer.setReceiver_name(userDTO.getName());
 		mailer.generateCertNum();
 		mailer.generateMailContent();
+
+		TempUserInfoDTO tempUserInfoDTO = new TempUserInfoDTO(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), mailer.getCertNum());
+		// 인증을 재시도하는 경우
+		// 기존의 임시정보를 삭제한다.
+		tempUserInfoMapper.deleteByIdAndEmail(tempUserInfoDTO);
 		
 		// 임시회원 정보 테이블에 저장(아이디, 이메일, 인증번호)
-		TempUserInfoDTO tempinfoDTO = new TempUserInfoDTO(userDTO.getId(), userDTO.getName(), userDTO.getEmail(), mailer.getCertNum());
-		tempUserInfoMapper.insert(tempinfoDTO);
+		tempUserInfoMapper.insert(tempUserInfoDTO);
 		
 		Session session = Session.getInstance(mailer.getProperties(), null);
 		MimeMessage msg = new MimeMessage(session);
@@ -180,13 +184,26 @@ public class UserService {
 		return rs;		
 	}
 	
-	
+	/**
+	 * 회원 등록
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public Map<String, Object> join(UserDTO userDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
 		
 		// 회원등록
+		userMapper.insert(userDTO);
 		// 임시회원 정보 삭제
+		TempUserInfoDTO tempUserDTO = new TempUserInfoDTO();
+		tempUserDTO.setId(userDTO.getId());
+		tempUserDTO.setEmail(userDTO.getEmail());
+		tempUserInfoMapper.deleteByIdAndEmail(tempUserDTO);
 		
+		rs.put("result", true);
+		rs.put("msg", "회원 가입이 완료되었습니다.\n로그인 화면으로 가시겠습니까?");
 		return rs;
 	}
 	

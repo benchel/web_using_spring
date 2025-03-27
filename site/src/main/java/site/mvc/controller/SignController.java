@@ -85,4 +85,15 @@ public class SignController {
 		return new ResponseEntity<>(userService.checkThatWhetherCert(tempUserInfoDTO), HttpStatus.OK);
 	}
 	
+	/**
+	 * 회원가입
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@PostMapping("/up")
+	public ResponseEntity<?> sign_up(@RequestBody UserDTO userDTO) throws Exception {
+		return new ResponseEntity<>(userService.join(userDTO), HttpStatus.OK);
+	}
+	
 }

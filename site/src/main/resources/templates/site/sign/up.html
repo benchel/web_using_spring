@@ -124,6 +124,7 @@ function validate() {
 		, 'pwd' : pwd_c.value
 		, 'contact' : contact.value
 		, 'email' : email.value + '@' + email_addr.value
+		, 'cert_num' : null
 	};
 	
 	return form_data;
@@ -349,32 +350,51 @@ function check_num() {
 	});
 };
 
+/*
 function check_that_whether_cert(form_data) {
 	
+	let url = '/site/sign/whether/cert';
 	let cert_num = document.querySelector('input[id="cert_num"]');
-	let result = false;
+	form_data.cert_num = cert_num.value;
 	
-	fetch('/site/sign/whether/cert', {
-		'method' : 'POST',
-		headers : {'Content-Type' : 'application/json'},
-		body : JSON.stringify(form_data),
-	})
-	.then(response => response.json())
-	.then((data) => {
-		result = data.result;
-		let msg = data.msg;
-		
-		if(!result) {
-			cert_num.focus();
-			alert(msg);
+	const xhr = new XMLHttpRequest();
+	
+	xhr.open('POST', url, true);
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.onreadystatechange = function() {
+		// http.status 200 요청이 성공적으로 처리됨
+		// http.readState 4 작업이 완료됨
+		if(xhr.readyState == 4&& xhr.status == 200) {
+			let response = JSON.parse(xhr.responseText);
+			console.log(response);
+			return response.result;
 		}
-	})
-	.catch((error) => {
+	}
+	xhr.send(JSON.stringify(form_data));
+}*/
+
+async function check_that_whether_cert(form_data) {
+	
+	let cert_num = document.querySelector('input[id="cert_num"]');
+	form_data.cert_num = cert_num.value;
+	
+	try {
+
+		let response = await fetch('/site/sign/whether/cert', {
+			'method' : 'POST',
+			headers : {'Content-Type' : 'application/json'},
+			body : JSON.stringify(form_data),
+		}).then(response => response.json());
+		
+		console.log(response);
+		return response.result;	
+		
+	} catch(error) {
 		alert("데이터를 가지고 오는데 실패하였습니다.");
 		console.log(error);
-	});
+		return false;	
+	}
 	
-	return result;
 }
 
 function submit_data() {
@@ -388,12 +408,10 @@ function submit_data() {
 	
 	if(!cert_result) return;
 	
-	console.log(form_data);
-/*
-	fetch('/site/sign/create/user', {
+	fetch('/site/sign/up', {
 		'method' : 'POST',
 		headers : {'Content-Type' : 'application/json'},
-		body : JSON.stringify(formData),
+		body : JSON.stringify(form_data),
 	})
 	.then(response => response.json())
 	.then((data) => {
@@ -401,16 +419,17 @@ function submit_data() {
 		let msg = data.msg;
 		
 		if(result == true) {
-			alert(msg);
-		} else {
-			alert(msg);
+			if(confirm(msg)){
+				location.href = '/site/sign/in';
+			}else{
+				location.href = '/';
+			}
 		}
 	})
 	.catch((error) => {
 		alert("데이터를 가지고 오는데 실패하였습니다.");
 		console.log(error);
 	});
-*/
 };
 
 </script>
