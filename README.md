@@ -1,6 +1,6 @@
 기본적인 게시판
 
-주소 : http://benchel.duckdns.org/
+주소 : https://benchel.duckdns.org/
 
 #개발 환경
 - IDE : Spring Tool Suite(STS)
@@ -28,10 +28,5 @@
   <img src="https://github.com/user-attachments/assets/682dc888-2c07-43f5-8223-1b7ade0f9fb6"/>
 </p>
 
-http://benchel.duckdns.org:8031/
-
-guest01/guest01
-
 # 남아있는 작업
 - 미구현된 기능들
-- SSL 인증
