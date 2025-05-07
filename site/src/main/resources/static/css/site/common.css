@@ -21,7 +21,7 @@ body{margin: 0;}
 #footer .logo{display: inline-flex; margin: 2% 1% 0 0;}
 #footer span{display: inline-flex; margin: 0;}
 
-a{text-decoration-line: none;}
+a{text-decoration-line: none; color: inherit;}
 
 .flt-rt{float: right;}
 .flt-lf{float: left;}
