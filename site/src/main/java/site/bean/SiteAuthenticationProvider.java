@@ -16,8 +16,8 @@ public class SiteAuthenticationProvider implements AuthenticationProvider {
 		String id = (String) siteAuthentication.getPrincipal();
 		String pwd = (String) siteAuthentication.getCredentials();
 		
-		System.out.println("id : " + id);
-		System.out.println("pwd : " + pwd);
+		//System.out.println("id : " + id);
+		//System.out.println("pwd : " + pwd);
 		
 		return new SiteAuthentication(true);
 	}
