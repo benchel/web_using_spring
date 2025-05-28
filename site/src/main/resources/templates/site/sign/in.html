@@ -1,8 +1,25 @@
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<link href="/css/site/common.css" rel="stylesheet" type="text/css">
 	<link href="/css/site/site.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="#">
 </head>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+});
+
+const initPage = function() {
+	
+};
+
+const setDefault = function() {
+
+};
+
+</script>
 <body>
 	<div id="wrap">
 		<header id="head">
@@ -26,15 +43,17 @@
 					<p><span>사이트의 원할한 이용을 위해선 로그인이 필요합니다.</span></p>
 				</div>
 				<hr class="dividing-line">
+				<form class="login-form" action="#" th:action="@{/site/login}" method="post">
 				<div class="login-input-box">
 					<div class="left">
-						<input type="text" placeholder="아이디">
-						<input type="text" placeholder="비밀번호">
+						<input type="text" name="id" placeholder="아이디">
+						<input type="password" name="pwd" placeholder="비밀번호">
 					</div>
 					<div class="right">
-						<button>로그인</button>
+						<input type="submit" class="login-btn" value="로그인"/>
 					</div>
 				</div>
+				</form>
 				<div class="login-link-box">
 					<p><span>아이디 찾기</span><span>/</span><span>비밀번호 찾기</span></p>
 					<p><span>회원가입</span></p>
