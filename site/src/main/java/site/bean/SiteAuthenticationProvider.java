@@ -12,20 +12,22 @@ public class SiteAuthenticationProvider implements AuthenticationProvider {
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		SiteAuthentication siteAuthentication = (SiteAuthentication) authentication;
-		String id = (String) siteAuthentication.getPrincipal();
-		String pwd = (String) siteAuthentication.getCredentials();
+
+		String name = (String) authentication.getName();
+		String id = (String) authentication.getPrincipal();
+		String pwd = (String) authentication.getCredentials();
 		
-		//System.out.println("id : " + id);
-		//System.out.println("pwd : " + pwd);
+		System.out.println("name : " + name);
+		System.out.println("id : " + id);
+		System.out.println("pwd : " + pwd);
 		
-		return new SiteAuthentication(true);
+		return authentication;
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
 		// TODO Auto-generated method stub
-		return SiteAuthentication.class.equals(UsernamePasswordAuthenticationToken.class);
+		return authentication.equals(UsernamePasswordAuthenticationToken.class);
 	}
 
 }

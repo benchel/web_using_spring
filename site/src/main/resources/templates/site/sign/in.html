@@ -16,8 +16,22 @@ const initPage = function() {
 };
 
 const setDefault = function() {
-
+	let login_btn = document.querySelector('.login-btn');
+	login_btn.addEventListener('click', loginProc);
 };
+
+function loginProc() {
+	let formData = {
+		'id'	: document.querySelector('input[name="id"]').value,
+		'pwd'	: document.querySelector('input[name="pwd"]').value,
+	};
+	
+	fetch('/site/login', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(formData),
+	});
+}
 
 </script>
 <body>
@@ -43,17 +57,15 @@ const setDefault = function() {
 					<p><span>사이트의 원할한 이용을 위해선 로그인이 필요합니다.</span></p>
 				</div>
 				<hr class="dividing-line">
-				<form class="login-form" action="#" th:action="@{/site/login}" method="post">
 				<div class="login-input-box">
 					<div class="left">
 						<input type="text" name="id" placeholder="아이디">
 						<input type="password" name="pwd" placeholder="비밀번호">
 					</div>
 					<div class="right">
-						<input type="submit" class="login-btn" value="로그인"/>
+						<button class="login-btn">로그인</button>
 					</div>
 				</div>
-				</form>
 				<div class="login-link-box">
 					<p><span>아이디 찾기</span><span>/</span><span>비밀번호 찾기</span></p>
 					<p><span>회원가입</span></p>

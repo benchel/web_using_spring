@@ -9,8 +9,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.AllArgsConstructor;
-import site.bean.SiteAuthenticationManager;
-import site.bean.SiteAuthenticationProvider;
 
 /**
  * 스프링 시큐리티 설정
@@ -35,18 +33,13 @@ public class SpringSecurityConfig {
 	@AllArgsConstructor
 	@Order(1)
 	public static class UserSecurityConfing {
-
-		private final SiteAuthenticationManager siteAuthenticationManager;
-		private final SiteAuthenticationProvider siteAuthenticationProvider;
 		
 		// 인증(authentication)이 필요한 접근과 인증이 불필요한 접근 설정
 		// 접근 허가에 필요한 권한 설정
 		@Bean("siteFilterChain")
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			
-			http.authenticationProvider(siteAuthenticationProvider)
-				.authenticationManager(siteAuthenticationManager)
-				.requestMatchers()
+			http.requestMatchers()
 					.antMatchers(SITE_AUTHENTICATED_PATTERN)
 					.and()
 				.authorizeRequests()
@@ -57,13 +50,13 @@ public class SpringSecurityConfig {
 					.antMatchers(SECURITY_EXCLUDE_PATTERN).permitAll()
 					.and()
 				.formLogin()
-					.permitAll()
 					.loginPage("/site/sign/in")
+					.loginProcessingUrl("/site/login")
 					.usernameParameter("id")
 					.passwordParameter("pwd")
-					.loginProcessingUrl("/site/login")
 					//.successHandler(null) // 로그인 성공 이후의 동작 핸들링 
-					//.failureHandler(null) // 로그인 실패 이후의 동작 핸들링 
+					//.failureHandler(null) // 로그인 실패 이후의 동작 핸들링
+					.permitAll()
 					.and()
 				.logout()
 					.permitAll()
