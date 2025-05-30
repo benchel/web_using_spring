@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="header">
 	<header id="head">
 		<div class="sect-1">
@@ -7,12 +7,19 @@
 			<div class="grid">
 				<h1 class="logo"><a href="/">logo</a></h1>
 			</div>
-			<div class="grid">
+			<div class="grid" th:if="${session.principal eq null}">
 				<p>
 				<span><a href="/site/sign/in">로그인</a></span>
 				<span>/</span>
 				<span><a href="/site/sign/up">회원가입</span>
 				</p>
+			</div>
+			<div class="grid" th:unless="${session.principal eq null}">
+				<p>
+				<span><a href="/site/mypage/info">마이페이지</a></span>
+				<span>/</span>
+				<span><a href="/site/logout">로그아웃</span>
+				</p>				
 			</div>
 		</div>
 		<div class="sect-2">
