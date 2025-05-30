@@ -30,6 +30,15 @@ function loginProc() {
 		'method' : 'POST',
 		headers : {'Content-Type' : 'application/json'},
 		body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.link != '')   
+			location.href = data.link;
+	})
+	.catch((error) => {
+		alert("데이터를 가지고 오는데 실패하였습니다.");
+		console.log(error);
 	});
 }
 

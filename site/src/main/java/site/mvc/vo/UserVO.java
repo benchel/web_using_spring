@@ -20,7 +20,7 @@ public class UserVO implements UserDetails {
 	// 직렬화 ID (Serializable ID) 해당 객체의 버전을 명시하는 데 사용	
 	private static final long serialVersionUID = 1L;
 	// 권한
-	private static final String authority = "USER";
+	private String authority = "USER";
 	
 	private String id;
 	private String pwd;
@@ -90,7 +90,7 @@ public class UserVO implements UserDetails {
 		this.jDate = jDate;
 	}
 
-	public static String getAuthority() {
+	public String getAuthority() {
 		return authority;
 	}
 }
