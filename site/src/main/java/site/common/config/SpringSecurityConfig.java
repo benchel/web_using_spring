@@ -1,18 +1,16 @@
 package site.common.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.RequiredArgsConstructor;
-import site.bean.SiteAuthenticationProvider;
+import site.bean.SiteAccessDeniedHandler;
+import site.bean.SiteUnAuthenticationEntryPoint;
 
 /**
  * 스프링 시큐리티 설정
@@ -38,7 +36,15 @@ public class SpringSecurityConfig {
 	@Order(1)
 	public static class UserSecurityConfing {
 		
-	 	private final SiteAuthenticationProvider siteAuthenticationProvider;
+		@Bean
+		public SiteUnAuthenticationEntryPoint siteUnAuthenticationEntryPoint() {
+			return new SiteUnAuthenticationEntryPoint();
+		}
+		
+		@Bean
+		public SiteAccessDeniedHandler siteAccessDeniedHandler() {
+			return new SiteAccessDeniedHandler();
+		}
 		
 		// 인증(authentication)이 필요한 접근과 인증이 불필요한 접근 설정
 		// 접근 허가에 필요한 권한 설정
@@ -51,10 +57,16 @@ public class SpringSecurityConfig {
 				).authorizeRequests((authorizeRequests) -> 
 				authorizeRequests
 					.antMatchers(SITE_AUTHENTICATED_PATTERN).authenticated()
-					.antMatchers(SITE_AUTHENTICATED_PATTERN).hasAnyAuthority("USER")					
+					.antMatchers(SITE_AUTHENTICATED_PATTERN).hasAuthority("USER")					
 				).authorizeRequests((authorizeRequests) -> 
 				authorizeRequests
 					.antMatchers(SECURITY_EXCLUDE_PATTERN).permitAll()
+				)
+				.exceptionHandling(exceptionHandling -> 
+				exceptionHandling
+					.authenticationEntryPoint(siteUnAuthenticationEntryPoint())
+					.accessDeniedHandler(siteAccessDeniedHandler())
+					.accessDeniedPage("/error/redirect")
 				)
 				/*
 				.formLogin((formLogin) -> 
@@ -78,13 +90,6 @@ public class SpringSecurityConfig {
  				);
 			
 			return http.build();
-		}
-		
-		@Autowired
-		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			auth.authenticationProvider(siteAuthenticationProvider)
-				.inMemoryAuthentication()
-					.withUser(User.withUsername("id").password("pwd").roles("USER"));
 		}
 		
 	}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link href="/css/site/common.css" rel="stylesheet" type="text/css">
+	<link href="/css/site/site.css" rel="stylesheet" type="text/css">
+	<link rel="shortcut icon" href="#">
+</head>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+});
+
+const initPage = function() {
+	let path = window.location.pathname;
+	guideProc(path);
+};
+
+const setDefault = function() {
+
+};
+
+function guideProc(path) {
+	fetch(path, {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+	})
+	.then(response => response.json())
+	.then((data) => {
+		switch(path) {
+		    case '/site/error/un-authen':
+				alert(data.msg);
+				location.href = "/site/sign/in";
+		        break;
+		    case '/site/error/deny':
+				alert(data.msg);
+				location.href = "/";
+		        break;
+		    default:
+		        console.log(path);
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+}
+</script>
+<body>
+	<div id="wrap">
+		<header id="head">
+			<div class="sect-1">
+				<div class="grid"></div>
+				<div class="grid">
+					<h1 class="logo"><a href="/">logo</a></h1>
+				</div>
+			</div>
+			<div class="sect-2">
+				<div class="menu-bar"></div>
+			</div>
+		</header>
+		<div id="contents">
+
+		</div>
+		<footer id="footer">
+			<h1 class="logo">logo</h1>
+			<span>프로젝트에 사용한 컨텐츠 라이선스 표기</span>
+		</footer>
+	</div>
+</body>
+</html>
