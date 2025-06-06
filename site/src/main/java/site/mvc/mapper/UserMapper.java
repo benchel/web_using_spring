@@ -12,4 +12,5 @@ public interface UserMapper {
 	public int checkOverlap(UserDTO dto) throws Exception;
 	public int insert(UserDTO dto) throws Exception;
 	public UserVO searchUserById(String id) throws Exception;
+	public int update(UserDTO dto) throws Exception;
 }

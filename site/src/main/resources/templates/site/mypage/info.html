@@ -6,28 +6,82 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	initPage();
-	setDefault();
 	registEvent();
 });
 
-const initPage = function() {
-	
-};
-
-const setDefault = function() {
-
-};
-
 const registEvent = function() {
+	// 수정 버튼에 이벤트 등록
 	let btn_modif = document.querySelector('.btn-modif');
 	btn_modif.addEventListener('click', () => {
 		if(confirm("변경 사항을 적용하시겠습니까?")){
-			alert("정상적으로 제출되었습니다.");
+			modify_info();
 		}
 	});
+	
+	// 연락처 입력란에 이벤트 등록
+	let inp_contact = document.querySelector('input[id="contact"]');
+	inp_contact.addEventListener('keyup', limit_leng);
+	
+	// 이메일 주소 목록에 이벤트 등록
+	let em_list = document.querySelector('.em_list');
+	em_list.addEventListener('change', select_mirror);	
 };
 
+//연락처 길이 제한
+function limit_leng(e) {
+	let val = e.target.value;
+	if(val.length > 11) {
+		e.target.value = val.substring(0, 11);
+	}
+};
+
+// select 태그에서 선택한 값을 input의 value에 반영
+function select_mirror(e) {
+	let val = e.target.value;
+	let email_addr = document.querySelector('input[id="email_addr"]');
+	
+	if(val == '직접입력') {
+		email_addr.value = '';
+		email_addr.style.visibility = 'visible';
+	} else {
+		email_addr.value = val;
+		email_addr.style.visibility = 'hidden';
+	}
+};
+
+function modify_info() {
+
+	let csrf_header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+	let csrf_token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+               
+	let email = document.querySelector('input[id="email"]');
+	let email_addr = document.querySelector('input[id="email_addr"]');
+	       
+	let formData = {
+		'id'	: document.querySelector('input[name="id"]').value,
+		'email'	: email.value + '@' + email_addr.value,
+		'contact'	: document.querySelector('input[name="contact"]').value,
+	};
+	
+	fetch('/site/mypage/modif/info', {
+		'method' : 'POST',
+		headers : {
+			'Content-Type' : 'application/json',
+			csrf_header : csrf_token
+		}, body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.result) {
+			alert(data.msg);
+			location.reload(true);
+		}
+	})
+	.catch((error) => {
+		alert("변경사항을 적용 실패");
+		console.log(error);
+	});
+};
 
 </script>
 </th:block>
@@ -53,20 +107,31 @@ const registEvent = function() {
 						<th>아이디</th>
 						<td>
 							<span th:text="${session.principal.id}"></span>
+							<input type="hidden" name="id" th:value="${session.principal.id}">
 						</td>
 						<th>이름</th>
 						<td>
-							<input type="text" name="name" th:value="${session.principal.name}">
+							<span th:text="${session.principal.name}"></span>
 						</td>
 					</tr>
 					<tr>
 						<th>이메일</th>
 						<td>
-							<input type="text" name="email" th:value="${session.principal.email}">
+	                        <input type="text" id="email" name="email" 
+	                        th:value="${#strings.substringBefore(user.email, '@')}">
+	                        @
+	                        <select name="em-list" class="em_list">
+	                        	<option>직접입력</option>
+	                            <option value="naver.com">naver.com</option>
+	                            <option value="nate.com">nate.com</option>
+	                            <option value="google.com">google.com</option>
+	                        </select>
+	                        <input type="text" id="email_addr" name="email_addr"
+	                        th:value="${#strings.substringAfter(user.email, '@')}">							
 						</td>
 						<th>연락처</th>
 						<td>
-							<input type="text" name="email" th:value="${session.principal.contact}">
+							<input type="number" id="contact" name="contact" th:value="${user.contact}" placeholder="-를 제외하고 입력">
 						</td>
 					</tr>
 					<tr>

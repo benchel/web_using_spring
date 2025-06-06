@@ -207,4 +207,20 @@ public class UserService {
 		return rs;
 	}
 	
+	
+	/**
+	 * 회원정보 수정
+	 * @param userDTO
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public Map<String, Object> modify(UserDTO userDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		userMapper.update(userDTO);
+		rs.put("result", true);
+		rs.put("msg", "변경사항이 적용되었습니다.");		
+		return rs;
+	}
 }

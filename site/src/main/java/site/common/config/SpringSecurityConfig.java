@@ -27,7 +27,7 @@ public class SpringSecurityConfig {
 	};
 	
 	public static final String[] SITE_AUTHENTICATED_PATTERN = {
-		"/site/mypage/**", "/board/reg"
+		"/site/mypage/*", "/board/reg"
 	};
 	
 	// 웹사이트 사용자의 접근과 권한 정의

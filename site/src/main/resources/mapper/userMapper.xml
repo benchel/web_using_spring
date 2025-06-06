@@ -17,4 +17,11 @@
 	VALUES(#{id}, #{pwd}, #{name}, #{email}, #{contact}, now())
   </insert>
   
+  <update id="update" parameterType="site.mvc.dto.UserDTO">
+  	UPDATE user 
+  	SET email=#{email}
+  	, contact=#{contact}
+  	WHERE id = #{id}
+  </update>
+  
 </mapper>
