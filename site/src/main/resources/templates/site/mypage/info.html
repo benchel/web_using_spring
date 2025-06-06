@@ -3,41 +3,82 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/site_layout}">
 <head></head>
+<th:block layout:fragment="script">
 <script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+	registEvent();
+});
+
+const initPage = function() {
+	
+};
+
+const setDefault = function() {
+
+};
+
+const registEvent = function() {
+	let btn_modif = document.querySelector('.btn-modif');
+	btn_modif.addEventListener('click', () => {
+		if(confirm("변경 사항을 적용하시겠습니까?")){
+			alert("정상적으로 제출되었습니다.");
+		}
+	});
+};
+
 
 </script>
+</th:block>
 <th:block layout:fragment="contents">
 	<div id="contents">
 		<div class="guideline">
 			<span>마이페이지</span>
 			<span>&gt;</span>
-			<span>내정보</span>
+			<span><a href="/site/mypage/info">내정보</a></span>
 		</div>
-	
-		<table id="tbl">
-			<colgroup>
-				<col></col>
-				<col width="60%"></col>
-				<col></col>
-				<col></col>
-				<col></col>
-			</colgroup>
-			<thead>
-				<tr>
-					<th>번호</th>
-					<th>-</th>
-					<th>-</th>
-					<th>-</th>
-					<th>-</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><span th:text="${session.principal.name}"></span></td>
-				</tr>
-			</tbody>			
-		</table>
-	
+
+		<div class="tbl-area">
+			<table id="tbl-1">
+				<colgroup>
+					<col></col>
+					<col></col>
+					<col></col>
+					<col></col>
+					<col></col>
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>아이디</th>
+						<td>
+							<span th:text="${session.principal.id}"></span>
+						</td>
+						<th>이름</th>
+						<td>
+							<input type="text" name="name" th:value="${session.principal.name}">
+						</td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td>
+							<input type="text" name="email" th:value="${session.principal.email}">
+						</td>
+						<th>연락처</th>
+						<td>
+							<input type="text" name="email" th:value="${session.principal.contact}">
+						</td>
+					</tr>
+					<tr>
+						<th>가입일</th>
+						<td colspan="3"><span th:text="${session.principal.jDate}"></span></td>
+					</tr>
+				</tbody>			
+			</table>
+		</div>
+		<div class="btn-area">
+			<button class="btn-modif ft-sz12 btn-sz-b">수정하기</button>
+		</div>
 	</div>
 </th:block>
 </html>

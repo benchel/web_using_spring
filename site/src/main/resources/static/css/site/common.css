@@ -32,3 +32,5 @@ a{text-decoration-line: none; color: inherit;}
 
 .mask{position:absolute; display:none; justify-content: center; background-color: #fff; opacity : 0.5; z-index: 100; width: 100%; min-height: 100vh;}
 .loading{object-fit: none;}
+
+.ft-sz12{font-size: 12pt;}
