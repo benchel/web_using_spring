@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/site_layout}">
+<head>
+</head>
+<th:block layout:fragment="script">
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	setDefault();
+	registEvent();
+});
+
+const setDefault = function() {
+	proc_set_up();
+};
+
+const registEvent = function() {
+
+};
+
+</script>
+</th:block>
+<th:block layout:fragment="contents">
+
+	<div id="contents">
+	
+		<div class="guideline">
+			<span><a href="/">HOME</a></span>
+			<span>&gt;</span>
+			<span><a href="/site/board/list">게시판</a></span>
+			<span>&gt;</span>
+			<span>등록</span>
+		</div>
+	
+		<div class="board-area">
+			<div class="preface">
+				<p>
+					<span class="label-b">제목</span>
+					<input tpye="text" name="title" value="">
+				</p>
+				<p>
+					<span class="label-b">작성자</span><span th:text="${session.principal.id}"></span>
+				</p>
+				<span>
+					<span class="label-b">첨부파일</span>
+					<input type="file" name="file">
+					<section class="att_file_lst">
+					</section>
+				</p>				
+			</div>
+			<div class="letterpress">
+				<textarea name="content"></textarea>
+		
+			</div>
+		</div>
+		<div class="btn-group">
+			<button class="btn-list"><a href="/board/list">목록</button>
+			<button class="btn_positive btn-reg">등록</button>
+		</div>
+		
+	</div>
+
+</th:block>
+</html>

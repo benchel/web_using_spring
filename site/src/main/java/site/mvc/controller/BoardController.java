@@ -17,4 +17,9 @@ public class BoardController {
 	public String view() throws Exception {
 		return "site/board/view";
 	}
+	
+	@GetMapping("/reg")
+	public String reg() throws Exception {
+		return "site/board/reg";
+	}
 }
