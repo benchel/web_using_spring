@@ -42,9 +42,11 @@ const registEvent = function() {
 				<p>
 					<span class="label-b">작성자</span><span th:text="${session.principal.id}"></span>
 				</p>
-				<span>
 					<span class="label-b">첨부파일</span>
-					<input type="file" name="file">
+					<form id="att-file-form" method="POST" enctype="multipart/form-data">
+						<input type="file" name="file">
+						<input type="hidden" name="category" value="board">
+					</form>
 					<section class="att_file_lst">
 					</section>
 				</p>				

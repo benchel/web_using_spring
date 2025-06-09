@@ -89,6 +89,7 @@ outline-color: #ddd; outline-style: initial;}
 
 
 /*첨부파일*/
+#att-file-form{display: inline-flex;}
 .att_file_lst{margin-top: 3px; display: none;}
 .att_file_lst span{margin-right: 3px;}
 

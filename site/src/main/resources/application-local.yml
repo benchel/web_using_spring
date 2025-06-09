@@ -29,6 +29,11 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+            
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
@@ -38,7 +43,9 @@ server:
 logging:
   config: classpath:log4j2-config.xml      
 log:
-  path: C:\dev\using_spring\log
+  path: C:\dev\using_spring\log\
 mail:
   addr: ENC(JK6YzbX76xC+2taysLS4QTLCrrI45pbSEyvxqqMh+58LFM5a1Yhtd2tzEYsfIcbJ4nI64SwztLTs+4kKCwYEzQ==)
   pwd: ENC(xfshyoX2mg1psKI9Q02gNGiDBDDg/h+/jDd9W5HYsB/qja99kIRIQ8yiU+WDkIepO6jxb/fiWvLeItOKBbeUzQ==)
+file:
+  path: C:\dev\using_spring\files\
