@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.mvc.mapper.AttachedFileMapper">
+	<select id="showdb" resultType="String">
+		show databases
+	</select>
+  
+	<insert id="insert" parameterType="site.mvc.dto.AttachedFileDTO">
+		INSERT INTO site_db.att_file
+		(parent, category, `key`, name, size, media_type)
+		VALUES(0, #{category}, #{key}, #{name}, #{size}, #{mediaType})	
+	</insert>
+	
+</mapper>
+<!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

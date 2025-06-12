@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.mvc.controller.service.AttachedFileService;
+import site.mvc.dto.AttachedFileDTO;
 
 /**
- * https://aljjabaegi.tistory.com/641
- * https://jddng.tistory.com/292
  * @author benchel
  *
  */
@@ -38,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AttachedFileController {
 
 	private final Environment env;
+	private final AttachedFileService attFileService;
 	
 	@PostMapping("/upload")
 	@ResponseBody
@@ -46,6 +46,9 @@ public class AttachedFileController {
 
 		String uploadPath = env.getProperty("file.path");
 		String category = request.getParameter("category");
+		
+		AttachedFileDTO fileDTO = new AttachedFileDTO();
+		fileDTO.setCategory(category);
 		
 		log.info("---- uploading ----");
 		log.info("---- category : " + category);
@@ -60,19 +63,24 @@ public class AttachedFileController {
 				log.info("name={}", part.getName());
 				
 				if(part.getName().equals("file")) {
-					uploader(part, uploadPath);
+					uploader(part, uploadPath, fileDTO);
+					attFileService.insert(fileDTO);
 				}
 			}
 			
+			result.put("file", fileDTO);
 			result.put("result", true);
 			result.put("msg", "업로드 성공");
 			
 		} catch (ServletException e) {
-			
+			e.printStackTrace();
+			result.put("result", false);
 		} catch (IOException e) {
-			
+			e.printStackTrace();
+			result.put("result", false);
 		} catch (Exception e) {
-			
+			e.printStackTrace();
+			result.put("result", false);
 		}
 		
 		return result;
@@ -100,30 +108,35 @@ public class AttachedFileController {
     	return file;
     }
     
-    private void uploader(Part part, String uploadPath) throws Exception {
+    private void uploader(Part part, String uploadPath, AttachedFileDTO fileDTO) throws Exception {
     	
 		String fileName = part.getHeader("content-disposition");
 		fileName = fileName.substring(fileName.lastIndexOf("=")+1);
 		fileName = fileName.replaceAll("\"", "");
 		
 		String contentType = part.getHeader("content-type");
+        String extension = fileName.substring(fileName.lastIndexOf('.'));
+        String fileKey = UUID.randomUUID().toString().toUpperCase() + extension;
+        
+        long size = part.getSize();	
+        String size_measure = "";
+        if(size < 1000000000) {
+        	size_measure = Long.toString((size / 1024) / 1024) + "MB";
+        } else if(size < 1000000) {
+        	size_measure = Long.toString((size / 1024)) + "KB";
+        } else if(size <= 1024) {
+        	size_measure = Long.toString(size) + "B";
+        }
+        
+		fileDTO.setMediaType(contentType);
+		fileDTO.setName(fileName);
+		fileDTO.setKey(fileKey);
+		fileDTO.setSize(size_measure);
 		
 		log.info("======= FILE ======");
 		log.info("file_name : " + fileName);
 		log.info("contentType : " + contentType);
-		
-		long size = part.getSize();
-		log.info("size={}", size);
-		
-		/*
-		Collection<String> headerNames = part.getHeaderNames();
-        for (String headerName : headerNames) {
-            log.info("headr {} : {}", headerName, part.getHeader(headerName));
-        }
-        */
-		
-        String extension = fileName.substring(fileName.lastIndexOf('.'));
-        String fileKey = UUID.randomUUID().toString().toUpperCase() + extension;
+		log.info("size={}", size_measure);        
         
         //데이터 읽기
         InputStream inStream = part.getInputStream();
@@ -139,6 +152,7 @@ public class AttachedFileController {
 
         outStream.close();
         inStream.close();
+        
     }
 
 	@PostMapping("/delete")

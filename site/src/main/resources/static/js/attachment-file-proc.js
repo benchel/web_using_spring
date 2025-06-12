@@ -7,9 +7,9 @@ function detect_changing_tag(e) {
 	upload_file(e);
 };
 
-function vision_file_list(e) {
-	let file_path = e.target.value;
-	let file_name = parsing_file_path(file_path);
+function vision_file_list(file, e) {
+	let file_name = file.name;
+	let file_key = file.key;
 	
 	// node 생성
 	let span_node = document.createElement('span');
@@ -19,15 +19,19 @@ function vision_file_list(e) {
 	// 파일 리스트 css 속성 변경(display)
 	let file_list = document.querySelector('.att_file_lst');
 	file_list.style.display = 'block';
+	
+	// 삭제버튼
+	let btn = '<button class="det_file" param="'+ file_key +'">삭제</button>';
+	
 	// 파일 리스트에 생성한 노드 삽입
 	file_list.appendChild(span_node);
-	file_list.insertAdjacentHTML('beforeend', '<button class="det_file">삭제</button>');
+	file_list.insertAdjacentHTML('beforeend', btn);
 	
 	// 파일 삭제 버튼에 삭제 이벤트 부착
 	let btn_det_file = document.querySelector('.det_file');
 	btn_det_file.addEventListener('click', detach_file_tag);
 	// input[type=file] 초기화
-	e.target.value = '';	
+	e.target.value = '';
 };
 
 function parsing_file_path(file_path) {
@@ -61,20 +65,20 @@ function upload_file(e) {
 	fetch('/file/upload', {
 		'method' : 'POST',
 		headers : {
-			//'Content-Type' : 'multipart/form-data'
-			//, 'Process-Data' : false
 			'enctype' : 'multipart/form-data'
-			//, 'cache' : false
-			//, timeout : 600000
 		},
 		body : form_data,
 	})
 	.then(response => response.json())
 	.then((data) => {
-	
+		if(data.result) {
+			vision_file_list(data.file, e);
+		} else {
+			alert("업로드에 실패하였습니다.\n 오류가 반복되면 관리자에게 신고하여 주십시오.");
+		}
 	})
 	.catch((error) => {
-		alert("데이터를 가지고 오는데 실패하였습니다.");
+		alert("업로드에 실패하였습니다.");
 		console.log(error);
 	});
 };
