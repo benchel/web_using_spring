@@ -18,6 +18,7 @@ import javax.servlet.http.Part;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -156,7 +157,33 @@ public class AttachedFileController {
     }
 
 	@PostMapping("/delete")
-	public void delete() {
+	@ResponseBody
+	public Map<String, Object> delete(@RequestBody AttachedFileDTO fileDTO) {
+		Map<String, Object> result = new HashMap<>();
 		
+		log.info("---- deleting ----");
+		
+		String path = env.getProperty("file.path");
+		
+		log.info("======= FILE ======");
+		log.info("file_key : " + fileDTO.getKey());
+		log.info("path : " + path);
+		log.info("category : " + fileDTO.getCategory());
+		
+		try {
+			
+			File file = this.getFile(fileDTO.getKey(), path);
+			file.delete();
+			
+			attFileService.delete(fileDTO);
+			
+			result.put("result", true);
+			result.put("msg", "삭제 성공");
+		} catch (Exception e) {
+			result.put("result", false);
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

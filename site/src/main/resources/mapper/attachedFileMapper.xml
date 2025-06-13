@@ -13,5 +13,10 @@
 		VALUES(0, #{category}, #{key}, #{name}, #{size}, #{mediaType})	
 	</insert>
 	
+	<delete id="delete" parameterType="site.mvc.dto.AttachedFileDTO">
+		DELETE FROM site_db.att_file
+		WHERE `key` = #{key} AND `category` = #{category}
+	</delete>
+	
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

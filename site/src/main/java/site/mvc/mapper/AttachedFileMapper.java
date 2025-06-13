@@ -11,4 +11,5 @@ import site.mvc.dto.AttachedFileDTO;
 public interface AttachedFileMapper {
 	public List<String> showdb() throws Exception;
 	public int insert(AttachedFileDTO fileDTO) throws Exception;
+	public int delete(AttachedFileDTO fileDTO) throws Exception;
 }

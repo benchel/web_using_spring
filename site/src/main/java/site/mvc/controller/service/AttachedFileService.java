@@ -18,4 +18,9 @@ public class AttachedFileService {
 		return attFileMapper.insert(fileDTO);
 	}
 	
+	@Transactional(readOnly = false)
+	public int delete(AttachedFileDTO fileDTO) throws Exception {
+		return attFileMapper.delete(fileDTO);
+	}
+	
 }

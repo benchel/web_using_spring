@@ -29,7 +29,7 @@ function vision_file_list(file, e) {
 	
 	// 파일 삭제 버튼에 삭제 이벤트 부착
 	let btn_det_file = document.querySelector('.det_file');
-	btn_det_file.addEventListener('click', detach_file_tag);
+	btn_det_file.addEventListener('click', delete_file);
 	// input[type=file] 초기화
 	e.target.value = '';
 };
@@ -83,6 +83,31 @@ function upload_file(e) {
 	});
 };
 
-function delete_file() {
+function delete_file(e) {
+	
+	let file_key = e.target.getAttribute('param');
+	let form_data = {
+		'key' : file_key
+		, 'category' : document.querySelector('input[name="category"]').value
+	};
+	
+	fetch('/file/delete', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.result) {
+			detach_file_tag(e);
+		} else {
+			alert("삭제에 실패하였습니다.\n 오류가 반복되면 관리자에게 신고하여 주십시오.");
+		}
+	})
+	.catch((error) => {
+		alert("삭제에 실패하였습니다.");
+		console.log(error);
+	});	
+	
 	
 };
