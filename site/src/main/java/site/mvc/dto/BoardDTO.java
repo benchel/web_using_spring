@@ -1,5 +1,7 @@
 package site.mvc.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,4 +19,6 @@ public class BoardDTO extends BaseDTO {
 	private String reg_date;
 	private String modif_date;
 	private int view;
+	
+	private List<AttachedFileDTO> list; 
 }

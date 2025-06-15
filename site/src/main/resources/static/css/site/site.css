@@ -93,7 +93,7 @@ outline-color: #ddd; outline-style: initial;}
 .att_file_lst{margin-top: 3px; display: none;}
 .att_file_lst span{margin-right: 3px;}
 
-.det_file{background-color: #c02323; color:white; border:none; border-radius: 3px;}
+[class*="det_file_"] {background-color: #c02323; color:white; border:none; border-radius: 3px;}
 
 .btn-sz-b{width: 20vh; height: 38px;}
 .btn-sz-m{width: 10vh; height: 28px;}

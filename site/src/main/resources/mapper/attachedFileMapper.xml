@@ -18,5 +18,11 @@
 		WHERE `key` = #{key} AND `category` = #{category}
 	</delete>
 	
+	<update id="update" parameterType="site.mvc.dto.AttachedFileDTO">
+		update site_db.att_file
+		set parent = #{parent}
+		where `key` = #{key} and `category` = #{category}	
+	</update>
+	
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

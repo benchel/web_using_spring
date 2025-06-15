@@ -20,15 +20,20 @@ function vision_file_list(file, e) {
 	let file_list = document.querySelector('.att_file_lst');
 	file_list.style.display = 'block';
 	
+	// 파일 리스트에서 몇번째 파일인지 확인
+	let file_vol = document.querySelectorAll('.att_file_lst span');
+	if(file_vol == null) file_vol = 0 
+	else file_vol = file_vol.length;
+	
 	// 삭제버튼
-	let btn = '<button class="det_file" param="'+ file_key +'">삭제</button>';
+	let btn = '<button class="det_file_'+ file_vol +'" param="'+ file_key +'">삭제</button>';
 	
 	// 파일 리스트에 생성한 노드 삽입
 	file_list.appendChild(span_node);
 	file_list.insertAdjacentHTML('beforeend', btn);
 	
 	// 파일 삭제 버튼에 삭제 이벤트 부착
-	let btn_det_file = document.querySelector('.det_file');
+	let btn_det_file = document.querySelector('.det_file_'+ file_vol);
 	btn_det_file.addEventListener('click', delete_file);
 	// input[type=file] 초기화
 	e.target.value = '';
@@ -109,5 +114,29 @@ function delete_file(e) {
 		console.log(error);
 	});	
 	
+};
+
+function getFileList() {
+	let category = document.querySelector('input[name="category"]').value;
 	
+	let buttons = document.querySelectorAll('.att_file_lst button');
+	let spans = document.querySelectorAll('.att_file_lst span');
+	
+	if(buttons == null) return;
+	
+	let file_lst_leng = buttons.length;
+	let file_lst = new Array(file_lst_leng);
+	
+	for(i = 0; i < file_lst_leng; i++) {
+		let file = {'key' : null, 'name' : null };
+		let key = buttons[i].getAttribute('param');
+		let name = spans[i].innerText;
+		file['key'] = key;
+		file['name'] = name;
+		file['category'] = category;
+		file_lst[i] = file;
+		console.log(file);
+	}
+	
+	return file_lst;
 };

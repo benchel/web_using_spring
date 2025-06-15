@@ -22,5 +22,9 @@ public class AttachedFileService {
 	public int delete(AttachedFileDTO fileDTO) throws Exception {
 		return attFileMapper.delete(fileDTO);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public int update(AttachedFileDTO fileDTO) throws Exception {
+		return attFileMapper.update(fileDTO);
+	}
 }

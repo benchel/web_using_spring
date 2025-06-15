@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.mvc.mapper.BoardMapper">
+
+	<select id="list" parameterType="site.mvc.dto.BoardDTO" resultType="site.mvc.vo.BoardVO">
+		SLECT * FROM board
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.BoardDTO" >
+		INSERT INTO board(title, writer, content, reg_date, modif_date, `view`)
+		VALUES(#{title}, #{writer}, #{content}, NOW(), NOW(), 0)
+	</insert>
+	
+</mapper>
+<!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

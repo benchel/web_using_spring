@@ -3,6 +3,10 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/site_layout}">
 <head>
+
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
 </head>
 <th:block layout:fragment="script">
 <script type="text/javascript">
@@ -16,9 +20,42 @@ const setDefault = function() {
 };
 
 const registEvent = function() {
-
+	let btn_reg = document.querySelector('.btn-reg');
+	btn_reg.addEventListener('click', reg_proc);
 };
 
+function reg_proc() {
+	
+	let csrf_header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
+	let csrf_token = document.querySelector("meta[name='_csrf']").getAttribute("content");
+		
+	let file_lst = getFileList();
+	
+	let form_data = { 'list' : file_lst
+	, 'title' : document.querySelector('input[name="title"]').value
+	, 'writer' : document.querySelector('input[name="writer"]').value
+	, 'content' : document.querySelector('textarea[name="content"]').value};
+	
+	fetch('/board/add', {
+		'method' : 'POST',
+		headers : {
+			'Content-Type' : 'application/json'
+			, csrf_header : csrf_token
+		},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+			alert(data.msg);
+			location.href = '/board/list';	
+	})
+	.catch((error) => {
+		alert("삭제에 실패하였습니다.");
+		console.log(error);
+	});	
+		
+	console.log(form_data);
+};
 </script>
 </th:block>
 <th:block layout:fragment="contents">
@@ -40,7 +77,9 @@ const registEvent = function() {
 					<input tpye="text" name="title" value="">
 				</p>
 				<p>
-					<span class="label-b">작성자</span><span th:text="${session.principal.id}"></span>
+					<span class="label-b">작성자</span>
+					<span th:text="${session.principal.id}"></span>
+					<input type="hidden" name="writer" th:value="${session.principal.id}">
 				</p>
 					<span class="label-b">첨부파일</span>
 					<form id="att-file-form" method="POST" enctype="multipart/form-data">
@@ -57,7 +96,7 @@ const registEvent = function() {
 			</div>
 		</div>
 		<div class="btn-group">
-			<button class="btn-list"><a href="/board/list">목록</button>
+			<button class="btn-list"><a href="/board/list">목록</a></button>
 			<button class="btn_positive btn-reg">등록</button>
 		</div>
 		
