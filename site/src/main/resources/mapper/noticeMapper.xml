@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.mvc.mapper.NoticeMapper">
 
-  <select id="count" parameterType="site.mvc.dto.NoticeDTO" resultType="int">
+  <select id="count" parameterType="site.mvc.dto.NoticeDTO" resultType="integer">
 	SELECT count(*) FROM notice
   </select>
   
