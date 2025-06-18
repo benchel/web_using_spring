@@ -4,8 +4,29 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.mvc.mapper.BoardMapper">
 
+	<select id="count" parameterType="site.mvc.dto.BoardDTO" resultType="integer">
+		select count(idx) from board
+	</select>
+	
 	<select id="list" parameterType="site.mvc.dto.BoardDTO" resultType="site.mvc.vo.BoardVO">
-		SLECT * FROM board
+		SELECT idx
+			, ROW_NUMBER() OVER (ORDER BY idx ) as seq
+			, title
+			, writer
+			, content 
+			, DATE_FORMAT(reg_date, '%Y-%m-%d') as reg_date
+			, view
+		FROM board
+		LIMIT #{pageBlock} OFFSET #{pageOffset}
+	</select>
+	
+	<select id="get" parameterType="site.mvc.dto.BoardDTO" resultType="site.mvc.vo.BoardVO">
+		SELECT bd.idx, bd.title, bd.writer, bd.content
+		, DATE_FORMAT(bd.reg_date, '%Y-%m-%d %T') as reg_date
+		, DATE_FORMAT(bd.modif_date, '%Y-%m-%d %T') as modif_date
+		, bd.`view`
+		FROM board bd
+		where bd.idx = #{idx}
 	</select>
 	
 	<insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.BoardDTO" >

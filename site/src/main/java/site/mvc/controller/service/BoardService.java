@@ -1,15 +1,18 @@
 package site.mvc.controller.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
+import site.common.utill.Paging;
 import site.mvc.dto.AttachedFileDTO;
 import site.mvc.dto.BoardDTO;
 import site.mvc.mapper.BoardMapper;
+import site.mvc.vo.BoardVO;
 
 @Service
 @AllArgsConstructor
@@ -37,4 +40,38 @@ public class BoardService {
 		result.put("msg", "게시글 등록 완료");
 		return result;
 	}
+	
+	@Transactional(readOnly = true)
+	public Map<String, Object> list(BoardDTO boardDTO) throws Exception {
+		Map<String, Object> result = new HashMap<>();
+
+		int pageNo = boardDTO.getPageNo() == 0 ? 1 : boardDTO.getPageNo();
+		int pageSize = boardDTO.getPageSize() == 0 ? 10 : boardDTO.getPageSize();
+		int pageBlock = boardDTO.getPageBlock() == 0 ? 10 : boardDTO.getPageBlock();
+		boardDTO.setPageNo(pageNo);
+		boardDTO.setPageSize(pageSize);
+		boardDTO.setPageBlock(pageBlock);
+		boardDTO.setPageOffset(Paging.getPageOffset(pageNo, pageSize));
+		
+		List<BoardVO> list = boardMapper.list(boardDTO);
+		
+		if(pageNo != 1 && list.size() == 0) {
+			pageNo = 1;
+			boardDTO.setPageNo(pageNo);
+			boardDTO.setPageOffset(Paging.getPageOffset(pageNo, pageSize));
+			result.put("list", boardMapper.list(boardDTO));
+		}
+		
+		int totalCount = boardMapper.count(boardDTO);		
+		int totalPageNo = Paging.getTotalPageNo(totalCount, pageSize);
+		String pagingHTML = Paging.getPagingHTML(totalCount, pageNo, pageSize, pageBlock);
+				
+		result.put("list", list);
+		result.put("totalCount", totalCount);
+		result.put("totalPageNo", totalPageNo);
+		result.put("pagingHTML", pagingHTML);
+		
+		return result;
+	}
+	
 }

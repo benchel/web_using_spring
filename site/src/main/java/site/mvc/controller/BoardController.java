@@ -25,6 +25,12 @@ public class BoardController {
 		return "site/board/list";
 	}
 	
+	@PostMapping("/list")
+	@ResponseBody
+	public ResponseEntity<?> list(@RequestBody BoardDTO boardDTO) throws Exception {
+		return new ResponseEntity<>(boardService.list(boardDTO), HttpStatus.OK);
+	}
+	
 	@GetMapping("/view")
 	public String viewHTML() throws Exception {
 		return "site/board/view";

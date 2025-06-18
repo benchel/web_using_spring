@@ -14,7 +14,7 @@ public class BoardVO {
 	private String title;
 	private String writer;
 	private String content;
-	private String reg_date;
-	private String modif_date;
+	private String regDate;
+	private String modifDate;
 	private int view;
 }

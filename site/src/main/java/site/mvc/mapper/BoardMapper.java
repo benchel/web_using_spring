@@ -10,6 +10,8 @@ import site.mvc.vo.BoardVO;
 @DBMapper
 @Repository
 public interface BoardMapper {
-	public List<BoardVO> list() throws Exception;
+	public int count(BoardDTO boardDTO) throws Exception;
+	public List<BoardVO> list(BoardDTO boardDTO) throws Exception;
+	public BoardVO get(BoardDTO boardDTO) throws Exception;
 	public int insert(BoardDTO boardDTO) throws Exception;
 }
