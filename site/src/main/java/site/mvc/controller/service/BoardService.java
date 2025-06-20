@@ -74,4 +74,9 @@ public class BoardService {
 		return result;
 	}
 	
+	@Transactional(readOnly = true)
+	public BoardVO getBoard(BoardDTO boardDTO) throws Exception {
+		return boardMapper.get(boardDTO);
+	}
+	
 }

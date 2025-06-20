@@ -3,6 +3,28 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/site_layout}">
 <head></head>
+<th:block layout:fragment="script">
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+	registEvent();
+});
+
+const initPage = function() {
+
+};
+
+const setDefault = function() {
+
+};
+
+const registEvent = function() {
+
+};
+
+</script>
+</th:block>
 <th:block layout:fragment="contents">
 
 	<div id="contents">
@@ -17,20 +39,20 @@
 	
 		<div class="preface">
 			<p>
-				<span class="label-b">번호</span><span>1</span>
-				<span class="label-b">제목</span><span>공지사항입니다.</span>
+				<span class="label-b">번호</span><span th:text="${board.seq}"></span>
+				<input type="hidden" name="idx" th:value="${board.idx}">
+				<span class="label-b">제목</span><span th:text="${board.title}"></span>
 			</p>
 			<p>
-				<span class="label-b">작성자</span><span>관리자</span>
-				<span class="label-b">등록일</span><span>2024.06.27</span>
-				<span class="label-b">조회수</span><span>11</span>
+				<span class="label-b">작성자</span><span th:text="${board.writer}"></span>
+				<span class="label-b">등록일</span><span th:text="${board.regDate}"></span>
+				<span class="label-b">조회수</span><span th:text="${board.view}"></span>
 			</p>
-			<p>
+			<p th:each="file : ${files}">
 				<span class="label-b">첨부파일</span>
-				<span>file1</span>
-				<span>file2</span>
-				<span>file3</span>
-			</p>				
+				<span class="fnm" th:text="${file.name}"></span>
+				<input type="hidden" name="key" th:value="${file.name}">
+			</p>
 		</div>
 		<div class="letterpress">
 			

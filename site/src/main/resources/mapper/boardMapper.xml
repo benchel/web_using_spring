@@ -21,12 +21,13 @@
 	</select>
 	
 	<select id="get" parameterType="site.mvc.dto.BoardDTO" resultType="site.mvc.vo.BoardVO">
-		SELECT bd.idx, bd.title, bd.writer, bd.content
-		, DATE_FORMAT(bd.reg_date, '%Y-%m-%d %T') as reg_date
-		, DATE_FORMAT(bd.modif_date, '%Y-%m-%d %T') as modif_date
-		, bd.`view`
-		FROM board bd
-		where bd.idx = #{idx}
+		SELECT ROW_NUMBER() OVER (ORDER BY idx) as seq
+		, idx, title, writer, content
+		, DATE_FORMAT(reg_date, '%Y-%m-%d %T') as reg_date
+		, DATE_FORMAT(modif_date, '%Y-%m-%d %T') as modif_date
+		, `view`
+		FROM board 
+		where idx = #{idx}
 	</select>
 	
 	<insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.BoardDTO" >

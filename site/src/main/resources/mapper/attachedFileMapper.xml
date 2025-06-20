@@ -3,8 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="site.mvc.mapper.AttachedFileMapper">
-	<select id="showdb" resultType="String">
-		show databases
+	
+	<select id="list" parameterType="site.mvc.dto.AttachedFileDTO" resultType="site.mvc.vo.AttachedFileVO">
+		SELECT * FROM att_file WHERE parent = #{parent} AND category = #{category}
 	</select>
   
 	<insert id="insert" parameterType="site.mvc.dto.AttachedFileDTO">

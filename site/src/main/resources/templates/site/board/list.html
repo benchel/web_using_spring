@@ -50,7 +50,7 @@ function getList() {
 		for(row of list) {
 			html += '<tr>';
 			html += '	<td>' + (row.idx) + '</td>';
-			html += '	<td><span data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
+			html += '	<td><span class="view" data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
 			html += '	<td>' + (row.writer) + '</td>';
 			html += '	<td>' + (row.regDate) + '</td>';
 			html += '	<td>' + (row.view) + '</td>';
@@ -61,7 +61,7 @@ function getList() {
 		document.querySelector('.pagination').innerHTML= data.pagingHTML;
 
 		pagingFunc();
-		viewFunc();		
+		viewFunc();
 	})
 	.catch((error) => {
 		alert("데이터를 가지고 오는데 실패하였습니다.");
@@ -69,7 +69,7 @@ function getList() {
 	});
 };
 
-const pagingFunc = function() {
+function pagingFunc() {
 	let pages = document.querySelectorAll('.pages .page');
 	
 	for(page of pages) {
@@ -86,7 +86,16 @@ const pagingFunc = function() {
 };
 
 const viewFunc = function() {
-	
+	let views = document.querySelectorAll('.view');
+	console.log(views);
+	for(view of views) {
+		view.addEventListener('click', goPage);
+	}
+};
+
+function goPage(e) {
+	let idx = e.target.getAttribute('data-idx');
+	location.href = '/board/view?idx='+idx;	
 };
 
 

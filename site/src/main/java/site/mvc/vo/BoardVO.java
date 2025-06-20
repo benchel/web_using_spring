@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class BoardVO {
+	private String seq;
 	private int idx;
 	private String title;
 	private String writer;
