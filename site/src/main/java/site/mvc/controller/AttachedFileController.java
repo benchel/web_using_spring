@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,8 +43,7 @@ public class AttachedFileController {
 	private final AttachedFileService attFileService;
 	
 	@PostMapping("/upload")
-	@ResponseBody
-	public Map<String, Object> upload_contr(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<?> upload_contr(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> result = new HashMap<>();
 
 		String uploadPath = env.getProperty("file.path");
@@ -72,19 +73,18 @@ public class AttachedFileController {
 			result.put("file", fileDTO);
 			result.put("result", true);
 			result.put("msg", "업로드 성공");
+			return new ResponseEntity<>(result, HttpStatus.OK);
 			
 		} catch (ServletException e) {
-			e.printStackTrace();
-			result.put("result", false);
+			result.put("message", "서버 에러 \n 오류가 반복되면 관리자에게 문의하십시오.");
+			return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (IOException e) {
-			e.printStackTrace();
-			result.put("result", false);
+			result.put("message", "입출력 오류 \n 오류가 반복되면 관리자에게 문의하십시오.");
+			return new ResponseEntity<>(result, HttpStatus.BAD_GATEWAY);
 		} catch (Exception e) {
-			e.printStackTrace();
-			result.put("result", false);
+			result.put("message", e.getMessage());
+			return new ResponseEntity<>(result, HttpStatus.BAD_GATEWAY);
 		}
-		
-		return result;
 	}
 	
 	/**
@@ -119,13 +119,14 @@ public class AttachedFileController {
         String extension = fileName.substring(fileName.lastIndexOf('.'));
         String fileKey = UUID.randomUUID().toString().toUpperCase() + extension;
         
-        long size = part.getSize();	
+        long size = part.getSize();
         String size_measure = "";
-        if(size < 1000000000) {
+        
+        if(1048576 < size & size < 10485760) {
         	size_measure = Long.toString((size / 1024) / 1024) + "MB";
-        } else if(size < 1000000) {
+        } else if(1024 < size & size < 1048576) {
         	size_measure = Long.toString((size / 1024)) + "KB";
-        } else if(size <= 1024) {
+        } else if(size < 1024) {
         	size_measure = Long.toString(size) + "B";
         }
         
@@ -153,7 +154,6 @@ public class AttachedFileController {
 
         outStream.close();
         inStream.close();
-        
     }
 
 	@PostMapping("/delete")

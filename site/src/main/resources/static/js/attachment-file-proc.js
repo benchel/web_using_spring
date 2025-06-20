@@ -79,11 +79,13 @@ function upload_file(e) {
 		if(data.result) {
 			vision_file_list(data.file, e);
 		} else {
-			alert("업로드에 실패하였습니다.\n 오류가 반복되면 관리자에게 신고하여 주십시오.");
+			if(data.message != '') {
+				alert(data.message);
+				e.target.value = '';
+			}
 		}
 	})
 	.catch((error) => {
-		alert("업로드에 실패하였습니다.");
 		console.log(error);
 	});
 };
