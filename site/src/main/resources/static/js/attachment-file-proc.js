@@ -1,10 +1,6 @@
 function proc_set_up() {
 	let input_file_tag = document.querySelector('input[type=file]');
-	input_file_tag.addEventListener('change', detect_changing_tag);
-};
-
-function detect_changing_tag(e) {
-	upload_file(e);
+	input_file_tag.addEventListener('change', upload_file);
 };
 
 function vision_file_list(file, e) {
@@ -137,8 +133,56 @@ function getFileList() {
 		file['name'] = name;
 		file['category'] = category;
 		file_lst[i] = file;
-		console.log(file);
 	}
 	
 	return file_lst;
+};
+
+
+function adhere_to_download_e() {
+	let file_names = document.querySelectorAll('span[class="fnm"]');
+	for(let file_name of file_names) {
+		file_name.addEventListener('click', download_file);
+	}
+}
+
+function download_file(e) {
+	let file_name = e.target.innerText;
+	let file_key = e.target.nextElementSibling.value;
+	
+	let form_data = {
+		'key' : file_key
+		, 'name' : file_name
+	};
+	
+	fetch('/file/down', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then((response) => {
+		if(!response.ok) {
+			throw Error(response);
+		}
+	    // Content-Disposition 헤더에서 파일명 추출
+	    const contentDisposition = response.headers.get('Content-Disposition');
+	    const fileNameRegex = /filename="?([^"]+)"?/i;
+	    const matches = fileNameRegex.exec(contentDisposition);
+	    file_name = matches && matches[1];
+	    file_name = decodeURI(file_name);
+    	return response.blob();		
+	})
+	.then((blob) => {
+	    const url = window.URL.createObjectURL(blob);
+	    const link = document.createElement('a');
+	    link.href = url;
+	    link.setAttribute('download', file_name || 'download.bin'); // 파일명이 없을 경우 기본값 설정
+	    document.body.appendChild(link);
+	    link.click();
+	    window.URL.revokeObjectURL(url);
+	})
+	.catch((error) => {
+		alert("파일 다운로드에 실패하였습니다.");
+		console.log(error);
+	});	
 };

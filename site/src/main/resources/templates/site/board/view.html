@@ -6,17 +6,12 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	initPage();
 	setDefault();
 	registEvent();
 });
 
-const initPage = function() {
-
-};
-
 const setDefault = function() {
-
+	adhere_to_download_e();
 };
 
 const registEvent = function() {
@@ -41,6 +36,7 @@ const registEvent = function() {
 			<p>
 				<span class="label-b">번호</span><span th:text="${board.seq}"></span>
 				<input type="hidden" name="idx" th:value="${board.idx}">
+				<input type="hidden" name="category" value="board">
 				<span class="label-b">제목</span><span th:text="${board.title}"></span>
 			</p>
 			<p>
@@ -51,7 +47,7 @@ const registEvent = function() {
 			<p th:each="file : ${files}">
 				<span class="label-b">첨부파일</span>
 				<span class="fnm" th:text="${file.name}"></span>
-				<input type="hidden" name="key" th:value="${file.name}">
+				<input type="hidden" name="key" th:value="${file.key}">
 			</p>
 		</div>
 		<div class="letterpress">

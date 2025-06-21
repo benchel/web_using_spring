@@ -1,16 +1,21 @@
 package site.mvc.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
@@ -44,6 +49,9 @@ public class AttachedFileController {
 	
 	@PostMapping("/upload")
 	public ResponseEntity<?> upload_contr(HttpServletRequest request, HttpServletResponse response) {
+		
+		log.info("---- uploading ----");
+		
 		Map<String, Object> result = new HashMap<>();
 
 		String uploadPath = env.getProperty("file.path");
@@ -52,7 +60,6 @@ public class AttachedFileController {
 		AttachedFileDTO fileDTO = new AttachedFileDTO();
 		fileDTO.setCategory(category);
 		
-		log.info("---- uploading ----");
 		log.info("---- category : " + category);
 		log.info("---- uploading path : " + uploadPath);
 		
@@ -159,9 +166,10 @@ public class AttachedFileController {
 	@PostMapping("/delete")
 	@ResponseBody
 	public Map<String, Object> delete(@RequestBody AttachedFileDTO fileDTO) {
-		Map<String, Object> result = new HashMap<>();
 		
 		log.info("---- deleting ----");
+		
+		Map<String, Object> result = new HashMap<>();
 		
 		String path = env.getProperty("file.path");
 		
@@ -181,9 +189,69 @@ public class AttachedFileController {
 			result.put("msg", "삭제 성공");
 		} catch (Exception e) {
 			result.put("result", false);
-			e.printStackTrace();
 		}
 		
 		return result;
 	}
+	
+	
+	@PostMapping("/down")
+	@ResponseBody
+	public void download(@RequestBody AttachedFileDTO fileDTO, HttpServletResponse response) throws Exception {
+		
+		log.info("---- downloading ----");
+		
+		String path = env.getProperty("file.path");
+		String key = fileDTO.getKey();
+		String name = fileDTO.getName();
+		
+		// 다운로드 대상을 파일객체로 생성
+		File file = this.getFile(key, path);
+
+		// HTTP 응답 데이터형식 지정
+		response.setContentType("application/octet-stream");
+		// HTTP 응답 헤더 설정
+		response.setHeader("Content-disposition", "attachment;filename=\""+this.encodingByBrowser(name));
+		ServletOutputStream servletOutputStream = response.getOutputStream();
+
+		try {
+			
+			byte readByte[] =  new byte[4096];
+			FileInputStream fileinputStream = new FileInputStream(file);
+			BufferedInputStream bufferedInputStream = new BufferedInputStream(fileinputStream);
+			
+			int i;
+			while((i = bufferedInputStream.read(readByte, 0, 4096)) != -1)
+				servletOutputStream.write(readByte, 0, i);
+			
+			bufferedInputStream.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		servletOutputStream.flush();
+		servletOutputStream.close();
+	}
+    
+	/**
+	 * 파일이름 인코딩
+	 * https://devdic.tistory.com/26
+	 * @param data
+	 * @return
+	 */
+    public String encodingByBrowser(String data) {
+        String rtn = null;
+        
+    	if(data.isEmpty()) 
+    		throw new NullPointerException();
+    	
+    	try {
+    		rtn = URLEncoder.encode(data, "UTF-8").replaceAll("\\+", "%20");
+
+    	} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+        return rtn;
+    }
 }
