@@ -15,7 +15,12 @@ const setDefault = function() {
 };
 
 const registEvent = function() {
+	let btn_go_list = document.querySelector('.btn-list');
+	btn_go_list.addEventListener('click', goListPage);
+};
 
+function goListPage() {
+	location.href = '/board/list';
 };
 
 </script>
@@ -71,16 +76,17 @@ const registEvent = function() {
 			<button class="btn-list">목록</button>
 		</div>
 		<div class="comment-section">
-			<p>댓글 <span class="amount">0</span> 개</p>
-			<hr>
-			<textarea class="wr_cmmnt" placeholder="댓글 입력(최대 600자)"></textarea>
-			<button class="btn_wr_cmmnt">등록</button>
+			<p>댓글 <span class="amount">0</span>개</p>
+			<div class="comment-registry-section">
+				<textarea class="wr_cmmnt" placeholder="댓글 입력(최대 600자)"></textarea>
+				<button class="btn_wr_cmmnt">등록</button>			
+			</div>
 			<div class="comments">
 				<div class="comment">
-					<p>
-						<span>user01</span>
-						<span>2024.06.28</span>
-						<span>2024.06.28</span>
+					<p class="intr-ln">
+						<span class="intr">작성자</span><span>user01</span>
+						<span class="intr">등록일</span><span>2024.06.28</span>
+						<span class="intr">수정일</span><span>2024.06.28</span>
 					</p>
 					<textarea readonly="readonly">댓글내용sfsdf
 						sdfsdf
@@ -92,15 +98,36 @@ const registEvent = function() {
 	
 						ddsffds
 					</textarea>
+					<p class="reply-show-toggle">답글 보기(0)</p>
 				</div>
 				<div class="comment">
-					<p>
-						<span>user01</span>
-						<span>2024.06.28</span>
-						<span>2024.06.28</span>
+					<p class="intr-ln">
+						<span class="intr">작성자</span><span>user01</span>
+						<span class="intr">등록일</span><span>2024.06.28</span>
+						<span class="intr">수정일</span><span>2024.06.28</span>
 					</p>
 					<textarea readonly="readonly">댓글내용sfsdf</textarea>
-					<span>대댓글 보기(2)</span>
+					<p class="reply-show-toggle">답글 보기(<span class="reply-count">2</span>)</p>
+				</div>
+				<div class="comment-replies">
+					<div class="comment-reply">
+						<p class="intr-ln">@<span class="reply-to">user01</span></p>
+						<p class="intr-ln">
+							<span class="intr">작성자</span><span>user02</span>
+							<span class="intr">등록일</span><span>2024.06.28</span>
+							<span class="intr">수정일</span><span>2024.06.28</span>
+						</p>
+						<textarea readonly="readonly">댓글내용sfsdf</textarea>
+					</div>			
+					<div class="comment-reply">
+						<p class="intr-ln">@<span class="reply-to">user01</span></p>
+						<p class="intr-ln">
+							<span class="intr">작성자</span><span>user03</span>
+							<span class="intr">등록일</span><span>2024.06.28</span>
+							<span class="intr">수정일</span><span>2024.06.28</span>
+						</p>
+						<textarea readonly="readonly">댓글내용sfsdf</textarea>
+					</div>				
 				</div>
 			</div>		
 		</div>
