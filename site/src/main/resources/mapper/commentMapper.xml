@@ -16,5 +16,16 @@
 	    VALUES(#{boardIdx}, #{cmmtIdx}, #{writer}, #{parentCmmtIdx}, #{parentCmmtWriter}, #{content}, NOW(), NOW())
 	</insert>
 	
+	<select id="count" parameterType="site.mvc.dto.CommentDTO" resultType="integer">
+		SELECT count(*) FROM comment
+		WHERE board_idx = #{boardIdx}
+	</select>
+	
+	<select id="list" parameterType="site.mvc.dto.CommentDTO" resultType="site.mvc.vo.CommentVO">
+		SELECT * FROM comment
+		WHERE board_idx = #{boardIdx}
+		LIMIT #{pageBlock} OFFSET #{pageOffset}		
+	</select>
+	
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

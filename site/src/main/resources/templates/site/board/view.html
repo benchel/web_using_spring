@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const setDefault = function() {
 	adhere_to_download_e();
+	getComments();
 };
 
 const registEvent = function() {
@@ -19,6 +20,7 @@ const registEvent = function() {
 	btn_go_list.addEventListener('click', goListPage);
 	
 	let btn_comment_reg = document.querySelector('.btn_wr_cmmnt');
+	if(btn_comment_reg != null) 
 	btn_comment_reg.addEventListener('click', regComment);
 };
 
@@ -51,6 +53,77 @@ function regComment() {
 		console.log(error);
 	});		
 };
+
+function getComments() {
+	
+	let board_idx = document.querySelector('input[name="idx"]').value;
+	
+	let form_data = { 'boardIdx' : board_idx };
+	
+	fetch('/comment/list', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		drawComments(data);
+	})
+	.catch((error) => {
+		alert("등록에 실패하였습니다.");
+		console.log(error);
+	});	
+};
+
+function drawComments(data) {
+	let list = data.list;
+	
+	let comment_area = document.querySelector('.comments');
+	// 댓글 총 개수 표시
+	let comment_amount = document.querySelector('.comment-section .amount');
+	comment_amount.innerText = data.totalCount;
+	
+	let comments = '';
+	
+	if(data.totalCount == 0) {
+		comment_area.innerHTML = '등록된 댓글이 없습니다.';
+		return;
+	}
+	
+	for(row in data.list) {
+		// 부모댓글 인덱스 존재여부로 일반코멘트(댓글)와(과) 리코멘트(답글)를 구분한다
+		if(list[row].parentCmmtIdx == null) {
+			comments += getComment(list[row]);
+		} else {
+			comments += getRecomment(list[row]);
+		}
+	}
+	
+	comment_area.innerHTML = comments;
+	console.log(comments);
+};
+
+function getComment(row) {
+	let comment = '';
+	comment += '<div class="comment">';
+	comment += '<p class="intr-ln">';
+	comment += '<span class="intr">작성자</span><span>'+ row.writer +'</span>';
+	comment += '<span class="intr">등록일</span><span>'+ row.regDate +'</span>';
+	comment += '<span class="intr">수정일</span><span>'+ row.modifDate +'</span>';
+	comment += '</p>';
+	comment += '<textarea readonly="readonly">'+ row.content +'</textarea>';
+	comment += '<p class="reply-show-toggle">답글 보기(0)</p>';
+	comment += '</div>';
+	
+	return comment;
+};
+
+function getRecomment(row) {
+	
+	let recomment = '';
+	return recomment;
+};
+
 
 </script>
 </th:block>
@@ -105,7 +178,7 @@ function regComment() {
 			<button class="btn-list">목록</button>
 		</div>
 		<div class="comment-section">
-			<p>댓글 <span class="amount">0</span>개</p>
+			<p>댓글 <span class="amount"></span>개</p>
 			<div class="comment-registry-section" th:if="${session.principal eq null}">
 				<p>댓글은 로그인한 사용자만 작성할 수 있습니다.</p>	
 			</div>
@@ -121,16 +194,7 @@ function regComment() {
 						<span class="intr">등록일</span><span>2024.06.28</span>
 						<span class="intr">수정일</span><span>2024.06.28</span>
 					</p>
-					<textarea readonly="readonly">댓글내용sfsdf
-						sdfsdf
-						sdfsdfsdfsd
-						fsdfsdfds
-						fsdfsdfdsfdsf
-						ds
-						fsdfsdfdsfsdd
-	
-						ddsffds
-					</textarea>
+					<textarea readonly="readonly">댓글내용</textarea>
 					<p class="reply-show-toggle">답글 보기(0)</p>
 				</div>
 				<div class="comment">
@@ -139,7 +203,7 @@ function regComment() {
 						<span class="intr">등록일</span><span>2024.06.28</span>
 						<span class="intr">수정일</span><span>2024.06.28</span>
 					</p>
-					<textarea readonly="readonly">댓글내용sfsdf</textarea>
+					<textarea readonly="readonly">댓글내용1</textarea>
 					<p class="reply-show-toggle">답글 보기(<span class="reply-count">2</span>)</p>
 				</div>
 				<div class="comment-replies">
@@ -150,7 +214,7 @@ function regComment() {
 							<span class="intr">등록일</span><span>2024.06.28</span>
 							<span class="intr">수정일</span><span>2024.06.28</span>
 						</p>
-						<textarea readonly="readonly">댓글내용sfsdf</textarea>
+						<textarea readonly="readonly">댓글내용2</textarea>
 					</div>			
 					<div class="comment-reply">
 						<p class="intr-ln">@<span class="reply-to">user01</span></p>
@@ -159,7 +223,7 @@ function regComment() {
 							<span class="intr">등록일</span><span>2024.06.28</span>
 							<span class="intr">수정일</span><span>2024.06.28</span>
 						</p>
-						<textarea readonly="readonly">댓글내용sfsdf</textarea>
+						<textarea readonly="readonly">댓글내용3</textarea>
 					</div>				
 				</div>
 			</div>		

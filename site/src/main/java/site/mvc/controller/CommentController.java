@@ -25,4 +25,10 @@ public class CommentController {
 		return new ResponseEntity<>(commentService.registry(commentDTO), HttpStatus.OK);
 	}
 	
+	@PostMapping("/list")
+	@ResponseBody
+	public ResponseEntity<?> list(@RequestBody CommentDTO commentDTO) throws Exception {
+		return new ResponseEntity<>(commentService.list(commentDTO), HttpStatus.OK);
+	}
+	
 }
