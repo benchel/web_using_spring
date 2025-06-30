@@ -12,8 +12,8 @@
 	    <selectKey resultType="string" keyProperty="cmmtIdx" order="BEFORE">
 	        select HEX(NEXTVAL(comment_seed)) AS cmmt_idx
 	    </selectKey>
-	    INSERT INTO comment(board_idx, cmmt_idx, parent_cmmt_idx, parent_cmmt_writer, content, reg_date, modif_date) 
-	    VALUES(#{boardIdx}, #{cmmtIdx}, #{parentCmmtIdx}, #{parentCmmtWriter}, #{content}, NOW(), NOW())
+	    INSERT INTO comment(board_idx, cmmt_idx, writer, parent_cmmt_idx, parent_cmmt_writer, content, reg_date, modif_date) 
+	    VALUES(#{boardIdx}, #{cmmtIdx}, #{writer}, #{parentCmmtIdx}, #{parentCmmtWriter}, #{content}, NOW(), NOW())
 	</insert>
 	
 </mapper>
