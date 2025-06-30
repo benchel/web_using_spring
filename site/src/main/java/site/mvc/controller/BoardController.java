@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import site.mvc.controller.service.AttachedFileService;
-import site.mvc.controller.service.BoardService;
 import site.mvc.dto.BoardDTO;
+import site.mvc.service.AttachedFileService;
+import site.mvc.service.BoardService;
 
 @Controller
 @RequestMapping("/board/*")

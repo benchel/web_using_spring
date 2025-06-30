@@ -1,4 +1,4 @@
-package site.mvc.controller.service;
+package site.mvc.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

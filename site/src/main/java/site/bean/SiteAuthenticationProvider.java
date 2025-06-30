@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.mvc.controller.service.UserDetailService;
+import site.mvc.service.UserDetailService;
 import site.mvc.vo.UserVO;
 
 @Component

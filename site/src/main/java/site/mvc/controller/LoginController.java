@@ -30,7 +30,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import site.bean.SiteAuthenticationManager;
 import site.bean.SiteAuthenticationProvider;
-import site.mvc.controller.service.UserDetailService;
+import site.mvc.service.UserDetailService;
 
 /**
  * https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html#store-authentication-manually

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import site.mvc.controller.service.UserDetailService;
-import site.mvc.controller.service.UserService;
 import site.mvc.dto.UserDTO;
+import site.mvc.service.UserDetailService;
+import site.mvc.service.UserService;
 import site.mvc.vo.UserVO;
 
 @Controller

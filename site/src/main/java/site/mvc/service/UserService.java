@@ -1,4 +1,4 @@
-package site.mvc.controller.service;
+package site.mvc.service;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;

@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
-import site.mvc.controller.service.UserService;
 import site.mvc.dto.TempUserInfoDTO;
 import site.mvc.dto.UserDTO;
+import site.mvc.service.UserService;
 
 @Controller
 @RequestMapping("/site/sign/*")

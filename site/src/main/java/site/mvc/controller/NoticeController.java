@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
-import site.mvc.controller.service.NoticeService;
 import site.mvc.dto.NoticeDTO;
+import site.mvc.service.NoticeService;
 
 @Controller
 @RequiredArgsConstructor

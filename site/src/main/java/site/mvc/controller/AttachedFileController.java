@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.mvc.controller.service.AttachedFileService;
 import site.mvc.dto.AttachedFileDTO;
+import site.mvc.service.AttachedFileService;
 
 /**
  * @author benchel
