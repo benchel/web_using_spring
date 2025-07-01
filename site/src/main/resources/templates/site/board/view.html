@@ -4,7 +4,7 @@
 	  layout:decorate="~{layout/site_layout}">
 <head></head>
 <th:block layout:fragment="script">
-<script type="text/javascript">
+<script type="text/javascript" th:inline="javascript">
 document.addEventListener('DOMContentLoaded', () => {
 	setDefault();
 	registEvent();
@@ -19,9 +19,14 @@ const registEvent = function() {
 	let btn_go_list = document.querySelector('.btn-list');
 	btn_go_list.addEventListener('click', goListPage);
 	
+	// 댓글 등록 버튼에 이벤트 설정
 	let btn_comment_reg = document.querySelector('.btn_wr_cmmnt');
 	if(btn_comment_reg != null) 
 	btn_comment_reg.addEventListener('click', regComment);
+	
+	// 답글 취소 버튼에 이벤트 설정
+	let btn_cancel_recmmt = document.querySelector('.btn-cancel-recmmt');
+	btn_cancel_recmmt.addEventListener('click', hideRecommentRegForm);
 };
 
 function goListPage() {
@@ -68,6 +73,7 @@ function getComments() {
 	.then(response => response.json())
 	.then((data) => {
 		drawComments(data);
+		setUpRecommentEvent();
 	})
 	.catch((error) => {
 		alert("등록에 실패하였습니다.");
@@ -100,7 +106,6 @@ function drawComments(data) {
 	}
 	
 	comment_area.innerHTML = comments;
-	console.log(comments);
 };
 
 function getComment(row) {
@@ -124,6 +129,48 @@ function getRecomment(row) {
 	return recomment;
 };
 
+/* ----- 답글 관련 함수 -------- */
+
+function setUpRecommentEvent() {
+	// 댓글 인트로에 이벤트 설정
+	let comment_intro = document.querySelectorAll('.comment .intr-ln');
+	for(intro of comment_intro) {
+		intro.addEventListener('click', showRecommentRegForm);
+	}
+};
+
+function showRecommentRegForm(e) {	
+	let principal = /*[[${session.principal}]]*/'';
+	
+	if(principal == null) {
+		alert('답글은 로그인한 사용자만 작성할 수 있습니다.');
+		return;	
+	}
+	
+	let comment = e.target.parentElement.parentElement;
+	let recomm_reg_form = document.querySelector('.recomment-reg-form');
+	recomm_reg_form.style.display = 'block';
+	comment.after(recomm_reg_form);
+};
+
+function hideRecommentRegForm() {
+	let comment_section = document.querySelector('.comment-section');
+	let recomm_reg_form = document.querySelector('.recomment-reg-form');
+	// 폼에 입력했던 내용 초기화
+	let inputs = recomm_reg_form.querySelectorAll('input');
+	for(input of inputs) {
+		input.value = '';
+	}
+	let txtarea = recomm_reg_form.querySelector('textarea');
+	txtarea.value = '';
+	
+	recomm_reg_form.style.display = 'none';
+	comment_section.after(recomm_reg_form);
+};
+
+function regRecomment() {
+	
+};
 
 </script>
 </th:block>
@@ -157,7 +204,7 @@ function getRecomment(row) {
 				<input type="hidden" name="key" th:value="${file.key}">
 			</p>
 		</div>
-		<div class="letterpress">
+		<div class="letterpress" th:text="${board.content}">
 			
 	
 		</div>
@@ -180,7 +227,7 @@ function getRecomment(row) {
 		<div class="comment-section">
 			<p>댓글 <span class="amount"></span>개</p>
 			<div class="comment-registry-section" th:if="${session.principal eq null}">
-				<p>댓글은 로그인한 사용자만 작성할 수 있습니다.</p>	
+				<p>댓글은 로그인한 사용자만 작성할 수 있습니다.</p>
 			</div>
 			<div class="comment-registry-section" th:unless="${session.principal eq null}">
 				<input type="hidden" name="comment_writer" th:value="${session.principal.id}">
@@ -226,9 +273,35 @@ function getRecomment(row) {
 						<textarea readonly="readonly">댓글내용3</textarea>
 					</div>				
 				</div>
-			</div>		
+			</div>	
+			<div class="comment-pagination">
+				<p class="pages">
+					<span class="page">&lt;</span>
+					<span class="page">1</span>
+					<span class="page">2</span>
+					<span class="page">3</span>
+					<span class="page">4</span>
+					<span class="page">5</span>
+					<span class="page">6</span>
+					<span class="page">7</span>
+					<span class="page">8</span>
+					<span class="page">9</span>
+					<span class="page">10</span>			
+					<span class="page">&gt;</span>
+				</p>
+			</div>
+			<div class="recomment-reg-form">
+				<input type="hidden" name="parent_cmmt_idx" value="">
+				<input type="hidden" name="parent_cmmt_writer"value="">
+				<input type="hidden" name="comment_writer" value="">
+				<p class="intr-ln">@<span class="reply-to"></span></p>
+				<textarea class="recmmt-cont" name="recomment_cont" placeholder="댓글 입력(최대 600자)"></textarea>
+				<div class="btn_group">
+					<button class="btn-reg-recmmt">등록</button>
+					<button class="btn-cancel-recmmt">취소</button>
+				</div>
+			</div>			
 		</div>
-		
 	</div>
 
 </th:block>

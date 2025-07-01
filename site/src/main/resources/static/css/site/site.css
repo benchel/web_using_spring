@@ -82,24 +82,35 @@ button[class^="btn"]{cursor:pointer}
 .comment-section > p:nth-child(1){display: inline-block; width: 100%; font-weight: bold; border-bottom: solid 1px black;}
 
 .comment-registry-section{width: 100%; margin-top:1em; margin-bottom: 1.5em;}
-.wr_cmmnt{width: 90%; height: 7em; resize: none;}
-.btn_wr_cmmnt{width: 8%; height: 7em; float: right; background-color: rgb(85, 175, 25); color: white; border: none; border-radius: 3px;}
+.comment-registry-section .wr_cmmnt{width: 90%; height: 7em; resize: none;}
+.comment-registry-section .btn_wr_cmmnt{width: 8%; height: 7em; float: right; background-color: rgb(85, 175, 25); color: white; border: none; border-radius: 3px;}
 
 .comments{width: 100%;}
 .comments .comment{width: 100%;  border : solid 1px #009900; margin: 10px 0 10px 0;}
-.comments .comment .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px;}
-.comments .comment .intr-ln span{display: inline-block; margin-top:  3px;}
+.comments .comment .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px; cursor: pointer;}
+.comments .comment .intr-ln span{display: inline-block; margin-top:  3px; margin-right: 3px;}
 .comments .comment .intr{background-color: #004d00; padding-left: 3px; padding-right: 3px; margin-right: 3px; color: white; border-radius: 3px;}
 .comments .comment>textarea{display: block; margin: 0 auto; width: 95%; min-height: 80px; resize: none;}
 .comments .comment .reply-show-toggle{display: block; margin: 3px auto; width: 95%;}
 
 .comments .comment-reply{position: relative; left:2%; width: 98%; margin: 10px 0 10px 0; border : solid 1px #009900;
 background-color: #f0fff0;}
-.comments .comment-reply .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px;}
+.comments .comment-reply .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px; cursor: pointer;}
 .comments .comment-reply .intr-ln .reply-to{font-weight: bold;}
-.comments .comment-reply .intr-ln span{display: inline-block; margin-top:  3px;}
+.comments .comment-reply .intr-ln span{display: inline-block; margin-top: 3px; margin-right: 3px;}
 .comments .comment-reply .intr{background-color: #004d00; padding-left: 3px; padding-right: 3px; margin-right: 3px; color: white; border-radius: 3px;}
 .comments .comment-reply>textarea{display: block; margin: 0 auto 30px auto; width: 95%; min-height: 80px; resize: none;}
+
+.recomment-reg-form{display: none; width: 100%; background-color: #004d00;}
+.recomment-reg-form .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px; color:white;}
+.recomment-reg-form .recmmt-cont{display: block; margin: 3px auto; width: 95%;  min-height: 80px; resize: none;}
+div.recomment-reg-form > div{width: 95%; margin: 3px auto; text-align: right;}
+div.recomment-reg-form button{margin-bottom: 5px; margin-top: 5px; width: 100px;}
+.btn-reg-recmmt{background-color: white; color:black;}
+.btn-cancel-recmmt{background-color: white; color:red;}
+
+.comment-pagination{width: 100%; margin-top:1em; margin-bottom: 1.5em; text-align: center;}
+.comment-pagination .page{cursor: pointer;}
 
 /* 회원가입 */
 .sing-up-tbl{width: 100%;}
