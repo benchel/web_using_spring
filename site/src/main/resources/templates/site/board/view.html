@@ -27,6 +27,10 @@ const registEvent = function() {
 	// 답글 취소 버튼에 이벤트 설정
 	let btn_cancel_recmmt = document.querySelector('.btn-cancel-recmmt');
 	btn_cancel_recmmt.addEventListener('click', hideRecommentRegForm);
+	
+	// 답글 등록 버튼에 이벤트 설정
+	let btn_reg_recmmt = document.querySelector('.btn-reg-recmmt');
+	btn_reg_recmmt.addEventListener('click', regRecomment);
 };
 
 function goListPage() {
@@ -112,7 +116,7 @@ function getComment(row) {
 	let comment = '';
 	comment += '<div class="comment">';
 	comment += '<p class="intr-ln">';
-	comment += '<span class="intr">작성자</span><span>'+ row.writer +'</span>';
+	comment += '<span class="intr">작성자</span><span class="writer" idx="'+ row.cmmtIdx +'">'+ row.writer +'</span>';
 	comment += '<span class="intr">등록일</span><span>'+ row.regDate +'</span>';
 	comment += '<span class="intr">수정일</span><span>'+ row.modifDate +'</span>';
 	comment += '</p>';
@@ -139,7 +143,7 @@ function setUpRecommentEvent() {
 	}
 };
 
-function showRecommentRegForm(e) {	
+function showRecommentRegForm(e) {
 	let principal = /*[[${session.principal}]]*/'';
 	
 	if(principal == null) {
@@ -148,9 +152,23 @@ function showRecommentRegForm(e) {
 	}
 	
 	let comment = e.target.parentElement.parentElement;
+	// 답글의 부모댓글 idx
+	let parent_comment_idx = comment.querySelector('span[class^="writer"]').getAttribute('idx');	
+	// 답글의 부모댓글 작성자
+	let parent_comment_writer = comment.querySelector('span[class^="writer"]').innerText;
+	// 답글 수신자 표시 
+	let reply_to = document.querySelector('.reply-to');
+	reply_to.innerText = parent_comment_writer;
+	
+	// 답글 등록 폼 보이기
 	let recomm_reg_form = document.querySelector('.recomment-reg-form');
 	recomm_reg_form.style.display = 'block';
 	comment.after(recomm_reg_form);
+	
+	// 폼 내용 채우기
+	recomm_reg_form.querySelector('input[name="parent_cmmt_idx"]').value = parent_comment_idx;
+	recomm_reg_form.querySelector('input[name="parent_cmmt_writer"]').value = parent_comment_writer;
+	recomm_reg_form.querySelector('input[name="comment_writer"]').value = /*[[${session.principal.id}]]*/'';
 };
 
 function hideRecommentRegForm() {
@@ -169,6 +187,23 @@ function hideRecommentRegForm() {
 };
 
 function regRecomment() {
+	
+	let form_data = {};
+	
+	let board_idx = document.querySelector('input[name="idx"]').value;
+	let content = document.querySelector('textarea[name="recomment_cont"]').value;
+	
+	let par_comm_idx = document.querySelector('input[name="parent_cmmt_idx"]').value;
+	let par_comm_writer = document.querySelector('input[name="parent_cmmt_writer"]').value;
+	let comm_writer = document.querySelector('input[name="comment_writer"]').value;
+	
+	form_data['boardIdx'] = board_idx;
+	form_data['writer'] = comm_writer;
+	form_data['content'] = comm_writer;	
+	form_data['parentCmmtIdx'] = par_comm_idx;
+	form_data['parentCmmtWriter'] = par_comm_writer;
+	
+	console.log(form_data);
 	
 };
 
@@ -204,10 +239,7 @@ function regRecomment() {
 				<input type="hidden" name="key" th:value="${file.key}">
 			</p>
 		</div>
-		<div class="letterpress" th:text="${board.content}">
-			
-	
-		</div>
+		<div class="letterpress" th:text="${board.content}"></div>
 		<div class="reference">
 			<table>
 				<tr>
