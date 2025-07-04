@@ -91,8 +91,9 @@ button[class^="btn"]{cursor:pointer}
 .comments .comment .intr-ln span{display: inline-block; margin-top:  3px; margin-right: 3px;}
 .comments .comment .intr{background-color: #004d00; padding-left: 3px; padding-right: 3px; margin-right: 3px; color: white; border-radius: 3px;}
 .comments .comment>textarea{display: block; margin: 0 auto; width: 95%; min-height: 80px; resize: none;}
-.comments .comment .reply-show-toggle{display: block; margin: 3px auto; width: 95%;}
+.comments .comment .reply-show-toggle{display: block; margin: 3px auto; width: 95%; cursor : pointer;}
 
+.comments .comment-replies{display: none;}
 .comments .comment-reply{position: relative; left:2%; width: 98%; margin: 10px 0 10px 0; border : solid 1px #009900;
 background-color: #f0fff0;}
 .comments .comment-reply .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px; cursor: pointer;}
@@ -111,6 +112,7 @@ div.recomment-reg-form button{margin-bottom: 5px; margin-top: 5px; width: 100px;
 
 .comment-pagination{width: 100%; margin-top:1em; margin-bottom: 1.5em; text-align: center;}
 .comment-pagination .page{cursor: pointer;}
+
 
 /* 회원가입 */
 .sing-up-tbl{width: 100%;}

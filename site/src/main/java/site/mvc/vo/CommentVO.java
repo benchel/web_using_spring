@@ -18,4 +18,7 @@ public class CommentVO {
 	private String modifDate;
 	private String isDelete;
 	private String isModif;	
+	private int recmmtCnt;
+	private int recmmtStart;
+	private int recmmtEnd;
 }

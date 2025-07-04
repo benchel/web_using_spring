@@ -108,20 +108,21 @@ function drawComments(data) {
 			comments += getRecomment(list[row]);
 		}
 	}
-	
 	comment_area.innerHTML = comments;
 };
 
 function getComment(row) {
+	
 	let comment = '';
+	
 	comment += '<div class="comment">';
 	comment += '<p class="intr-ln">';
 	comment += '<span class="intr">작성자</span><span class="writer" idx="'+ row.cmmtIdx +'">'+ row.writer +'</span>';
 	comment += '<span class="intr">등록일</span><span>'+ row.regDate +'</span>';
 	comment += '<span class="intr">수정일</span><span>'+ row.modifDate +'</span>';
 	comment += '</p>';
-	comment += '<textarea readonly="readonly">'+ row.content +'</textarea>';
-	comment += '<p class="reply-show-toggle">답글 보기(0)</p>';
+	comment += '<textarea name="content" readonly="readonly">'+ row.content +'</textarea>';
+	comment += '<p class="reply-show-toggle">답글 보기('+ row.recmmtCnt +')</p>';
 	comment += '</div>';
 	
 	return comment;
@@ -130,10 +131,37 @@ function getComment(row) {
 function getRecomment(row) {
 	
 	let recomment = '';
+	
+	if(row.recmmtStart != 0 ) 
+		recomment += '<div class="comment-replies">';
+		
+	recomment += '<div class="comment-reply">';
+	recomment += '<p class="intr-ln">@<span class="reply-to">'+ row.parentCmmtWriter +'</span></p>';
+	recomment += '<p class="intr-ln">';
+	recomment += '<span class="intr">작성자</span><span class="writer" idx="'+ row.cmmtIdx +'">'+ row.writer +'</span>';
+	recomment += '<span class="intr">등록일</span><span>'+ row.regDate +'</span>';
+	recomment += '<span class="intr">수정일</span><span>'+ row.modifDate +'</span>';
+	recomment += '</p>';
+	recomment += '<textarea name="content" readonly="readonly">'+ row.content +'</textarea>';
+	recomment += '</div>';
+	
+	if(row.recmmtEnd != 0) 
+		recomment += '</div>';
+	
 	return recomment;
 };
 
 /* ----- 답글 관련 함수 -------- */
+
+function repliesVisionOnOff(e) {
+	let comment = e.target.parentElement;
+	let replies = comment.nextElementSibling;
+	if(replies.style.display == 'none') {
+		replies.style.display = 'block';
+	} else {
+		replies.style.display = 'none';
+	}
+};
 
 function setUpRecommentEvent() {
 	// 댓글 인트로에 이벤트 설정
@@ -141,6 +169,12 @@ function setUpRecommentEvent() {
 	for(intro of comment_intro) {
 		intro.addEventListener('click', showRecommentRegForm);
 	}
+	
+	// 답글 보기에 이벤트 설정
+	let reply_show_toggle = document.querySelectorAll('.reply-show-toggle');
+	for(toggle of reply_show_toggle) {
+		toggle.addEventListener('click', repliesVisionOnOff);
+	}	
 };
 
 function showRecommentRegForm(e) {
@@ -156,6 +190,9 @@ function showRecommentRegForm(e) {
 	let parent_comment_idx = comment.querySelector('span[class^="writer"]').getAttribute('idx');	
 	// 답글의 부모댓글 작성자
 	let parent_comment_writer = comment.querySelector('span[class^="writer"]').innerText;
+	// 답글 작성자
+	let writer = document.querySelector('input[name="comment_writer"]').value;
+	
 	// 답글 수신자 표시 
 	let reply_to = document.querySelector('.reply-to');
 	reply_to.innerText = parent_comment_writer;
@@ -168,7 +205,7 @@ function showRecommentRegForm(e) {
 	// 폼 내용 채우기
 	recomm_reg_form.querySelector('input[name="parent_cmmt_idx"]').value = parent_comment_idx;
 	recomm_reg_form.querySelector('input[name="parent_cmmt_writer"]').value = parent_comment_writer;
-	recomm_reg_form.querySelector('input[name="comment_writer"]').value = /*[[${session.principal.id}]]*/'';
+	recomm_reg_form.querySelector('input[name="comment_writer"]').value = writer;
 };
 
 function hideRecommentRegForm() {
