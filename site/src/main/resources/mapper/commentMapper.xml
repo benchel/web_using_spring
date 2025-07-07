@@ -31,22 +31,26 @@
 	</select>
 	
 	<select id="list" parameterType="site.mvc.dto.CommentDTO" resultType="site.mvc.vo.CommentVO">
-		SELECT c.*, t.recmmt_cnt
-			, LAG(t.recmmt_cnt) OVER (ORDER BY c.cmmt_idx) AS recmmt_start
-			, LEAD(t.recmmt_cnt) OVER(ORDER BY c.cmmt_idx) AS recmmt_end
-		FROM comment c
-		LEFT JOIN (
-			SELECT 
-				temp.root_idx, count(temp.root_idx) AS 'recmmt_cnt' 
-			FROM (
-				SELECT *, SUBSTRING_INDEX(parent_cmmt_idx , '-', 1) AS 'root_idx' FROM comment
-			) temp 
-			GROUP BY temp.root_idx
-			HAVING root_idx IS NOT NULL
-		) t
-		ON c.cmmt_idx = t.root_idx
-		WHERE board_idx = #{boardIdx}
-		ORDER BY cmmt_idx
+		SELECT final.*
+		, LAG(final.delimiter) OVER (ORDER BY final.cmmt_idx) AS recmmt_start
+		, LEAD(final.delimiter) OVER(ORDER BY final.cmmt_idx) AS recmmt_end
+		FROM (
+			SELECT c.*, t.recmmt_cnt, if(c.parent_cmmt_idx IS NULL, 'Y', 'N') as 'delimiter'
+			FROM comment c
+			LEFT JOIN (
+				SELECT 
+					temp.root_idx, count(temp.root_idx) AS 'recmmt_cnt' 
+				FROM (
+					SELECT *, SUBSTRING_INDEX(parent_cmmt_idx , '-', 1) AS 'root_idx' FROM comment
+					WHERE board_idx = #{boardIdx}
+				) temp
+				GROUP BY temp.root_idx
+				HAVING root_idx IS NOT NULL
+			) t
+			ON c.cmmt_idx = t.root_idx
+			WHERE board_idx = #{boardIdx}
+			ORDER BY cmmt_idx
+		) final
 		LIMIT #{pageBlock} OFFSET #{pageOffset}		
 	</select>
 	

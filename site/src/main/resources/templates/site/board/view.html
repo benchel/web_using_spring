@@ -109,6 +109,8 @@ function drawComments(data) {
 		}
 	}
 	comment_area.innerHTML = comments;
+	
+	console.log(comments);
 };
 
 function getComment(row) {
@@ -132,7 +134,7 @@ function getRecomment(row) {
 	
 	let recomment = '';
 	
-	if(row.recmmtStart != 0 ) 
+	if(row.recmmtStart == 'Y') 
 		recomment += '<div class="comment-replies">';
 		
 	recomment += '<div class="comment-reply">';
@@ -145,7 +147,7 @@ function getRecomment(row) {
 	recomment += '<textarea name="content" readonly="readonly">'+ row.content +'</textarea>';
 	recomment += '</div>';
 	
-	if(row.recmmtEnd != 0) 
+	if(row.recmmtEnd == 'Y') 
 		recomment += '</div>';
 	
 	return recomment;
@@ -165,7 +167,7 @@ function repliesVisionOnOff(e) {
 
 function setUpRecommentEvent() {
 	// 댓글 인트로에 이벤트 설정
-	let comment_intro = document.querySelectorAll('.comment .intr-ln');
+	let comment_intro = document.querySelectorAll('.comments .intr-ln');
 	for(intro of comment_intro) {
 		intro.addEventListener('click', showRecommentRegForm);
 	}
@@ -193,14 +195,14 @@ function showRecommentRegForm(e) {
 	// 답글 작성자
 	let writer = document.querySelector('input[name="comment_writer"]').value;
 	
-	// 답글 수신자 표시 
-	let reply_to = document.querySelector('.reply-to');
-	reply_to.innerText = parent_comment_writer;
-	
 	// 답글 등록 폼 보이기
 	let recomm_reg_form = document.querySelector('.recomment-reg-form');
 	recomm_reg_form.style.display = 'block';
 	comment.after(recomm_reg_form);
+	
+	// 답글 수신자 표시 
+	let reply_to = recomm_reg_form.querySelector('.reply-to');
+	reply_to.innerText = parent_comment_writer;	
 	
 	// 폼 내용 채우기
 	recomm_reg_form.querySelector('input[name="parent_cmmt_idx"]').value = parent_comment_idx;
@@ -239,8 +241,6 @@ function regRecomment() {
 	form_data['content'] = content;	
 	form_data['parentCmmtIdx'] = par_comm_idx;
 	form_data['parentCmmtWriter'] = par_comm_writer;
-	
-	console.log(form_data);
 
 	fetch('/comment/reg-re', {
 		'method' : 'POST',
