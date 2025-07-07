@@ -16,6 +16,15 @@
 	    VALUES(#{boardIdx}, #{cmmtIdx}, #{writer}, #{parentCmmtIdx}, #{parentCmmtWriter}, #{content}, NOW(), NOW())
 	</insert>
 	
+	<insert id="insertRecomment" parameterType="site.mvc.dto.CommentDTO">
+	    <selectKey resultType="string" keyProperty="cmmtIdx" order="BEFORE">
+	        SELECT COUNT(cmmt_idx)+1 AS 'cmmt_idx' FROM COMMENT 
+	        WHERE board_idx = #{boardIdx} and parent_cmmt_idx = #{parentCmmtIdx}
+	    </selectKey>
+	    INSERT INTO comment(board_idx, cmmt_idx, writer, parent_cmmt_idx, parent_cmmt_writer, content, reg_date, modif_date) 
+	    VALUES(#{boardIdx}, concat(concat(#{parentCmmtIdx}, '-'), #{cmmtIdx}), #{writer}, #{parentCmmtIdx}, #{parentCmmtWriter}, #{content}, NOW(), NOW())
+	</insert>
+	
 	<select id="count" parameterType="site.mvc.dto.CommentDTO" resultType="integer">
 		SELECT count(*) FROM comment
 		WHERE board_idx = #{boardIdx}

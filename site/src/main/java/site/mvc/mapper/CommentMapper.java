@@ -12,6 +12,7 @@ import site.mvc.vo.CommentVO;
 @Repository
 public interface CommentMapper {
 	public int insert(CommentDTO commentDTO) throws Exception;
+	public int insertRecomment(CommentDTO commentDTO) throws Exception;
 	public int count(CommentDTO commentDTO) throws Exception;
 	public List<CommentVO> list(CommentDTO commentDTO) throws Exception;
 }

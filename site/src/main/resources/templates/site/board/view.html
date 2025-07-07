@@ -236,12 +236,26 @@ function regRecomment() {
 	
 	form_data['boardIdx'] = board_idx;
 	form_data['writer'] = comm_writer;
-	form_data['content'] = comm_writer;	
+	form_data['content'] = content;	
 	form_data['parentCmmtIdx'] = par_comm_idx;
 	form_data['parentCmmtWriter'] = par_comm_writer;
 	
 	console.log(form_data);
-	
+
+	fetch('/comment/reg-re', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		alert(data.msg);
+		location.reload();
+	})
+	.catch((error) => {
+		alert("등록에 실패하였습니다.");
+		console.log(error);
+	});
 };
 
 </script>
