@@ -51,7 +51,6 @@
 			WHERE board_idx = #{boardIdx}
 			ORDER BY cmmt_idx
 		) final
-		LIMIT #{pageBlock} OFFSET #{pageOffset}		
 	</select>
 	
 </mapper>

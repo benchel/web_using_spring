@@ -85,7 +85,7 @@ button[class^="btn"]{cursor:pointer}
 .comment-registry-section .wr_cmmnt{width: 90%; height: 7em; resize: none;}
 .comment-registry-section .btn_wr_cmmnt{width: 8%; height: 7em; float: right; background-color: rgb(85, 175, 25); color: white; border: none; border-radius: 3px;}
 
-.comments{width: 100%;}
+.comments{width: 100%; margin-bottom: 30px;}
 .comments .comment{width: 100%;  border : solid 1px #009900; margin: 10px 0 10px 0;}
 .comments .comment .intr-ln{display: block; margin: 3px auto; width: 95%; min-height: 35px; cursor: pointer;}
 .comments .comment .intr-ln span{display: inline-block; margin-top:  3px; margin-right: 3px;}
@@ -109,10 +109,6 @@ div.recomment-reg-form > div{width: 95%; margin: 3px auto; text-align: right;}
 div.recomment-reg-form button{margin-bottom: 5px; margin-top: 5px; width: 100px;}
 .btn-reg-recmmt{background-color: white; color:black;}
 .btn-cancel-recmmt{background-color: white; color:red;}
-
-.comment-pagination{width: 100%; margin-top:1em; margin-bottom: 1.5em; text-align: center;}
-.comment-pagination .page{cursor: pointer;}
-
 
 /* 회원가입 */
 .sing-up-tbl{width: 100%;}
