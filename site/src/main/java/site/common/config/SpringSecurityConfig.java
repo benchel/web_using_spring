@@ -23,11 +23,15 @@ public class SpringSecurityConfig {
 
 	// Spring Security에서 제외할 웹 리소스 패스
 	public static final String[] SECURITY_EXCLUDE_PATTERN = {
-		"/", "/css/**", "/js/**", "/img/**", "/site/login", "/site/sign/*"
+		"/", "/css/**", "/js/**", "/img/**", "/site/login", "/site/sign/*", "/mngr/login"
 	};
 	
 	public static final String[] SITE_AUTHENTICATED_PATTERN = {
 		"/site/mypage/*", "/board/reg"
+	};
+
+	public static final String[] MNGR_AUTHENTICATED_PATTERN = {
+		"/mngr/notice/*"
 	};
 	
 	// 웹사이트 사용자의 접근과 권한 정의
@@ -57,30 +61,16 @@ public class SpringSecurityConfig {
 				).authorizeRequests((authorizeRequests) -> 
 				authorizeRequests
 					.antMatchers(SITE_AUTHENTICATED_PATTERN).authenticated()
-					.antMatchers(SITE_AUTHENTICATED_PATTERN).hasAuthority("USER")					
+					.antMatchers(SITE_AUTHENTICATED_PATTERN).hasAuthority("USER")
 				).authorizeRequests((authorizeRequests) -> 
 				authorizeRequests
 					.antMatchers(SECURITY_EXCLUDE_PATTERN).permitAll()
-				)
-				.exceptionHandling(exceptionHandling -> 
+				).exceptionHandling(exceptionHandling -> 
 				exceptionHandling
 					.authenticationEntryPoint(siteUnAuthenticationEntryPoint())
 					.accessDeniedHandler(siteAccessDeniedHandler())
 					.accessDeniedPage("/error/redirect")
-				)
-				/*
-				.formLogin((formLogin) -> 
-				formLogin
-						.usernameParameter("id")
-						.passwordParameter("pwd")
-						.loginPage("/site/sign/in")
-	 					.failureUrl("/authentication/login?failed")
-	 					.loginProcessingUrl("/site/login")						
-						.successHandler(loginSuccessHandler()) // 로그인 성공 이후의 동작 핸들링 
-						//.failureHandler(null) // 로그인 실패 이후의 동작 핸들링
-						.permitAll()
-				)*/
-				.logout((logout) ->
+				).logout((logout) ->
 				logout
 					.logoutUrl("/site/logout")
 					.logoutRequestMatcher(new AntPathRequestMatcher("/site/logout"))
@@ -96,13 +86,40 @@ public class SpringSecurityConfig {
 	
 	// 웹사이트 관리자의 접근과 권한 정의
 	@Configuration
+	@Order(2)
 	public static class MngrSecurityConfig {
-		
+
 		// 인증(authentication)이 필요한 접근과 인증이 불필요한 접근 설정
 		// 접근 허가에 필요한 권한 설정
+		@Bean("mngrFilterChain")
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-			return null;
+			
+			http
+			.requestMatchers((requestMatchers) -> requestMatchers
+				.antMatchers(MNGR_AUTHENTICATED_PATTERN)
+			).authorizeRequests((authorizeRequests) -> authorizeRequests
+				.antMatchers(MNGR_AUTHENTICATED_PATTERN).authenticated()
+				.antMatchers(MNGR_AUTHENTICATED_PATTERN).hasAuthority("MNGR")					
+			).authorizeRequests((authorizeRequests) -> authorizeRequests
+				.antMatchers("/mngr/sign/in").permitAll()
+			)
+			.exceptionHandling(exceptionHandling -> exceptionHandling
+				//.authenticationEntryPoint(null)
+				//.accessDeniedHandler(null)
+				.accessDeniedPage("/error/redirect")
+			)
+			.logout((logout) ->
+			logout
+				.logoutUrl("/mngr/logout")
+				.logoutRequestMatcher(new AntPathRequestMatcher("/mngr/logout"))
+				.logoutSuccessUrl("/")
+				.invalidateHttpSession(true)
+				.deleteCookies("JSESSIONID")
+			);
+			
+			return http.build();
 		}
+	    
 	}
 	
 }

@@ -1,7 +1,48 @@
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" href="/css/mngr/sign.css"/>	
+	<link rel="stylesheet" href="/css/mngr/sign.css"/>
+	<link rel="shortcut icon" href="#">
 </head>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+});
+
+const initPage = function() {
+	
+};
+
+const setDefault = function() {
+	let login_btn = document.querySelector('.btn-login');
+	login_btn.addEventListener('click', loginProc);
+};
+
+function loginProc() {
+	let formData = {
+		'id'	: document.querySelector('input[name="id"]').value,
+		'pwd'	: document.querySelector('input[name="pwd"]').value,
+	};
+	
+	console.log(formData);
+	
+	fetch('/mngr/login', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(formData),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.link != '')   
+			location.href = data.link;
+	})
+	.catch((error) => {
+		alert("데이터를 가지고 오는데 실패하였습니다.");
+		console.log(error);
+	});
+}
+</script>
 <body>
 	<div id="wrap">
 		<div id="contents">
@@ -9,9 +50,9 @@
 				<span class="logo">logo</span>
 			</section>
 			<section class="login-box">
-				<input type="text" placeholder="아이디">
-				<input type="password" placeholder="패스워드">
-				<button>로그인</button>
+				<input type="text" name="id" placeholder="아이디" value="">
+				<input type="password" name="pwd" placeholder="패스워드" value="">
+				<button class="btn-login">로그인</button>
 			</section>
 		</div>
 	</div>
