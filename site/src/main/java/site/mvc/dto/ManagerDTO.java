@@ -1,4 +1,4 @@
-package site.mvc.vo;
+package site.mvc.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,11 +9,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class MngrVO {
+public class ManagerDTO {
 	private String id;
 	private String pwd;
 	private String name;
 	private String email;
 	private String contact;
 	private String jDate;
+	
+	public ManagerDTO(String id) {
+		this.id = id;
+	}
 }

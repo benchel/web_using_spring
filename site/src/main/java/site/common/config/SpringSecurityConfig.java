@@ -99,7 +99,7 @@ public class SpringSecurityConfig {
 				.antMatchers(MNGR_AUTHENTICATED_PATTERN)
 			).authorizeRequests((authorizeRequests) -> authorizeRequests
 				.antMatchers(MNGR_AUTHENTICATED_PATTERN).authenticated()
-				.antMatchers(MNGR_AUTHENTICATED_PATTERN).hasAuthority("MNGR")					
+				.antMatchers(MNGR_AUTHENTICATED_PATTERN).hasAuthority("MANAGER")					
 			).authorizeRequests((authorizeRequests) -> authorizeRequests
 				.antMatchers("/mngr/sign/in").permitAll()
 			)

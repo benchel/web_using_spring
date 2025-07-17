@@ -12,13 +12,15 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.mvc.service.ManagerService;
+import site.mvc.vo.ManagerVO;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class MngrAuthenticationProvider implements AuthenticationProvider {
 	
-	//private final UserDetailService userDetailService;
+	private final ManagerService managerService;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -33,10 +35,21 @@ public class MngrAuthenticationProvider implements AuthenticationProvider {
 		log.info("input pwd : " + pwd);
 		
 		try {
-
+			ManagerVO manager = managerService.findManager(id);
+			
+			if(!pwd.equals(manager.getPwd())) {
+				authentication.setAuthenticated(false);
+			} else {
+				ArrayList<SimpleGrantedAuthority> authorities = new ArrayList<>();
+				authorities.add(new SimpleGrantedAuthority(manager.getAuthority()));
+				new UsernamePasswordAuthenticationToken(manager, pwd, authorities).setDetails(manager);
+				authentication = new UsernamePasswordAuthenticationToken(manager, pwd, authorities);
+			}
 		} catch (UsernameNotFoundException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

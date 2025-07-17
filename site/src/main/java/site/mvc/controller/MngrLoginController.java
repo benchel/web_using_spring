@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.RequiredArgsConstructor;
 import site.bean.MngrAuthenticationManager;
 import site.bean.MngrAuthenticationProvider;
+import site.mvc.service.ManagerService;
 
 /**
  * https://docs.spring.io/spring-security/reference/servlet/authentication/session-management.html#store-authentication-manually
@@ -41,7 +42,7 @@ public class MngrLoginController {
 	
 	private SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 	private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
-	//private final UserDetailService userDetailService;
+	private final ManagerService managerService;
 	
 	@PostMapping("/mngr/login")
 	@ResponseBody
@@ -51,7 +52,7 @@ public class MngrLoginController {
 	    
 	    Map<String, Object> rs = new HashMap<>();
 	    
-	    MngrAuthenticationProvider mngrAuthenticationProvider = new MngrAuthenticationProvider();
+	    MngrAuthenticationProvider mngrAuthenticationProvider = new MngrAuthenticationProvider(managerService);
 	    MngrAuthenticationManager mngrAuthenticationManager = new MngrAuthenticationManager(mngrAuthenticationProvider);
 	    
 	    Authentication authentication = mngrAuthenticationManager.authenticate(token);
