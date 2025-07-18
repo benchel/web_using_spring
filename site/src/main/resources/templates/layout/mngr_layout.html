@@ -22,9 +22,9 @@
 				<span class="logo"><a href="/mngr/notice/list">logo</a></span>
 			</div>
 			<div class="grid">
-				<span>관리자</span>
+				<span th:text="|관리자(${session.principal.id})|"></span>
 				<span>|</span>
-				<span>로그아웃</span>
+				<span><a href="/mngr/logout">로그아웃</a></span>
 			</div>
 		</header>
 		<div id="contents">
