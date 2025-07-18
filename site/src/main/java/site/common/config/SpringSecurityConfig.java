@@ -9,6 +9,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.RequiredArgsConstructor;
+import site.bean.MngrAccessDeniedHandler;
+import site.bean.MngrUnAuthenticationEntryPoint;
 import site.bean.SiteAccessDeniedHandler;
 import site.bean.SiteUnAuthenticationEntryPoint;
 
@@ -84,13 +86,20 @@ public class SpringSecurityConfig {
 		
 	}
 	
-	// 웹사이트 관리자의 접근과 권한 정의
 	@Configuration
 	@Order(2)
 	public static class MngrSecurityConfig {
 
-		// 인증(authentication)이 필요한 접근과 인증이 불필요한 접근 설정
-		// 접근 허가에 필요한 권한 설정
+		@Bean
+		public MngrUnAuthenticationEntryPoint mngrUnAuthenticationEntryPoint() {
+			return new MngrUnAuthenticationEntryPoint();
+		}
+		
+		@Bean
+		public MngrAccessDeniedHandler mngrAccessDeniedHandler() {
+			return new MngrAccessDeniedHandler();
+		}
+		
 		@Bean("mngrFilterChain")
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 			
@@ -104,15 +113,15 @@ public class SpringSecurityConfig {
 				.antMatchers("/mngr/sign/in").permitAll()
 			)
 			.exceptionHandling(exceptionHandling -> exceptionHandling
-				//.authenticationEntryPoint(null)
-				//.accessDeniedHandler(null)
+				.authenticationEntryPoint(mngrUnAuthenticationEntryPoint())
+				.accessDeniedHandler(mngrAccessDeniedHandler())
 				.accessDeniedPage("/error/redirect")
 			)
 			.logout((logout) ->
 			logout
 				.logoutUrl("/mngr/logout")
 				.logoutRequestMatcher(new AntPathRequestMatcher("/mngr/logout"))
-				.logoutSuccessUrl("/")
+				.logoutSuccessUrl("/mngr/sign/in")
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 			);
