@@ -9,10 +9,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.RequiredArgsConstructor;
-import site.bean.MngrAccessDeniedHandler;
-import site.bean.MngrUnAuthenticationEntryPoint;
 import site.bean.SiteAccessDeniedHandler;
 import site.bean.SiteUnAuthenticationEntryPoint;
+import site.mngr.bean.MngrAccessDeniedHandler;
+import site.mngr.bean.MngrUnAuthenticationEntryPoint;
 
 /**
  * 스프링 시큐리티 설정

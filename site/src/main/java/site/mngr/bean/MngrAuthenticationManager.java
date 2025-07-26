@@ -1,4 +1,4 @@
-package site.bean;
+package site.mngr.bean;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package site.mvc.controller;
+package site.mngr.controller;
 
 import java.io.IOException;
 

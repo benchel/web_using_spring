@@ -1,4 +1,4 @@
-package site.mvc.controller;
+package site.mngr.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,9 +26,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import site.bean.MngrAuthenticationManager;
-import site.bean.MngrAuthenticationProvider;
+import site.mngr.bean.MngrAuthenticationManager;
+import site.mngr.bean.MngrAuthenticationProvider;
 import site.mvc.service.ManagerService;
 
 /**
@@ -93,5 +94,11 @@ public class MngrLoginController {
 		
 	}
 	
+}
+
+@Data
+class LoginRequest {
+    private String id;
+    private String pwd;
 }
 

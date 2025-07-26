@@ -1,4 +1,4 @@
-package site.bean;
+package site.mngr.bean;
 
 import java.util.ArrayList;
 

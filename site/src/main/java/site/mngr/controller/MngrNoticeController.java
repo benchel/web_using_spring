@@ -1,4 +1,4 @@
-package site.mvc.controller;
+package site.mngr.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
