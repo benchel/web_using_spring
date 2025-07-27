@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mngr_layout}">
+<head></head>
+<th:block layout:fragment="script">
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+	registEvent();
+});
+
+const initPage = function() {
+	
+};
+
+const setDefault = function() {
+
+};
+
+const registEvent = function() {
+	let btn_go_page = document.querySelector('.btn-back');
+	btn_go_page.addEventListener('click', goPage);
+};
+
+
+function goPage() {
+	location.href="/mngr/notice/list";
+}
+
+</script>
+</th:block>
+<th:block layout:fragment="letterpress">
+<div class="letterpress">
+	<div class="guideline">
+		<span>관리자</span>
+		<span>&gt;</span>
+		<span>공지사항</span>
+		<span>&gt;</span>
+		<span>등록</span>
+	</div>
+
+	<table id="tbl1">
+		<tbody>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input type="text">
+				</td>
+			</tr>						
+			<tr>
+				<th>첨부파일</th>
+				<td><input type="file"></td>
+			</tr>						
+			<tr>
+				<td colspan="2">
+					<div>
+						<textarea name="cont"></textarea>
+					</div>
+				</td>
+			</tr>							
+		</tbody>
+	</table>
+
+	<div class="button-group">
+		<button class="fl-r btn-back">목록</button>
+		<button class="fl-r btn-reg btn">등록</button>
+	</div>
+
+</div>
+</th:block>
+</html>

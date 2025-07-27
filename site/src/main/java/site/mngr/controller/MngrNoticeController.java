@@ -30,4 +30,9 @@ public class MngrNoticeController {
 	public ResponseEntity<?> list(@RequestBody NoticeDTO noticeDTO) throws Exception {
 		return new ResponseEntity<>(noticeService.list(noticeDTO), HttpStatus.OK);
 	}
+	
+	@GetMapping("/reg")
+	public String regHTML() throws Exception {
+		return "mngr/notice/reg";
+	}
 }

@@ -36,11 +36,21 @@ body{margin: 0;}
 #tbl td .btn-modif{color: #0066ff; cursor: pointer;}
 #tbl td .btn-del{color: #971909; cursor: pointer;}
 
+#tbl1{width: 70%; margin: 0 auto; border: solid 1px #eee;}
+#tbl1 th{background-color: rgba(0, 0, 0, 0.815); color: white; text-align: center; width:20%;}
+#tbl1 tbody{width: 100%;}
+#tbl1 tbody tr{width: 100%;}
+#tbl1 tbody tr:not(:nth-child(3)){height: 40px;}
+#tbl1 tbody td input[type="text"]{width: 99%; line-height: 32px; font-size: 1.1em;}
+#tbl1 tbody tr:nth-child(3) textarea{width: 99%; min-height: 400px; resize: none;}
+
 .fl-r{float: right;}
 .fl-l{float: left;}
 
+.btn{margin-right: 3px;}
 .button-group{width: 70%; height: 5dvh; margin: 1dvh auto;}
 .button-group button{display: inline-block;}
 .btn-reg{width: 60px; height: 35px; background-color: #0066ff; color: white; border: none; border-radius: 3px; cursor: pointer;}
+.btn-back{width: 60px; height: 35px; background-color: rgb(255, 128, 192); color: white; border: none; border-radius: 3px; cursor: pointer;}
 
 .pagination{width: 70%; margin: 1dvh auto; text-align: center;}

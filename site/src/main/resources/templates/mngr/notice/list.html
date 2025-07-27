@@ -21,10 +21,11 @@ const setDefault = function() {
 };
 
 const registEvent = function() {
-
+	let btn_go_page = document.querySelector('.btn-reg');
+	btn_go_page.addEventListener('click', goPage);
 };
 
-const getList = function() {
+function getList() {
 	
 	let formData = {
 		'pageNo'	: document.querySelector('input[name="pageNo"]').value,
@@ -72,7 +73,7 @@ const getList = function() {
 	});
 };
 
-const pagingFunc = function() {
+function pagingFunc() {
 	let pages = document.querySelectorAll('.pages .page');
 	
 	for(page of pages) {
@@ -88,9 +89,13 @@ const pagingFunc = function() {
 	}
 };
 
-const viewFunc = function() {
+function viewFunc() {
 	
 };
+
+function goPage() {
+	location.href="/mngr/notice/reg";
+}
 
 
 </script>
