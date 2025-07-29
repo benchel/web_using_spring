@@ -16,8 +16,10 @@ const initPage = function() {
 };
 
 const setDefault = function() {
-
-};
+	CKEDITOR.replace( 'editor1', {
+	    language: 'fr',
+	    uiColor: '#9AB8F3'
+	});};
 
 const registEvent = function() {
 	let btn_go_page = document.querySelector('.btn-back');
@@ -55,9 +57,7 @@ function goPage() {
 			</tr>						
 			<tr>
 				<td colspan="2">
-					<div>
-						<textarea name="cont"></textarea>
-					</div>
+					<textarea name="editor1" id="editor1"></textarea>
 				</td>
 			</tr>							
 		</tbody>
