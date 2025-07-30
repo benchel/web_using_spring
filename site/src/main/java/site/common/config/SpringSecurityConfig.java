@@ -25,7 +25,7 @@ public class SpringSecurityConfig {
 
 	// Spring Security에서 제외할 웹 리소스 패스
 	public static final String[] SECURITY_EXCLUDE_PATTERN = {
-		"/", "/css/**", "/js/**", "/img/**", "/site/login", "/site/sign/*", "/mngr/login"
+		"/", "/css/**", "/js/**", "/img/**", "/editor/uploaded/img/", "/site/login", "/site/sign/*", "/mngr/login"
 	};
 	
 	public static final String[] SITE_AUTHENTICATED_PATTERN = {

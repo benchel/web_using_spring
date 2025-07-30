@@ -55,3 +55,8 @@ file:
 editor:
   upload:
     path: C:\dev\using_spring\editor\upload\
+  resource:
+    path: file:///C:/dev/using_spring/editor/upload/
+    url: /editor/uploaded/img/**
+    full: 
+      url: http://localhost:8088/editor/uploaded/img/

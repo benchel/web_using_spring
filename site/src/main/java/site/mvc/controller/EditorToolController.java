@@ -54,6 +54,7 @@ public class EditorToolController {
 
 		EditorImgUploaderResVO resVO = new EditorImgUploaderResVO();
 		
+		String resourcePath = env.getProperty("editor.resource.full.url");
 		String uploadPath = env.getProperty("editor.upload.path");
 		String category = request.getParameter("category");
 		
@@ -62,6 +63,7 @@ public class EditorToolController {
 		
 		log.info("---- category : " + category);
 		log.info("---- uploading path : " + uploadPath);
+		log.info("---- resource path : " + resourcePath);
 		
 		try {
 			
@@ -77,10 +79,9 @@ public class EditorToolController {
 				}
 			}
 
-			
-			resVO.setFileName(fileDTO.getName());
+			resVO.setFileName(fileDTO.getKey());
 			resVO.setUploaded(1);
-			resVO.setUrl("https:\\/\\/ckeditor.com\\/apps\\/ckfinder\\/userfiles\\/images\\/"+fileDTO.getName());
+			resVO.setUrl(resourcePath+fileDTO.getKey());
 
 			return new ResponseEntity<>(resVO, HttpStatus.OK);
 			
