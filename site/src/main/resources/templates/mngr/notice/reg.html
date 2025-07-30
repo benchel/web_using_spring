@@ -17,9 +17,11 @@ const initPage = function() {
 
 const setDefault = function() {
 	CKEDITOR.replace( 'editor1', {
-	    language: 'fr',
-	    uiColor: '#9AB8F3'
-	});};
+	    language: 'en'
+	    , uiColor: '#9AB8F3'
+	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor',
+	});
+};
 
 const registEvent = function() {
 	let btn_go_page = document.querySelector('.btn-back');

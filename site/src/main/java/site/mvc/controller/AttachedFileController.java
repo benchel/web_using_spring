@@ -236,7 +236,6 @@ public class AttachedFileController {
     
 	/**
 	 * 파일이름 인코딩
-	 * https://devdic.tistory.com/26
 	 * @param data
 	 * @return
 	 */

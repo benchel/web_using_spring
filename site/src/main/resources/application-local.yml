@@ -52,3 +52,6 @@ mail:
   pwd: ENC(xfshyoX2mg1psKI9Q02gNGiDBDDg/h+/jDd9W5HYsB/qja99kIRIQ8yiU+WDkIepO6jxb/fiWvLeItOKBbeUzQ==)
 file:
   path: C:\dev\using_spring\files\
+editor:
+  upload:
+    path: C:\dev\using_spring\editor\upload\
