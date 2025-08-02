@@ -19,7 +19,34 @@ const setDefault = function() {
 	CKEDITOR.replace( 'editor1', {
 	    language: 'en'
 	    , uiColor: '#9AB8F3'
-	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor',
+	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor'
+	});
+	
+	// https://stackoverflow.com/questions/35105588/ckeditor-keypress-keydown-events
+	
+	/*
+	CKEDITOR.instances['editor1'].on("instanceReady", function(event) {
+		this.document.on('keyup', function(e) {
+			console.log(e);
+			if(e.keyCode == 8 || e.keyCode == 46) {
+				let inputText = CKEDITOR.instances.editor1.getData();
+				console.log(inputText);
+			}
+		});
+	});
+	*/
+	
+	let editor = CKEDITOR.instances['editor1'];
+	editor.on('key', function(e) { 
+		console.log('e.data.keyCode : ' + e.data.keyCode);
+		// console.log('e.data : ' + e.editor.getData());
+		
+		if(e.data.keyCode == 8 || e.data.keyCode == 46) {
+			console.log('e.data : ' + e.editor.getData());
+			// img 태그 부분 파싱
+			// 파일 키 값을 ajax로 서버에 전송
+			// 서버가 전달받은 값으로 해당 파일을 삭제 처리한다.
+		}
 	});
 };
 
@@ -31,7 +58,11 @@ const registEvent = function() {
 
 function goPage() {
 	location.href="/mngr/notice/list";
-}
+};
+
+function sensingImgChange() {
+	
+};
 
 </script>
 </th:block>
