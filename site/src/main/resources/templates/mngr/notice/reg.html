@@ -15,6 +15,8 @@ const initPage = function() {
 	
 };
 
+let editorImgList = [];
+
 const setDefault = function() {
 	CKEDITOR.replace( 'editor1', {
 	    language: 'en'
@@ -22,27 +24,38 @@ const setDefault = function() {
 	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor'
 	});
 	
-	// https://stackoverflow.com/questions/35105588/ckeditor-keypress-keydown-events
-	
-	/*
-	CKEDITOR.instances['editor1'].on("instanceReady", function(event) {
-		this.document.on('keyup', function(e) {
-			console.log(e);
-			if(e.keyCode == 8 || e.keyCode == 46) {
-				let inputText = CKEDITOR.instances.editor1.getData();
-				console.log(inputText);
-			}
-		});
-	});
-	*/
-	
+	// https://stackoverflow.com/questions/38055319/ckeditor-image-upload-fileuploadresponse-event-is-not-firing
 	let editor = CKEDITOR.instances['editor1'];
-	editor.on('key', function(e) { 
+	
+	editor.on('fileUploadResponse', function(e) {
+		editorImgList.push(e.data.fileName);		
+	});
+	
+	editor.on('key', function(e) {
+		//const re = new RegExp('\<img.+\/\>');
+		const re = new RegExp('src=".+"');
 		console.log('e.data.keyCode : ' + e.data.keyCode);
-		// console.log('e.data : ' + e.editor.getData());
 		
 		if(e.data.keyCode == 8 || e.data.keyCode == 46) {
 			console.log('e.data : ' + e.editor.getData());
+			
+			let str = e.editor.getData();
+			let imgKey = str.match(re);
+			imgKey = imgKey[0];
+			console.log('find str : '+ imgKey);
+			
+			imgKey = imgKey.replace(new RegExp('style=".+"'), '');
+			
+			console.log('replaced str : '+ imgKey);
+			
+			let parse_rs = '';
+			let pt = imgKey.split('/');
+			console.log('pt : '+pt);
+			
+			parse_rs = pt[6];
+			
+			console.log('parse_rs : '+parse_rs);
+			
 			// img 태그 부분 파싱
 			// 파일 키 값을 ajax로 서버에 전송
 			// 서버가 전달받은 값으로 해당 파일을 삭제 처리한다.
@@ -53,6 +66,9 @@ const setDefault = function() {
 const registEvent = function() {
 	let btn_go_page = document.querySelector('.btn-back');
 	btn_go_page.addEventListener('click', goPage);
+	
+	let btn_reg = document.querySelector('.btn-reg');
+	btn_reg.addEventListener('click', reg);
 };
 
 
@@ -60,8 +76,57 @@ function goPage() {
 	location.href="/mngr/notice/list";
 };
 
-function sensingImgChange() {
+/**
+* 사용자가 지워버린 이미지를 알아내어 해당 이미지의 키값을 반환한다.
+*/
+function findImgDelete() {
 	
+	let deleted_imgs = [];
+	
+	let editor = CKEDITOR.instances['editor1'];
+	let str = editor.getData();
+	console.log('editor.getData() : ' + str);
+	
+	// 업로드된 이미지가 없는 경우
+	if(editorImgList == null) return deleted_imgs;
+	
+	// 이미지 태그 찾기
+	const re = new RegExp('src=".+"');
+	let imgs = str.match(re);
+	
+	// 업로드 되었던 이미지를 모두 지운 경우
+	if(imgs == null) {
+		deleted_imgs = editorImgList;
+	// 업로드 되었던 이미지들 중 일부를 지운 경우	
+	} else {
+		for(img of imgs) {
+			// 문자열 파싱
+			let temp = img.replace(new RegExp('style=".+"'), '');
+			temp = temp.split('/');
+			console.log('parse_result : '+ temp[6]);
+			deleted_imgs.push(temp[6]);
+		}
+	}
+	
+	console.log(deleted_imgs);
+	
+	return deleted_imgs;
+};
+
+
+function reg() {
+	
+	// 업로드 전에 사용자가 지워버린 이미지를 확인한다.
+	let deleted_imgs = findImgDelete();
+	// 지워진 이미지가 존재하는 경우 서버에서 삭제한다.
+	if(deleted_imgs != null) {
+		deleteEditorImg(deleted_imgs);
+	}
+};
+
+function deleteEditorImg(deleted_imgs) {
+	console.log('이미지 삭제');
+	console.log('삭제 대상 : ', deleted_imgs);
 };
 
 </script>
