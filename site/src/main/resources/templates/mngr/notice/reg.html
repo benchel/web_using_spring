@@ -28,9 +28,11 @@ const setDefault = function() {
 	let editor = CKEDITOR.instances['editor1'];
 	
 	editor.on('fileUploadResponse', function(e) {
-		editorImgList.push(e.data.fileName);		
+		let fn = JSON.parse(e.data.fileLoader.xhr.response).fileName;
+		editorImgList.push(fn);		
 	});
 	
+	/*
 	editor.on('key', function(e) {
 		//const re = new RegExp('\<img.+\/\>');
 		const re = new RegExp('src=".+"');
@@ -60,7 +62,7 @@ const setDefault = function() {
 			// 파일 키 값을 ajax로 서버에 전송
 			// 서버가 전달받은 값으로 해당 파일을 삭제 처리한다.
 		}
-	});
+	});*/
 };
 
 const registEvent = function() {
@@ -100,11 +102,18 @@ function findImgDelete() {
 	// 업로드 되었던 이미지들 중 일부를 지운 경우	
 	} else {
 		for(img of imgs) {
-			// 문자열 파싱
+			// 문자열 파싱(본문에 남아있는 이미지 값들을 추출)
 			let temp = img.replace(new RegExp('style=".+"'), '');
 			temp = temp.split('/');
+			temp[6] = temp[6].replace("\"", "");
+			temp[6] = temp[6].trim();
 			console.log('parse_result : '+ temp[6]);
-			deleted_imgs.push(temp[6]);
+			
+			
+			console.log('editorImgList : ', editorImgList);
+			// 본문에 남아있는 이미지들을 제외
+			// 지워진 이미지들로만 배열을 재구성한다.
+			deleted_imgs = editorImgList.filter((el) => el != temp[6]);
 		}
 	}
 	
@@ -127,6 +136,31 @@ function reg() {
 function deleteEditorImg(deleted_imgs) {
 	console.log('이미지 삭제');
 	console.log('삭제 대상 : ', deleted_imgs);
+	
+	let list = [];
+	
+	for(img of deleted_imgs) {
+		let dto = { 'key' : img, 'category' : 'editor' };
+		list.push(dto);
+	}
+	
+	let form_data = {
+		'list' : list
+	};
+	
+	fetch('/file/delete/editor/img/', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		console.log(data.msg);
+	})
+	.catch((error) => {
+		alert("데이터를 삭제하는데 실패하였습니다.");
+		console.log(error);
+	});	
 };
 
 </script>

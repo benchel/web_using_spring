@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -190,6 +191,40 @@ public class AttachedFileController {
 		} catch (Exception e) {
 			result.put("result", false);
 		}
+		
+		return result;
+	}
+	
+	@PostMapping("/delete/editor/img/")
+	@ResponseBody
+	public Map<String, Object> delete(@RequestBody Map<String, List<AttachedFileDTO>> list) {
+		
+		log.info("---- deleting ----");
+		
+		Map<String, Object> result = new HashMap<>();
+		
+		String path = env.getProperty("editor.upload.path");
+		
+		list.get("list").forEach((fileDTO) -> {
+			
+			log.info("==== FILE ====");
+			log.info("file_key : " + fileDTO.getKey());
+			log.info("path : " + path);
+			
+			try {
+				
+				File file = this.getFile(fileDTO.getKey(), path);
+				file.delete();
+				
+				attFileService.delete(fileDTO);
+				
+				result.put("result", true);
+				result.put("msg", "삭제 성공");
+			} catch (Exception e) {
+				result.put("result", false);
+			}
+			
+		});
 		
 		return result;
 	}
