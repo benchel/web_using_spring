@@ -35,4 +35,10 @@ public class MngrNoticeController {
 	public String regHTML() throws Exception {
 		return "mngr/notice/reg";
 	}
+	
+	@PostMapping("/reg")
+	@ResponseBody
+	public ResponseEntity<?> reg(@RequestBody NoticeDTO noticeDTO) throws Exception {
+		return new ResponseEntity<>(noticeService.registry(noticeDTO), HttpStatus.OK);
+	}	
 }

@@ -87,7 +87,6 @@ function findImgDelete() {
 	
 	let editor = CKEDITOR.instances['editor1'];
 	let str = editor.getData();
-	console.log('editor.getData() : ' + str);
 	
 	// 업로드된 이미지가 없는 경우
 	if(editorImgList == null) return deleted_imgs;
@@ -107,36 +106,50 @@ function findImgDelete() {
 			temp = temp.split('/');
 			temp[6] = temp[6].replace("\"", "");
 			temp[6] = temp[6].trim();
-			console.log('parse_result : '+ temp[6]);
 			
-			
-			console.log('editorImgList : ', editorImgList);
 			// 본문에 남아있는 이미지들을 제외
 			// 지워진 이미지들로만 배열을 재구성한다.
 			deleted_imgs = editorImgList.filter((el) => el != temp[6]);
 		}
 	}
 	
-	console.log(deleted_imgs);
-	
 	return deleted_imgs;
 };
 
 
 function reg() {
-	
 	// 업로드 전에 사용자가 지워버린 이미지를 확인한다.
 	let deleted_imgs = findImgDelete();
 	// 지워진 이미지가 존재하는 경우 서버에서 삭제한다.
 	if(deleted_imgs != null) {
 		deleteEditorImg(deleted_imgs);
 	}
+	
+	let form_data = {};
+	form_data['title'] = document.querySelector('input[name="title"]').value;
+	form_data['content'] = CKEDITOR.instances['editor1'].getData();
+	form_data['writer'] = document.querySelector('input[name="writer"]').value;	
+	form_data['list'] = editorImgList;
+	
+	fetch('/mngr/notice/reg/', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.result) {
+			alert(data.msg);
+			location.href="/mngr/notice/list";
+		}
+	})
+	.catch((error) => {
+		alert("데이터를 저장하는데 실패하였습니다.");
+		console.log(error);
+	});
 };
 
 function deleteEditorImg(deleted_imgs) {
-	console.log('이미지 삭제');
-	console.log('삭제 대상 : ', deleted_imgs);
-	
 	let list = [];
 	
 	for(img of deleted_imgs) {
@@ -180,7 +193,8 @@ function deleteEditorImg(deleted_imgs) {
 			<tr>
 				<th>제목</th>
 				<td>
-					<input type="text">
+					<input type="text" name="title" value="">
+					<input type="hidden" name="writer" th:value="${session.principal.id}">
 				</td>
 			</tr>						
 			<tr>

@@ -1,5 +1,7 @@
 package site.mvc.dto;
 
+import java.util.ArrayList;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,5 +14,8 @@ import lombok.NoArgsConstructor;
 public class NoticeDTO extends BaseDTO {
 	private int idx;
 	private String title;
+	private String writer;
 	private String content;
+	
+	private ArrayList<String> list;
 }

@@ -19,6 +19,11 @@
 	FROM notice
 	LIMIT #{pageBlock} OFFSET #{pageOffset}
   </select>
- 
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.NoticeDTO">
+		INSERT INTO notice(title, writer, content, reg_date, modif_date, `view`)
+		VALUES(#{title}, #{writer}, #{content}, NOW(), NOW(), 0)  	
+  </insert>
+
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->
