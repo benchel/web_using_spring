@@ -20,6 +20,18 @@
 	LIMIT #{pageBlock} OFFSET #{pageOffset}
   </select>
   
+  <select id="view" parameterType="site.mvc.dto.NoticeDTO" resultType="site.mvc.vo.NoticeVO">
+	SELECT idx
+		, ROW_NUMBER() OVER (ORDER BY idx ) as seq
+		, title
+		, writer
+		, content 
+		, DATE_FORMAT(reg_date, '%Y-%m-%d') as reg_date
+		, view
+	FROM notice
+	WHERE idx = #{idx}
+  </select>
+  
   <insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.NoticeDTO">
 		INSERT INTO notice(title, writer, content, reg_date, modif_date, `view`)
 		VALUES(#{title}, #{writer}, #{content}, NOW(), NOW(), 0)  	

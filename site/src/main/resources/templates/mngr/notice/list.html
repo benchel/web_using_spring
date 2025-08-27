@@ -51,7 +51,7 @@ function getList() {
 		for(row of list) {
 			html += '<tr>';
 			html += '	<td>' + (row.idx) + '</td>';
-			html += '	<td><span data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
+			html += '	<td><span class="view" data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
 			html += '	<td>' + (row.regDate) + '</td>';
 			html += '	<td>' + (row.view) + '</td>';
 			html += '	<td>';
@@ -90,7 +90,14 @@ function pagingFunc() {
 };
 
 function viewFunc() {
+	let views = document.querySelectorAll('.view');
 	
+	for(view of views) {
+		view.addEventListener('click', (e) => {
+			let idx = e.target.getAttribute('data-idx');
+			location.href="/mngr/notice/view?idx="+idx;
+		});
+	}
 };
 
 function goPage() {

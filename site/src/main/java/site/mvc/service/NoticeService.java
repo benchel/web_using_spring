@@ -76,4 +76,10 @@ public class NoticeService {
 		rs.put("msg", "성공적으로 저장하였습니다.");		
 		return rs;
 	}
+	
+	@Transactional(readOnly = true)
+	public NoticeVO view(NoticeDTO noticeDTO) throws Exception {
+		return noticeMapper.view(noticeDTO);
+	}	
+	
 }

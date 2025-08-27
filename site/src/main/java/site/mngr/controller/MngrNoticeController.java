@@ -3,6 +3,7 @@ package site.mngr.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +41,11 @@ public class MngrNoticeController {
 	@ResponseBody
 	public ResponseEntity<?> reg(@RequestBody NoticeDTO noticeDTO) throws Exception {
 		return new ResponseEntity<>(noticeService.registry(noticeDTO), HttpStatus.OK);
-	}	
+	}
+	
+	@GetMapping("/view")
+	public String view(ModelMap modelMap, NoticeDTO noticeDTO) throws Exception {
+		modelMap.addAttribute("notice", noticeService.view(noticeDTO));
+		return "mngr/notice/view";
+	}
 }
