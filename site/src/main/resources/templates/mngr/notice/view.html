@@ -6,17 +6,12 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	initPage();
 	setDefault();
 	registEvent();
 });
 
-const initPage = function() {
-	
-};
-
 const setDefault = function() {
-	
+	attach_to_download_e();
 };
 
 const registEvent = function() {
@@ -52,7 +47,12 @@ function goPage() {
 			</tr>						
 			<tr>
 				<th>첨부파일</th>
-				<td><input type="file"></td>
+				<td>
+					<p th:each="file : ${files}">
+						<span class="fnm" th:text="${file.name}"></span>
+						<input type="hidden" name="key" th:value="${file.key}">
+					</p>				
+				</td>
 			</tr>						
 			<tr>
 				<td colspan="2">

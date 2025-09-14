@@ -1,6 +1,7 @@
 package site.mvc.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,5 +18,6 @@ public class NoticeDTO extends BaseDTO {
 	private String writer;
 	private String content;
 	
-	private ArrayList<String> list;
+	private ArrayList<String> imgs;
+	private List<AttachedFileDTO> files; 
 }

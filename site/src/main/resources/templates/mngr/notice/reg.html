@@ -11,11 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
 	registEvent();
 });
 
-const initPage = function() {
-	
-};
 
 let editorImgList = [];
+
+const initPage = function() {
+	proc_set_up();
+};
 
 const setDefault = function() {
 	CKEDITOR.replace( 'editor1', {
@@ -27,42 +28,12 @@ const setDefault = function() {
 	// https://stackoverflow.com/questions/38055319/ckeditor-image-upload-fileuploadresponse-event-is-not-firing
 	let editor = CKEDITOR.instances['editor1'];
 	
+	// 파일업로드 요청에 대한 서버의 응답의 일부(파일이름)를 저장한다
 	editor.on('fileUploadResponse', function(e) {
 		let fn = JSON.parse(e.data.fileLoader.xhr.response).fileName;
 		editorImgList.push(fn);		
 	});
 	
-	/*
-	editor.on('key', function(e) {
-		//const re = new RegExp('\<img.+\/\>');
-		const re = new RegExp('src=".+"');
-		console.log('e.data.keyCode : ' + e.data.keyCode);
-		
-		if(e.data.keyCode == 8 || e.data.keyCode == 46) {
-			console.log('e.data : ' + e.editor.getData());
-			
-			let str = e.editor.getData();
-			let imgKey = str.match(re);
-			imgKey = imgKey[0];
-			console.log('find str : '+ imgKey);
-			
-			imgKey = imgKey.replace(new RegExp('style=".+"'), '');
-			
-			console.log('replaced str : '+ imgKey);
-			
-			let parse_rs = '';
-			let pt = imgKey.split('/');
-			console.log('pt : '+pt);
-			
-			parse_rs = pt[6];
-			
-			console.log('parse_rs : '+parse_rs);
-			
-			// img 태그 부분 파싱
-			// 파일 키 값을 ajax로 서버에 전송
-			// 서버가 전달받은 값으로 해당 파일을 삭제 처리한다.
-		}
-	});*/
 };
 
 const registEvent = function() {
@@ -125,11 +96,14 @@ function reg() {
 		deleteEditorImg(deleted_imgs);
 	}
 	
+	let files = getFileList();
+	
 	let form_data = {};
 	form_data['title'] = document.querySelector('input[name="title"]').value;
 	form_data['content'] = CKEDITOR.instances['editor1'].getData();
 	form_data['writer'] = document.querySelector('input[name="writer"]').value;	
-	form_data['list'] = editorImgList;
+	form_data['imgs'] = editorImgList;
+	form_data['files'] = files;
 	
 	fetch('/mngr/notice/reg/', {
 		'method' : 'POST',
@@ -199,7 +173,14 @@ function deleteEditorImg(deleted_imgs) {
 			</tr>						
 			<tr>
 				<th>첨부파일</th>
-				<td><input type="file"></td>
+				<td>
+					<form id="att-file-form" method="POST" enctype="multipart/form-data">
+						<input type="file" name="file">
+						<input type="hidden" name="category" value="notice">
+					</form>
+					<section class="att_file_lst">
+					</section>
+				</td>
 			</tr>						
 			<tr>
 				<td colspan="2">

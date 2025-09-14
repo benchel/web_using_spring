@@ -60,13 +60,22 @@ public class NoticeService {
 		
 		noticeMapper.insert(noticeDTO);
 		
-		// 첨부파일이 있는 경우
-		if(!noticeDTO.getList().isEmpty()) {
+		// 에디터를 통해서 첨부한 이미지 파일이 있는 경우
+		if(!noticeDTO.getImgs().isEmpty()) {
 			// 첨부파일의 정보(file.parent = board.idx)를 업데이트
-			for(String fileKey : noticeDTO.getList()) {
+			for(String fileKey : noticeDTO.getImgs()) {
 				AttachedFileDTO file = new AttachedFileDTO();
 				file.setKey(fileKey);
 				file.setCategory("editor");
+				file.setParent(noticeDTO.getIdx());
+				attFileService.update(file);
+			}
+		}
+		
+		// 첨부파일이 있는 경우
+		if(!noticeDTO.getFiles().isEmpty()) {
+			// 첨부파일의 정보(file.parent = board.idx)를 업데이트
+			for(AttachedFileDTO file : noticeDTO.getFiles()) {
 				file.setParent(noticeDTO.getIdx());
 				attFileService.update(file);
 			}

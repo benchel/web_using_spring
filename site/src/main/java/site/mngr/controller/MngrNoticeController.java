@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 import site.mvc.dto.NoticeDTO;
+import site.mvc.service.AttachedFileService;
 import site.mvc.service.NoticeService;
 
 @Controller
@@ -20,6 +21,7 @@ import site.mvc.service.NoticeService;
 public class MngrNoticeController {
 
 	private final NoticeService noticeService;
+	private final AttachedFileService fileService;
 	
 	@GetMapping("/list")
 	public String listHTML() throws Exception {
@@ -46,6 +48,7 @@ public class MngrNoticeController {
 	@GetMapping("/view")
 	public String view(ModelMap modelMap, NoticeDTO noticeDTO) throws Exception {
 		modelMap.addAttribute("notice", noticeService.view(noticeDTO));
+		modelMap.addAttribute("files", fileService.getList(noticeDTO.getIdx(), "notice"));
 		return "mngr/notice/view";
 	}
 }
