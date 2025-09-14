@@ -138,8 +138,7 @@ function getFileList() {
 	return file_lst;
 };
 
-
-function adhere_to_download_e() {
+function attach_to_download_e() {
 	let file_names = document.querySelectorAll('span[class="fnm"]');
 	for(let file_name of file_names) {
 		file_name.addEventListener('click', download_file);
