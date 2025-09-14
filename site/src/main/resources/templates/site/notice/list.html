@@ -50,7 +50,7 @@ const getList = function() {
 		for(row of list) {
 			html += '<tr>';
 			html += '	<td>' + (row.idx) + '</td>';
-			html += '	<td><span data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
+			html += '	<td><span class="view" data-idx="' + (row.idx) + '">' + (row.title) + '</span></td>';
 			html += '	<td>' + (row.regDate) + '</td>';
 			html += '	<td>' + (row.view) + '</td>';
 			html += '</tr>';

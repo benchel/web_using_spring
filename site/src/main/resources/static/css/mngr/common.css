@@ -54,3 +54,13 @@ body{margin: 0;}
 .btn-back{width: 60px; height: 35px; background-color: rgb(255, 128, 192); color: white; border: none; border-radius: 3px; cursor: pointer;}
 
 .pagination{width: 70%; margin: 1dvh auto; text-align: center;}
+
+/* 첨부파일 */
+#att-file-form{display: inline-flex;}
+.att_file_lst{margin-top: 3px; display: none;}
+.att_file_lst span{margin-right: 3px;}
+
+[class*="det_file_"] {background-color: #c02323; color:white; border:none; border-radius: 3px;}
+.fnm{cursor: pointer;}
+
+.view{cursor: pointer;}
