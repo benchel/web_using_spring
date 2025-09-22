@@ -36,6 +36,10 @@
 		INSERT INTO notice(title, writer, content, reg_date, modif_date, `view`)
 		VALUES(#{title}, #{writer}, #{content}, NOW(), NOW(), 0)  	
   </insert>
+  
+  <update id="increaseViews" parameterType="site.mvc.dto.NoticeDTO">
+  	UPDATE notice SET view = view <![CDATA[+]]> 1 WHERE idx = #{idx}
+  </update>
 
 </mapper>
 <!-- xml 파일 작성 방법 : https://mybatis.org/mybatis-3/ko/getting-started.html -->

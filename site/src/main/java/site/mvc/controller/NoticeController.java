@@ -3,6 +3,7 @@ package site.mvc.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +33,8 @@ public class NoticeController {
 	}
 	
 	@GetMapping("/view")
-	public String viewHTML() throws Exception {
+	public String viewHTML(ModelMap modelMap, NoticeDTO noticeDTO) throws Exception {
+		modelMap.addAttribute("notice", noticeService.view_site(noticeDTO));
 		return "site/notice/view";
 	}
 }

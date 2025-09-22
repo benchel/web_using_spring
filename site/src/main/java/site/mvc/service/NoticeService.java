@@ -86,9 +86,22 @@ public class NoticeService {
 		return rs;
 	}
 	
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public Map<String, Object> view_site(NoticeDTO noticeDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		// 조회수 증가
+		noticeMapper.increaseViews(noticeDTO);
+		// 조회 대상 
+		rs.put("view", noticeMapper.view(noticeDTO));
+		// 첨부파일
+		rs.put("files", attFileService.getList(noticeDTO.getIdx(), "notice"));
+		return rs;
+	}
+	
 	@Transactional(readOnly = true)
 	public NoticeVO view(NoticeDTO noticeDTO) throws Exception {
 		return noticeMapper.view(noticeDTO);
-	}	
+	}
 	
 }

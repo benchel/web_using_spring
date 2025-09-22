@@ -3,6 +3,29 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="~{layout/site_layout}">
 <head></head>
+<th:block layout:fragment="script">
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	setDefault();
+	registEvent();
+});
+
+const setDefault = function() {
+	attach_to_download_e();
+};
+
+const registEvent = function() {
+	let btn_go_page = document.querySelector('.btn-list');
+	btn_go_page.addEventListener('click', goPage);
+};
+
+function goPage() {
+	location.href="/notice/list";
+};
+
+
+</script>
+</th:block>
 <th:block layout:fragment="contents">
 	<div id="contents">
 	
@@ -17,22 +40,23 @@
 
 			<div class="preface">
 				<p>
-					<span class="label-b">번호</span><span>1</span>
-					<span class="label-b">제목</span><span>공지사항입니다.</span>
+					<span class="label-b">번호</span><span th:text="${notice.view.seq}"></span>
+					<span class="label-b">제목</span><span th:text="${notice.view.title}"></span>
 				</p>
 				<p>
-					<span class="label-b">작성자</span><span>관리자</span>
-					<span class="label-b">등록일</span><span>2024.06.27</span>
-					<span class="label-b">조회수</span><span>11</span>
+					<span class="label-b">작성자</span><span th:text="${notice.view.writer}"></span>
+					<span class="label-b">등록일</span><span th:text="${notice.view.regDate}"></span>
+					<span class="label-b">조회수</span><span th:text="${notice.view.view}"></span>
 				</p>
 				<p>
 					<span class="label-b">첨부파일</span>
-					<span>file1</span>
-					<span>file2</span>
-					<span>file3</span>
+					<span th:each="file : ${notice.files}">
+						<span class="fnm" th:text="${file.name}"></span>
+						<input type="hidden" name="key" th:value="${file.key}">
+					</span>
 				</p>				
 			</div>
-			<div class="letterpress">
+			<div class="letterpress" th:utext="${notice.view.content}">
 				
 
 			</div>

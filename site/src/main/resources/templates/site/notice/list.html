@@ -6,15 +6,10 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	initPage();
 	setDefault();
 	registEvent();
 	getList();	
 });
-
-const initPage = function() {
-	
-};
 
 const setDefault = function() {
 
@@ -85,7 +80,14 @@ const pagingFunc = function() {
 };
 
 const viewFunc = function() {
+	let views = document.querySelectorAll('.view');
 	
+	for(view of views) {
+		view.addEventListener('click', (e) => {
+			let idx = e.target.getAttribute('data-idx');
+			location.href="/notice/view?idx="+idx;
+		});
+	}
 };
 
 
