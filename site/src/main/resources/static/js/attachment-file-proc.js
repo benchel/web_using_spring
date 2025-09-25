@@ -1,16 +1,34 @@
 function proc_set_up() {
+	// 등록 및 수정 페이지에서 첨부파일 기능이 존재하는 경우
+	// 파일 태그에 해당 태그의 변화를 감지하는 이벤트를 달아주고 변화가 감지되면 첨부한 파일을 서버에 업로드한다.
 	let input_file_tag = document.querySelector('input[type=file]');
 	input_file_tag.addEventListener('change', upload_file);
+	
+	// 수정 페이지에서 해당 게시글에 첨부파일이 존재하는 경우
+	// 첨부파일을 삭제할 수 있도록 삭제 버튼에 이벤트를 달아준다.
+	let dels = document.querySelectorAll('[class*="det_file_"]');
+	if(dels == null) return;
+	
+	for(delt of dels) {
+		delt.addEventListener('click', delete_file);
+	}
 };
 
 function vision_file_list(file, e) {
 	let file_name = file.name;
 	let file_key = file.key;
 	
-	// node 생성
+	// <span class="fnm">file.name</span>
 	let span_node = document.createElement('span');
+	span_node.classList.add('fnm');
 	span_text = document.createTextNode(file_name);
 	span_node.appendChild(span_text);
+	
+	// <input type="hidden" name="key" value="file.key">
+	let input_node = document.createElement('input');
+	input_node.classList.add('key');
+	input_node.setAttribute('type', 'hidden');
+	input_node.setAttribute('value', file.key);
 	
 	// 파일 리스트 css 속성 변경(display)
 	let file_list = document.querySelector('.att_file_lst');
@@ -26,6 +44,7 @@ function vision_file_list(file, e) {
 	
 	// 파일 리스트에 생성한 노드 삽입
 	file_list.appendChild(span_node);
+	file_list.appendChild(input_node);
 	file_list.insertAdjacentHTML('beforeend', btn);
 	
 	// 파일 삭제 버튼에 삭제 이벤트 부착
@@ -33,6 +52,9 @@ function vision_file_list(file, e) {
 	btn_det_file.addEventListener('click', delete_file);
 	// input[type=file] 초기화
 	e.target.value = '';
+	
+	// 파일 이름에 다운로드 이벤트 부착
+	attach_to_download_e();
 };
 
 function parsing_file_path(file_path) {
@@ -48,6 +70,7 @@ function parsing_file_path(file_path) {
 
 function detach_file_tag(e) {
 	let btn = e.target;
+	btn.previousElementSibling.previousElementSibling.remove();
 	btn.previousElementSibling.remove();
 	btn.remove();
 };
