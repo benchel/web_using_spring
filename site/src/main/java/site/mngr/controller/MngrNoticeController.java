@@ -45,6 +45,19 @@ public class MngrNoticeController {
 		return new ResponseEntity<>(noticeService.registry(noticeDTO), HttpStatus.OK);
 	}
 	
+	@GetMapping("/modify")
+	public String modifyHTML(ModelMap modelMap, NoticeDTO noticeDTO) throws Exception {
+		modelMap.addAttribute("notice", noticeService.view(noticeDTO));
+		modelMap.addAttribute("files", fileService.getList(noticeDTO.getIdx(), "notice"));		
+		return "mngr/notice/modify";
+	}
+	
+	@PostMapping("/modify")
+	@ResponseBody
+	public ResponseEntity<?> modify(@RequestBody NoticeDTO noticeDTO) throws Exception {
+		return new ResponseEntity<>(null, HttpStatus.OK);
+	}
+	
 	@GetMapping("/view")
 	public String view(ModelMap modelMap, NoticeDTO noticeDTO) throws Exception {
 		modelMap.addAttribute("notice", noticeService.view(noticeDTO));

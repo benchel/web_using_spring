@@ -6,15 +6,10 @@
 <th:block layout:fragment="script">
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-	initPage();
 	setDefault();
 	registEvent();
 	getList();	
 });
-
-const initPage = function() {
-	
-};
 
 const setDefault = function() {
 
@@ -98,7 +93,29 @@ function viewFunc() {
 			location.href="/mngr/notice/view?idx="+idx;
 		});
 	}
+	
+	let modifs = document.querySelectorAll('.btn-modif');
+	
+	for(modif of modifs) {
+		modif.addEventListener('click', (e) => {
+			let idx = e.target.getAttribute('idx');
+			location.href="/mngr/notice/modify?idx="+idx;
+		});
+	}
+	
+	let dels = document.querySelectorAll('.btn-del');
+	
+	for(del of dels) {
+		del.addEventListener('click', (e) => {
+			let idx = e.target.getAttribute('idx');
+			deleteTarget(idx);
+		});
+	}
 };
+
+function deleteTarget(idx) {
+	
+}
 
 function goPage() {
 	location.href="/mngr/notice/reg";

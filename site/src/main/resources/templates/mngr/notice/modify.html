@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layout/mngr_layout}">
+<head></head>
+<th:block layout:fragment="script">
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+	initPage();
+	setDefault();
+	registEvent();
+});
+
+const initPage = function() {
+	proc_set_up();
+};
+
+const setDefault = function() {
+	CKEDITOR.replace( 'editor1', {
+	    language: 'en'
+	    , uiColor: '#9AB8F3'
+	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor'
+	});	
+	
+	attach_to_download_e();
+};
+
+const registEvent = function() {
+	let btn_go_page = document.querySelector('.btn-back');
+	btn_go_page.addEventListener('click', goPage);
+};
+
+
+function goPage() {
+	location.href="/mngr/notice/list";
+};
+
+</script>
+</th:block>
+<th:block layout:fragment="letterpress">
+<div class="letterpress">
+	<div class="guideline">
+		<span>관리자</span>
+		<span>&gt;</span>
+		<span>공지사항</span>
+		<span>&gt;</span>
+		<span>등록</span>
+	</div>
+
+	<table id="tbl1">
+		<tbody>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input type="text" name="title" th:value="${notice.title}">
+					<input type="hidden" name="writer" th:value="${session.principal.id}">
+				</td>
+			</tr>						
+			<tr>
+				<th>첨부파일</th>
+				<td>
+					<form id="att-file-form" method="POST" enctype="multipart/form-data">
+						<input type="file" name="file">
+						<input type="hidden" name="category" value="notice">
+					</form>
+					<p>
+						<span th:each="file : ${files}">
+							<span class="fnm" th:text="${file.name}"></span>
+							<input type="hidden" name="key" th:value="${file.key}">
+							<button class="det_file_" th:param="${file.key}">삭제</button>
+						<span>		
+						<section class="att_file_lst">
+	
+						</section>
+					<p>			
+				</td>
+			</tr>						
+			<tr>
+				<td colspan="2">
+					<textarea name="editor1" id="editor1" th:utext="${notice.content}"></textarea>
+				</td>
+			</tr>							
+		</tbody>
+	</table>
+
+	<div class="button-group">
+		<button class="fl-r btn-back">목록</button>
+	</div>
+
+</div>
+</th:block>
+</html>
