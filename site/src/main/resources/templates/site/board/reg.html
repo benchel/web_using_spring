@@ -29,7 +29,7 @@ function reg_proc() {
 	let csrf_header = document.querySelector("meta[name='_csrf_header']").getAttribute("content");
 	let csrf_token = document.querySelector("meta[name='_csrf']").getAttribute("content");
 		
-	let file_lst = getFileList();
+	let file_lst = get_file_list();
 	
 	let form_data = { 'list' : file_lst
 	, 'title' : document.querySelector('input[name="title"]').value

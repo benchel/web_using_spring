@@ -137,7 +137,7 @@ function delete_file(e) {
 	
 };
 
-function getFileList() {
+function get_file_list() {
 	let category = document.querySelector('input[name="category"]').value;
 	
 	let buttons = document.querySelectorAll('.att_file_lst button');
