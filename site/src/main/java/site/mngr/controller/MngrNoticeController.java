@@ -55,7 +55,7 @@ public class MngrNoticeController {
 	@PostMapping("/modify")
 	@ResponseBody
 	public ResponseEntity<?> modify(@RequestBody NoticeDTO noticeDTO) throws Exception {
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return new ResponseEntity<>(noticeService.modify(noticeDTO), HttpStatus.OK);
 	}
 	
 	@GetMapping("/view")

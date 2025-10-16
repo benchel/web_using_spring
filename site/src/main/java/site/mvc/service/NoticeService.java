@@ -87,6 +87,39 @@ public class NoticeService {
 	}
 	
 	@Transactional(readOnly = false, rollbackFor = Exception.class)
+	public Map<String, Object> modify(NoticeDTO noticeDTO) throws Exception {
+		Map<String, Object> rs = new HashMap<>();
+		
+		noticeMapper.update(noticeDTO);
+		
+		// 에디터를 통해서 첨부한 이미지 파일이 있는 경우
+		if(!noticeDTO.getImgs().isEmpty()) {
+			// 첨부파일의 정보(file.parent = board.idx)를 업데이트
+			for(String fileKey : noticeDTO.getImgs()) {
+				AttachedFileDTO file = new AttachedFileDTO();
+				file.setKey(fileKey);
+				file.setCategory("editor");
+				file.setParent(noticeDTO.getIdx());
+				attFileService.update(file);
+			}
+		}
+		
+		// 첨부파일이 있는 경우
+		if(!noticeDTO.getFiles().isEmpty()) {
+			// 첨부파일의 정보(file.parent = board.idx)를 업데이트
+			for(AttachedFileDTO file : noticeDTO.getFiles()) {
+				file.setParent(noticeDTO.getIdx());
+				attFileService.update(file);
+			}
+		}
+		
+		rs.put("result", true);
+		rs.put("msg", "성공적으로 수정되었습니다.");		
+		return rs;
+	}	
+	
+	
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public Map<String, Object> view_site(NoticeDTO noticeDTO) throws Exception {
 		Map<String, Object> rs = new HashMap<>();
 		

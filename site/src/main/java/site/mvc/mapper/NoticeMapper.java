@@ -12,6 +12,7 @@ import site.mvc.vo.NoticeVO;
 public interface NoticeMapper {
 	public int count(NoticeDTO noticeDTO) throws Exception;
 	public int insert(NoticeDTO noticeDTO) throws Exception;
+	public int update(NoticeDTO noticeDTO) throws Exception;
 	public NoticeVO view(NoticeDTO noticeDTO) throws Exception;
 	public List<NoticeVO> list(NoticeDTO noticeDTO) throws Exception;
 	public int increaseViews(NoticeDTO noticeDTO) throws Exception;

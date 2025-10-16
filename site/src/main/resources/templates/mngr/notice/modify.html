@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	registEvent();
 });
 
+let editor_imgs = [];
+
 const initPage = function() {
 	proc_set_up();
+	attach_to_download_e();
 };
 
 const setDefault = function() {
@@ -20,19 +23,187 @@ const setDefault = function() {
 	    language: 'en'
 	    , uiColor: '#9AB8F3'
 	  	, filebrowserUploadUrl: '/editor/image/upload?category=editor'
+	});
+	
+	let editor = CKEDITOR.instances['editor1'];
+	
+	// 파일업로드 요청에 대한 서버의 응답의 일부(파일이름)를 저장한다
+	editor.on('fileUploadResponse', function(e) {
+		let fn = JSON.parse(e.data.fileLoader.xhr.response).fileName;
+		editor_imgs.push(fn.trim());		
 	});	
 	
-	attach_to_download_e();
+	extractEditorImgs();
 };
 
 const registEvent = function() {
 	let btn_go_page = document.querySelector('.btn-back');
 	btn_go_page.addEventListener('click', goPage);
+	
+	let btn_reg = document.querySelector('.btn-reg');
+	btn_reg.addEventListener('click', modify);	
 };
 
+// 기존의 본문 내용에서 이미지 정보(파일명)들을 추출한다.
+function extractEditorImgs() {
+	
+	let editor = CKEDITOR.instances['editor1'];
+	let str = editor.getData();
+	
+	// 이미지 태그 찾기
+	let regexp = /src=".+"/g;
+	let matches = str.matchAll(regexp);
+	let imgs = [];
+	
+	for(matche of matches) {
+		imgs.push(matche[0]);
+	}
+	
+	if(imgs == null) return;
+	
+	for(img of imgs) {
+		// 이미지 태그에서 파일이름만 파싱
+		let temp = img.replace(new RegExp('style=".+"'), '');
+		temp = temp.split('/');
+		temp[6] = temp[6].replace("\"", "");
+		temp[6] = temp[6].trim();
+		
+		editor_imgs.push(temp[6]);
+	}
+	
+	console.log(editor_imgs);
+};
+
+/**
+* 사용자가 게시글을 수정하는 과정에서 
+* 지워버린 이미지를 알아내어 해당 이미지의 키값을 반환한다.
+*/
+function findImgDelete() {
+	
+	let deleted_imgs = [];
+	
+	let editor = CKEDITOR.instances['editor1'];
+	let str = editor.getData();
+	
+	// 업로드된 이미지가 없는 경우
+	if(editor_imgs == null) {
+		return deleted_imgs;
+	} else {
+		// 이미지 태그 찾기
+		let regexp = /src=".+"/g;
+		let matches = str.matchAll(regexp);
+		let imgs = [];
+		
+		for(matche of matches) {
+			imgs.push(matche[0]);
+		}
+
+		// 업로드 되었던 이미지를 모두 지운 경우
+		if(imgs == null) {
+			deleted_imgs = editor_imgs;
+		// 업로드 되었던 이미지들 중 일부를 지운 경우	
+		} else {
+			
+			let current_editor_imgs = [];
+			
+			for(img of imgs) {
+				// 문자열 파싱(본문에 남아있는 이미지 값들을 추출)
+				let temp = img.replace(new RegExp('style=".+"'), '');
+				temp = temp.split('/');
+				temp[6] = temp[6].replace("\"", "");
+				temp[6] = temp[6].trim();
+					
+				current_editor_imgs.push(temp[6]);
+			}
+			
+			if(current_editor_imgs.length != editor_imgs.length) {
+				current_editor_imgs.sort();
+				editor_imgs.sort();
+				
+				console.log('editor_imgs : ', editor_imgs);
+				console.log('current_editor_imgs : ', current_editor_imgs);	
+
+				// 본문에 남아있는 이미지들을 제외
+				// 지워진 이미지들로만 배열을 재구성한다.
+				current_editor_imgs.forEach((val, index) => {
+					if(editor_imgs[index] !== current_editor_imgs[index])
+					deleted_imgs = val;
+				});	
+			}
+		}
+		
+		return deleted_imgs;
+	}
+};
 
 function goPage() {
 	location.href="/mngr/notice/list";
+};
+
+function modify() {
+	
+	// 수정 결과를 서버에 업로드 하기 전에 사용자가 지워버린 이미지를 확인한다.
+	let deleted_imgs = findImgDelete();
+	// 지워진 이미지가 존재하는 경우 서버에서 삭제한다.
+	if(deleted_imgs != null) {
+		deleteEditorImg(deleted_imgs);
+	}
+
+	// 첨부파일 정보 가져오기
+	let files = get_file_list();		
+	
+	let form_data = {};
+	form_data['idx'] = document.querySelector('input[name="idx"]').value;
+	form_data['title'] = document.querySelector('input[name="title"]').value;
+	form_data['content'] = CKEDITOR.instances['editor1'].getData();
+	form_data['writer'] = document.querySelector('input[name="writer"]').value;	
+	form_data['imgs'] = editor_imgs;
+	form_data['files'] = files;	
+	
+	fetch('/mngr/notice/modify/', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		if(data.result) {
+			alert(data.msg);
+			location.href="/mngr/notice/view?idx="+ form_data['idx'];
+		}
+	})
+	.catch((error) => {
+		alert("데이터를 저장하는데 실패하였습니다.");
+		console.log(error);
+	});
+	
+}
+
+function deleteEditorImg(deleted_imgs) {
+	let list = [];
+	
+	for(img of deleted_imgs) {
+		let dto = { 'key' : img, 'category' : 'editor' };
+		list.push(dto);
+	}
+	
+	let form_data = {
+		'list' : list
+	};
+	
+	fetch('/file/delete/editor/img/', {
+		'method' : 'POST',
+		headers : {'Content-Type' : 'application/json'},
+		body : JSON.stringify(form_data),
+	})
+	.then(response => response.json())
+	.then((data) => {
+		console.log(data.msg);
+	})
+	.catch((error) => {
+		alert("데이터를 삭제하는데 실패하였습니다.");
+		console.log(error);
+	});	
 };
 
 </script>
@@ -54,6 +225,7 @@ function goPage() {
 				<td>
 					<input type="text" name="title" th:value="${notice.title}">
 					<input type="hidden" name="writer" th:value="${session.principal.id}">
+					<input type="hidden" name="idx" th:value="${notice.idx}">
 				</td>
 			</tr>						
 			<tr>
@@ -85,6 +257,7 @@ function goPage() {
 
 	<div class="button-group">
 		<button class="fl-r btn-back">목록</button>
+		<button class="fl-r btn-reg btn">수정</button>
 	</div>
 
 </div>
