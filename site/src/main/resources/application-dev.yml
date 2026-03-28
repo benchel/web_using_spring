@@ -51,7 +51,7 @@ editor:
   upload:
     path: /server/using-spring/editor/upload
   resource:
-    path: /server/using-spring/editor/upload
+    path: /server/using-spring/editor/upload/
     url: /editor/uploaded/img/**
     full: 
-      url: http://benchel.duckdns.org/editor/uploaded/img/  
+      url: https://benchel.duckdns.org/editor/uploaded/img/  
