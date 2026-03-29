@@ -10,7 +10,7 @@
   
   <select id="list" parameterType="site.mvc.dto.NoticeDTO" resultType="site.mvc.vo.NoticeVO">
 	SELECT idx
-		, ROW_NUMBER() OVER (ORDER BY idx ) as seq
+		, ROW_NUMBER() OVER (ORDER BY idx DESC) as seq
 		, title
 		, writer
 		, content 
