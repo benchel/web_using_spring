@@ -21,15 +21,16 @@
   </select>
   
   <select id="view" parameterType="site.mvc.dto.NoticeDTO" resultType="site.mvc.vo.NoticeVO">
-	SELECT idx
-		, ROW_NUMBER() OVER (ORDER BY idx ) as seq
-		, title
-		, writer
-		, content 
-		, DATE_FORMAT(reg_date, '%Y-%m-%d') as reg_date
-		, view
-	FROM notice
-	WHERE idx = #{idx}
+	SELECT tmp.* FROM (
+		SELECT n.idx, n.title, n.writer, n.content 
+				, DATE_FORMAT(n.reg_date, '%Y-%m-%d') as reg_date
+				, ROW_NUMBER() OVER (ORDER BY idx ) as seq
+				, LAG(title, 1) OVER (ORDER BY idx DESC) AS prev_title
+				, LAG(idx, 1) OVER (ORDER BY idx DESC) AS prev_idx
+				, LEAD(title, 1) OVER (ORDER BY idx DESC) AS next_title
+				, LEAD(idx, 1) OVER (ORDER BY idx DESC) AS next_idx
+		FROM notice n
+	) tmp WHERE tmp.idx = #{idx}
   </select>
   
   <insert id="insert" useGeneratedKeys="true" keyProperty="idx" parameterType="site.mvc.dto.NoticeDTO">

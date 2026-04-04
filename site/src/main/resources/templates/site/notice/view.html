@@ -64,12 +64,12 @@ function goPage() {
 				<table>
 					<tr>
 						<th>&lt; 이전글</th>
-						<td>대충이전공지사항글제목</td>
+						<td><span th:text="${notice.view.prevTitle}" th:attr="data-idx=${notice.view.prevIdx}"></span></td>
 					</tr>
 					<tr>
 						<th>&gt; 다음글</th>
-						<td>대충다음공지사항글제목</td>
-					</tr>					
+						<td><span th:text="${notice.view.nextTitle}" th:attr="data-idx=${notice.view.nextIdx}"></span></td>
+					</tr>
 				</table>
 			</div>
 

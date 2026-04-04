@@ -12,4 +12,10 @@ public class NoticeVO {
 	private String regDate;
 	private String modifDate;
 	private int view;
+	// 이전
+	private int prevIdx;
+	private String prevTitle;
+	// 다음
+	private int nextIdx;
+	private String nextTitle;
 }
