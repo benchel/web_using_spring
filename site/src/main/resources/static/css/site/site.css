@@ -27,6 +27,11 @@ outline-color: #ddd; outline-style: initial;}
 
 .view{cursor: pointer;}
 .fnm{cursor:pointer;}
+.turn-pg{}
+
+/* 이전글 다음글 */
+.prv{}
+.nxt{}
 
 /* 페이지네이션 */
 .pagination{text-align: center; margin: 0.8em;}

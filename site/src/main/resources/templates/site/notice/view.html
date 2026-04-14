@@ -17,12 +17,21 @@ const setDefault = function() {
 const registEvent = function() {
 	let btn_go_page = document.querySelector('.btn-list');
 	btn_go_page.addEventListener('click', goPage);
+	
+	let turn_page = document.querySelectorAll('.turn-pg');
+	for(tp of turn_page) {
+		tp.addEventListener('click', turnPage);
+	}
 };
 
 function goPage() {
 	location.href="/notice/list";
 };
 
+function turnPage(e) {
+	let idx = e.target.getAttribute("data-idx");
+	location.href="/notice/view?idx="+idx;
+};
 
 </script>
 </th:block>
@@ -64,17 +73,17 @@ function goPage() {
 				<table>
 					<tr>
 						<th>&lt; 이전글</th>
-						<td><span th:text="${notice.view.prevTitle}" th:attr="data-idx=${notice.view.prevIdx}"></span></td>
+						<td><span class="turn-pg prv view" th:text="${notice.view.prevTitle}" th:attr="data-idx=${notice.view.prevIdx}"></span></td>
 					</tr>
 					<tr>
 						<th>&gt; 다음글</th>
-						<td><span th:text="${notice.view.nextTitle}" th:attr="data-idx=${notice.view.nextIdx}"></span></td>
+						<td><span class="turn-pg nxt view" th:text="${notice.view.nextTitle}" th:attr="data-idx=${notice.view.nextIdx}"></span></td>
 					</tr>
 				</table>
 			</div>
 
 			<button class="btn-list">목록</button>
-				
+
 	</div>
 </th:block>
 </html>
